@@ -385,7 +385,12 @@ for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
     stem = os.path.basename(sf)[:-4]                     # e.g. 06_build_cm_domain_SAS
     if stem in TOOLING:
         continue
-    nb = stem[:2]                                        # e.g. 06
+    #  Take the WHOLE prefix before the first underscore, not the first two
+    #  characters. "12b_submission_package_SAS" must map to "12b", not "12" -
+    #  otherwise it matches notebook 12's answer key and its own key is never
+    #  checked. Caught exactly that way: both had 6 exercises, so the wrong
+    #  pairing passed silently.
+    nb = stem.split("_")[0]                              # e.g. 06, 12, 12b
     md = os.path.join(sasdir, stem + ".md")
     check(os.path.exists(md), f"{stem}: walkthrough .md present",
           f"{stem}: missing walkthrough {os.path.basename(md)}")

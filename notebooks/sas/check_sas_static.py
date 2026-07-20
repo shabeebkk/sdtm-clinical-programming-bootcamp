@@ -100,10 +100,25 @@ for path in sorted(glob.glob(os.path.join(HERE, "*.sas"))):
     check(ends >= steps, f"{steps} DATA/PROC steps, {ends} run;/quit; terminators",
           f"{steps} DATA/PROC steps but only {ends} run;/quit; — a step is unterminated")
 
-    # 2. balanced quotes (odd count = an unclosed literal, a classic SAS hang)
-    for q, label in [('"', "double"), ("'", "single")]:
-        n = sum(line.count(q) for line in re.sub(r"/\*.*?\*/", " ", src, flags=re.S).split("\n"))
-        check(n % 2 == 0, f"balanced {label} quotes ({n})", f"ODD number of {label} quotes ({n}) — unclosed string")
+    # 2. every string literal is closed.
+    #    A naive "count the quotes" test is WRONG: an apostrophe inside a
+    #    double-quoted string ("reviewer's guide") is perfectly legal SAS and
+    #    would be flagged as an unclosed literal. Scan instead, tracking which
+    #    kind of string we are inside, and report only genuinely unterminated ones.
+    scan_src = re.sub(r"/\*.*?\*/", " ", src, flags=re.S)   # comments cannot hold literals
+    inside, opened_line, line_no, bad = None, 0, 1, None
+    for ch in scan_src:
+        if ch == "\n":
+            line_no += 1
+        elif inside is None and ch in "\"'":
+            inside, opened_line = ch, line_no
+        elif inside is not None and ch == inside:
+            inside = None
+    if inside is not None:
+        bad = (inside, opened_line)
+    check(bad is None, "every string literal is closed",
+          f"UNCLOSED {'double' if bad and bad[0] == chr(34) else 'single'}-quoted "
+          f"string opened on line {bad[1] if bad else '?'}")
 
     # 3. balanced comment markers
     check(src.count("/*") == src.count("*/"),

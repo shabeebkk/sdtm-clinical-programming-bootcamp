@@ -83,6 +83,29 @@ cd capstone/data && python3 def01_generate_mock_data.py && python3 def01_build_s
 
 ---
 
+## Submission package
+
+The course now produces the three things a regulator actually receives:
+
+| Part | Artifact | Built by |
+|---|---|---|
+| Data | one `.xpt` per dataset (XPORT v5) | `notebooks/sas/12b_submission_package_SAS.sas` |
+| Metadata | `data/define/define.xml` (Define-XML v2.0) | `data/build_define_xml.py` — **generated from the mapping spec** |
+| Narrative | `docs/cSDRG_ABC-01.pdf` | `docs/build_csdrg.py` |
+
+Plus the annotated CRF (`data/ABC-01_Sample_CRF.pdf`), linked from the define.
+
+> define.xml here is structurally correct and self-checked, but **not** schema-validated
+> against `define2-0-0.xsd` — that needs Pinnacle 21. Treat it as a teaching artifact.
+
+## Troubleshooting
+
+`TROUBLESHOOTING.md` is a symptom-to-cause guide built from **eleven real defects** found by
+running this course on SAS OnDemand for Academics. Eight produced no error at all. It is the
+fastest way to unstick a trainee whose program "ran fine" but produced the wrong data.
+
+---
+
 ## Licence
 
 Dual-licensed (see `LICENSE`):
