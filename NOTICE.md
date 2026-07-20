@@ -40,7 +40,11 @@ The sample CRF is a generic EDC-style form. It deliberately carries **no vendor 
 does not reproduce any commercial EDC system's layout.
 
 ## Licence
-No open-source licence is applied. All rights reserved by the author unless stated otherwise.
-If you intend to make this public or allow reuse, add a `LICENSE` file — for teaching material,
-Creative Commons (e.g. CC BY-NC-SA 4.0) is often a better fit than a software licence, or a dual
-arrangement: CC for the prose and decks, MIT for the code.
+Dual-licensed — see `LICENSE`:
+
+- **Course material** (decks, walkthroughs, specs, CRF, curriculum) — **CC BY-NC-SA 4.0**.
+  Share and adapt with attribution; non-commercial; derivatives share alike.
+- **Code and generated data** (`.sas`, `.py`, `.js`, `.csv`, `.xlsx`) — **MIT**.
+
+Teaching from this material is expressly encouraged and is *not* a commercial use. Running paid
+training from it is, and needs separate permission.

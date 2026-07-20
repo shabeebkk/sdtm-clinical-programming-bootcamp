@@ -81,4 +81,17 @@ cd capstone/data && python3 def01_generate_mock_data.py && python3 def01_build_s
 - **`node_modules/`** — run `npm install` in `video/remotion/`.
 - **API keys** — the voiceover script reads `ELEVENLABS_API_KEY` from a gitignored `.env`.
 
+---
+
+## Licence
+
+Dual-licensed (see `LICENSE`):
+
+- **Course material** — [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/):
+  share and adapt with attribution, non-commercial, share alike.
+- **Code and generated data** — MIT.
+
+**Teaching from this is encouraged** and is not a commercial use. Running paid training from it
+is, and needs permission.
+
 See `NOTICE.md` for terminology and standards attribution.
