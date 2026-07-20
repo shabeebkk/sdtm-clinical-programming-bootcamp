@@ -276,7 +276,7 @@ def build():
     acrf = ET.SubElement(mdv, q(DEF_NS, "AnnotatedCRF"))
     dref = ET.SubElement(acrf, q(DEF_NS, "DocumentRef"), {"leafID": "LF.acrf"})
     leaf = ET.SubElement(mdv, q(DEF_NS, "leaf"),
-                         {"ID": "LF.acrf", q(XLINK_NS, "href"): "ABC-01_Sample_CRF.pdf"})
+                         {"ID": "LF.acrf", q(XLINK_NS, "href"): "acrf.pdf"})
     ET.SubElement(leaf, q(DEF_NS, "title")).text = "Annotated Case Report Form"
 
     methods = []

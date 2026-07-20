@@ -11,7 +11,7 @@
       <def:AnnotatedCRF>
         <def:DocumentRef leafID="LF.acrf"/>
       </def:AnnotatedCRF>
-      <def:leaf ID="LF.acrf" xlink:href="ABC-01_Sample_CRF.pdf">
+      <def:leaf ID="LF.acrf" xlink:href="acrf.pdf">
         <def:title>Annotated Case Report Form</def:title>
       </def:leaf>
       <ItemGroupDef OID="IG.AE" Name="AE" Repeating="Yes" IsReferenceData="No" SASDatasetName="AE" Domain="AE" Purpose="Tabulation" def:Structure="One record per adverse event per subject" def:Class="Events" def:ArchiveLocationID="LF.AE">

@@ -93,7 +93,8 @@ The course now produces the three things a regulator actually receives:
 | Metadata | `data/define/define.xml` (Define-XML v2.0) | `data/build_define_xml.py` — **generated from the mapping spec** |
 | Narrative | `docs/cSDRG_ABC-01.pdf` | `docs/build_csdrg.py` |
 
-Plus the annotated CRF (`data/ABC-01_Sample_CRF.pdf`), linked from the define.
+Plus the CRF, split as a submission does: `data/blankcrf.pdf` (the forms as asked) and
+`data/acrf.pdf` (the same forms annotated with SDTM variables), the latter linked from the define.
 
 > define.xml here is structurally correct and self-checked, but **not** schema-validated
 > against `define2-0-0.xsd` — that needs Pinnacle 21. Treat it as a teaching artifact.

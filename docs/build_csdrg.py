@@ -197,7 +197,7 @@ def build():
 
     S.append(Paragraph("3.2 Annotated CRF", h2))
     S.append(Paragraph(
-        "The annotated CRF (ABC-01_Sample_CRF.pdf) is submitted alongside the datasets and is "
+        "The annotated CRF (acrf.pdf) is submitted alongside the datasets and is "
         "linked from define.xml. It annotates all 62 collected fields with their SDTM "
         "destinations. Fields that are collected but not submitted are annotated as such - see "
         "section 3.5.", body))
@@ -292,7 +292,8 @@ def build():
         ["Component", "File(s)"],
         ["Tabulation datasets", "dm.xpt, ds.xpt, ex.xpt, ae.xpt, suppae.xpt, cm.xpt, vs.xpt, lb.xpt"],
         ["Metadata", "define.xml (with define2-0-0.xsl stylesheet)"],
-        ["Annotated CRF", "ABC-01_Sample_CRF.pdf"],
+        ["Blank CRF", "blankcrf.pdf"],
+        ["Annotated CRF", "acrf.pdf"],
         ["Reviewer's guide", "cSDRG_ABC-01.pdf (this document)"],
     ], [4.5*cm, 11.5*cm]))
     S.append(Spacer(1, 14))

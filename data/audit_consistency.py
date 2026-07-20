@@ -435,10 +435,26 @@ else:
 hdr("8. SAMPLE CRF AND aCRF")
 try:
     from pypdf import PdfReader
-    r = PdfReader("ABC-01_Sample_CRF.pdf")
+    #  The CRF ships as a submission ships it: blankcrf.pdf (what was asked) and
+    #  acrf.pdf (the same forms annotated with SDTM variables). Only the aCRF
+    #  carries annotations, and only the aCRF is linked from define.xml.
+    blank = PdfReader("blankcrf.pdf")
+    r = PdfReader("acrf.pdf")
     txt = "\n".join(p.extract_text() for p in r.pages)
-    check(all("SYNTHETIC TRAINING ARTIFACT" in p.extract_text() for p in r.pages),
-          f"disclaimer present on all {len(r.pages)} pages", "disclaimer missing on some pages")
+    blank_txt = "\n".join(p.extract_text() for p in blank.pages)
+
+    check(len(blank.pages) == len(r.pages),
+          f"blankcrf and acrf have the same {len(r.pages)} pages",
+          f"page mismatch: blankcrf {len(blank.pages)}, acrf {len(r.pages)}")
+    #  The blank CRF must carry NO SDTM annotations - that is what makes it blank.
+    leaked = [v for v in ("USUBJID", "AESTDTC", "VSORRES", "EXDOSE", "BRTHDTC", "AEDECOD")
+              if v in blank_txt]
+    check(not leaked, "blankcrf.pdf carries no SDTM annotations",
+          f"blankcrf.pdf leaks SDTM annotations: {leaked}")
+    for lbl, rr in (("blankcrf", blank), ("acrf", r)):
+        check(all("SYNTHETIC TRAINING ARTIFACT" in p.extract_text() for p in rr.pages),
+              f"{lbl}: disclaimer present on all {len(rr.pages)} pages",
+              f"{lbl}: disclaimer missing on some pages")
     check(not re.search(r"veeva|medidata|\brave\b", txt, re.I),
           "no EDC vendor names present", "a vendor name appears in the CRF")
     # every collected SDTM variable should be annotated somewhere

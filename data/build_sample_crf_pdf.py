@@ -2,9 +2,13 @@
 """
 build_sample_crf_pdf.py — sample EDC-style Case Report Form for study ABC-01.
 
-Produces ABC-01_Sample_CRF.pdf with two parts:
-  PART 1  Blank CRF          — the forms as a site would see them in an EDC system
-  PART 2  Annotated CRF (aCRF) — the same forms marked up with SDTM variable names
+Produces TWO PDFs, using the filenames a real submission uses:
+  blankcrf.pdf  — the forms as a site would see them in an EDC system
+  acrf.pdf      — the same forms marked up with the SDTM variable each field maps to
+
+They are separate deliverables in a submission, not two halves of one document:
+the blank CRF shows what was ASKED, the aCRF shows where each answer LANDED, and
+define.xml links to acrf.pdf so a reviewer can trace any value back to its question.
 
 The layout follows the conventions common to modern EDC systems (form header block,
 log vs. visit forms, coded single-select fields, DD-MMM-YYYY date entry, units shown
@@ -21,7 +25,13 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor, white
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "ABC-01_Sample_CRF.pdf")
+#  TWO deliverables, using the filenames a real submission uses:
+#     blankcrf.pdf - the empty forms, so a reviewer can see what was ASKED
+#     acrf.pdf     - the same forms annotated with the SDTM variable each
+#                    field maps to, so any value can be traced back to its
+#                    question. define.xml links to THIS one.
+OUT_BLANK = os.path.join(HERE, "blankcrf.pdf")
+OUT_ACRF  = os.path.join(HERE, "acrf.pdf")
 
 # ---- palette (matches the bootcamp decks) ----
 INK    = HexColor("#0F2E3D")
@@ -39,12 +49,19 @@ CW = W - ML - MR                # content width
 STUDY = "ABC-01"
 PROTOCOL = "A Phase 2, Randomized, Double-Blind Study of Drug A vs Placebo"
 
-c = canvas.Canvas(OUT, pagesize=A4)
-c.setTitle("ABC-01 Sample Case Report Form (synthetic training artifact)")
-c.setAuthor("Clinical Programming Bootcamp")
-c.setSubject("Sample EDC-style CRF with SDTM annotations")
-
+#  The canvas is a module-level global that every drawing helper writes to, so
+#  building two documents means rebinding it rather than passing it around.
+c = None
 state = {"page": 0, "annotated": False}
+
+
+def new_doc(path, title, subject):
+    global c
+    c = canvas.Canvas(path, pagesize=A4)
+    c.setTitle(title)
+    c.setAuthor("Clinical Programming Bootcamp")
+    c.setSubject(subject)
+    state["page"] = 0
 
 
 # ---------------------------------------------------------------- chrome
@@ -234,61 +251,6 @@ def log_table(x, y, cols, nrows, sdtm_row=None, rowh=9 * mm):
 
 
 # ================================================================ COVER
-def cover():
-    c.setFillColor(INK); c.rect(0, 0, W, H, stroke=0, fill=1)
-    c.setFillColor(HexColor("#133B4C")); c.circle(W - 20 * mm, H - 20 * mm, 45 * mm, stroke=0, fill=1)
-    c.setFillColor(TEAL); c.circle(W - 12 * mm, H - 12 * mm, 24 * mm, stroke=0, fill=1)
-    c.setFillColor(ACCENT); c.circle(W - 6 * mm, H - 6 * mm, 11 * mm, stroke=0, fill=1)
-
-    c.setFillColor(HexColor("#6FC8B4")); c.setFont("Helvetica-Bold", 9)
-    c.drawString(ML, H - 90 * mm, "CLINICAL PROGRAMMING BOOTCAMP  ·  SAMPLE ARTIFACT")
-    c.setFillColor(white); c.setFont("Helvetica-Bold", 26)
-    c.drawString(ML, H - 104 * mm, "Sample Case Report Form")
-    c.setFillColor(HexColor("#6FC8B4")); c.setFont("Helvetica", 15)
-    c.drawString(ML, H - 116 * mm, "and Annotated CRF (aCRF)")
-
-    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 10)
-    c.drawString(ML, H - 132 * mm, f"Study {STUDY}")
-    c.setFont("Helvetica", 9)
-    c.drawString(ML, H - 139 * mm, PROTOCOL)
-
-    y = H - 158 * mm
-    c.setFillColor(white); c.setFont("Helvetica-Bold", 11)
-    c.drawString(ML, y, "What's inside")
-    y -= 8 * mm
-    for n, (t, d) in enumerate([
-        ("PART 1 — Blank CRF", "The forms as a site sees them: Demographics, Vital Signs, Study Drug, Adverse Events, Concomitant Meds, Laboratory, Disposition."),
-        ("PART 2 — Annotated CRF (aCRF)", "The same forms marked up in orange with the SDTM variable each field maps to."),
-    ], start=1):
-        c.setFillColor(ACCENT); c.setFont("Helvetica-Bold", 9.5)
-        c.drawString(ML, y, t)
-        c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 8.5)
-        for line in wrap(d, 95):
-            y -= 5 * mm
-            c.drawString(ML, y, line)
-        y -= 9 * mm
-
-    c.setFillColor(HexColor("#9FC0C6")); c.setFont("Helvetica", 8)
-    y -= 2 * mm
-    for line in wrap("The annotated CRF is a real submission deliverable: it ships alongside the datasets and "
-                     "Define-XML so a reviewer can trace any SDTM variable back to the exact question that "
-                     "collected it. Annotations here match data/mapping_specification.md.", 100):
-        c.drawString(ML, y, line); y -= 4.6 * mm
-
-    # disclaimer box
-    c.setFillColor(HexColor("#16404F")); c.setStrokeColor(ACCENT); c.setLineWidth(1)
-    c.roundRect(ML, 24 * mm, CW, 26 * mm, 2 * mm, stroke=1, fill=1)
-    c.setFillColor(ACCENT); c.setFont("Helvetica-Bold", 8.5)
-    c.drawString(ML + 4 * mm, 44 * mm, "SYNTHETIC TRAINING ARTIFACT")
-    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 7.5)
-    yy = 39 * mm
-    for line in wrap("All data, subjects, sites and products are fictional. This form illustrates layout "
-                     "conventions common to modern EDC systems; it is not affiliated with, endorsed by, or a "
-                     "reproduction of any vendor's product. Do not use for an actual clinical trial.", 108):
-        c.drawString(ML + 4 * mm, yy, line); yy -= 4.2 * mm
-    c.showPage(); state["page"] += 1
-
-
 def wrap(text, n):
     words, lines, cur = text.split(), [], ""
     for w in words:
@@ -301,24 +263,52 @@ def wrap(text, n):
     return lines
 
 
-def part_divider(title, subtitle, body):
-    c.setFillColor(INK); c.rect(0, H / 2 - 42 * mm, W, 84 * mm, stroke=0, fill=1)
-    c.setFillColor(HexColor("#6FC8B4")); c.setFont("Helvetica-Bold", 10)
-    c.drawString(ML, H / 2 + 22 * mm, title.upper())
-    c.setFillColor(white); c.setFont("Helvetica-Bold", 22)
-    c.drawString(ML, H / 2 + 8 * mm, subtitle)
-    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 9.5)
-    y = H / 2 - 4 * mm
-    for line in wrap(body, 92):
-        c.drawString(ML, y, line); y -= 5.4 * mm
-    # carry the disclaimer onto divider pages too, so every page of the PDF states it
-    c.setFillColor(MUTED); c.setFont("Helvetica", 6.5)
-    c.drawString(ML, 11 * mm, "SYNTHETIC TRAINING ARTIFACT — not affiliated with or produced by any EDC vendor. "
-                              "Contains no real patient data.")
+def cover(heading, blurb):
+    c.setFillColor(INK); c.rect(0, 0, W, H, stroke=0, fill=1)
+    c.setFillColor(HexColor("#133B4C")); c.circle(W - 20 * mm, H - 20 * mm, 45 * mm, stroke=0, fill=1)
+    c.setFillColor(TEAL); c.circle(W - 12 * mm, H - 12 * mm, 24 * mm, stroke=0, fill=1)
+    c.setFillColor(ACCENT); c.circle(W - 6 * mm, H - 6 * mm, 11 * mm, stroke=0, fill=1)
+
+    c.setFillColor(HexColor("#6FC8B4")); c.setFont("Helvetica-Bold", 9)
+    c.drawString(ML, H - 90 * mm, "CLINICAL PROGRAMMING BOOTCAMP  ·  SAMPLE ARTIFACT")
+    c.setFillColor(white); c.setFont("Helvetica-Bold", 24)
+    for i, line in enumerate(wrap(heading, 32)):
+        c.drawString(ML, H - (104 + i * 11) * mm, line)
+
+    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 10)
+    c.drawString(ML, H - 132 * mm, f"Study {STUDY}")
+    c.setFont("Helvetica", 9)
+    c.drawString(ML, H - 139 * mm, PROTOCOL)
+
+    y = H - 158 * mm
+    c.setFillColor(white); c.setFont("Helvetica-Bold", 11)
+    c.drawString(ML, y, "About this document")
+    y -= 8 * mm
+    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 9)
+    for line in wrap(blurb, 88):
+        c.drawString(ML, y, line); y -= 5.2 * mm
+
+    y -= 6 * mm
+    c.setFillColor(white); c.setFont("Helvetica-Bold", 10)
+    c.drawString(ML, y, "The seven forms")
+    y -= 6.5 * mm
+    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 9)
+    c.drawString(ML, y, "Demographics  ·  Vital Signs  ·  Study Drug  ·  Adverse Events")
+    y -= 5.2 * mm
+    c.drawString(ML, y, "Concomitant Medications  ·  Laboratory  ·  Disposition")
+
+    c.setFillColor(ACCENT); c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(ML + 4 * mm, 44 * mm, "SYNTHETIC TRAINING ARTIFACT")
+    c.setFillColor(HexColor("#C7DCE0")); c.setFont("Helvetica", 7.5)
+    yy = 39 * mm
+    for line in wrap("All data, subjects, sites and products are fictional. This form illustrates layout "
+                     "conventions common to modern EDC systems; it is not affiliated with, endorsed by, or a "
+                     "reproduction of any vendor's product. Do not use for an actual clinical trial.", 108):
+        c.drawString(ML + 4 * mm, yy, line); yy -= 4.2 * mm
     c.showPage(); state["page"] += 1
 
 
-# ================================================================ FORMS
+
 def form_demographics():
     y = page_header("Demographics", "DM_01", "SCREENING")
     y = instruction(ML, y, "Complete at the Screening visit, after informed consent has been obtained.")
@@ -563,24 +553,35 @@ def lab_grid(x, y, cols, tests, ann):
 FORMS = [form_demographics, form_vitals, form_exposure, form_ae, form_cm, form_lab, form_disposition]
 
 # ================================================================ BUILD
-cover()
+#  Two separate documents. Each gets its own cover; the old "Part 1 / Part 2"
+#  dividers are gone, because a divider only makes sense inside a combined file.
 
-part_divider("Part 1", "Blank CRF",
-             "The seven forms as a site would see them in the EDC system. These are the questions that "
-             "generate every raw dataset you work with: dm_raw, vs_raw, ex_raw, ae_raw, cm_raw, lb_raw and ds_raw. "
-             "Read them the way a coordinator would — then look at Part 2 to see where each answer lands in SDTM.")
+#  ---- 1. blankcrf.pdf : the forms as a site sees them --------------------
+new_doc(OUT_BLANK,
+        "ABC-01 Blank Case Report Form (synthetic training artifact)",
+        "Blank EDC-style CRF")
+cover("Blank Case Report Form",
+      "The seven forms as a site would see them in the EDC system. These are the questions "
+      "that generate every raw dataset you work with: dm_raw, vs_raw, ex_raw, ae_raw, cm_raw, "
+      "lb_raw and ds_raw. Read them the way a coordinator would, then open acrf.pdf to see "
+      "where each answer lands in SDTM.")
 state["annotated"] = False
 for f in FORMS:
     f()
+c.save()
+print(f"wrote blankcrf.pdf   {state['page']} pages")
 
-part_divider("Part 2", "Annotated CRF (aCRF)",
-             "The same seven forms, annotated in orange with the SDTM variable each field maps to. This is a real "
-             "submission deliverable: it ships with the datasets and Define-XML so a reviewer can trace any SDTM "
-             "value back to the exact question that collected it. Annotations match data/mapping_specification.md.")
+#  ---- 2. acrf.pdf : the same forms, annotated ----------------------------
+new_doc(OUT_ACRF,
+        "ABC-01 Annotated Case Report Form / aCRF (synthetic training artifact)",
+        "Annotated CRF with SDTM variable mappings")
+cover("Annotated Case Report Form (aCRF)",
+      "The same seven forms, annotated in orange with the SDTM variable each field maps to. "
+      "This is a real submission deliverable: it ships with the datasets and Define-XML so a "
+      "reviewer can trace any SDTM value back to the exact question that collected it. "
+      "Annotations match data/mapping_specification.md.")
 state["annotated"] = True
 for f in FORMS:
     f()
-
 c.save()
-print("wrote", OUT)
-print("pages:", state["page"])
+print(f"wrote acrf.pdf       {state['page']} pages")

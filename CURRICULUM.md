@@ -126,7 +126,7 @@ Plus the run harness: `00_setup.sas` (paths) · `run_all.sas` (smoke test) · `v
 | `sdtm/` | 8 reference datasets: `dm` `ds` `ex` `ae` `suppae` `cm` `vs` `lb` |
 | `DM_Mapping_Exercise.xlsx` | the by-hand mapping exercise (Day 4) |
 | `SDTM_Mapping_Specification.xlsx` | full 13-sheet spec, one sheet per domain |
-| `ABC-01_Sample_CRF.pdf` | 17-page blank CRF **and** SDTM-annotated aCRF |
+| `blankcrf.pdf` · `acrf.pdf` | the CRF, split as a submission does: blank forms, and the same forms SDTM-annotated |
 | `mapping_specification.md` · `raw_data_dictionary.md` | narrative spec and dictionary |
 
 **Answer keys** (`answer-keys/`) — instructor-only, one per built notebook.
