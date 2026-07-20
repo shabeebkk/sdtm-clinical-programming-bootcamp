@@ -389,5 +389,47 @@ def main():
     print("        Validate with Pinnacle 21 against define2-0-0.xsd before any real use.")
 
 
+def render_html():
+    """Also write a PRE-RENDERED define.html.
+
+    Chromium browsers (Chrome, Edge) refuse to apply an XSLT stylesheet over
+    file:// - every local file is treated as its own origin, so loading the .xsl
+    is a cross-origin request and is blocked. The user sees raw XML or a blank
+    page. Firefox still allows it, and serving over http:// works everywhere,
+    but neither is reasonable to ask of a room of trainees.
+
+    So we transform it here and ship the HTML alongside. define.xml remains the
+    real artifact; define.html is a convenience copy that opens by double-click
+    in any browser.
+    """
+    try:
+        import lxml.etree as LET
+    except ImportError:
+        print("  (lxml not installed - skipped define.html; "
+              "install lxml or serve define.xml over http://)")
+        return
+    xml_path = os.path.join(OUT, "define.xml")
+    xsl_path = os.path.join(OUT, "define2-0-0.xsl")
+    if not os.path.exists(xsl_path):
+        print("  (define2-0-0.xsl not found - skipped define.html)")
+        return
+    transform = LET.XSLT(LET.parse(xsl_path))
+    html = str(transform(LET.parse(xml_path)))
+    banner = ("<p style=\"background:#FDF0D5;border-left:4px solid #E8833A;"
+              "padding:9px 12px;font-size:12.5px;margin:14px 0\">"
+              "<b>This is a pre-rendered copy.</b> The real artifact is "
+              "<code>define.xml</code>, which a browser styles on the fly using "
+              "<code>define2-0-0.xsl</code>. Chrome and Edge block that over "
+              "<code>file://</code>, so this HTML is provided for convenience.</p>")
+    html = html.replace("<body>", "<body>", 1)
+    html = html.replace('<div class="wrap">', '<div class="wrap">' + banner, 1)
+    out = os.path.join(OUT, "define.html")
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(html)
+    rows = html.count("<tr")
+    print(f"wrote define/define.html  ({rows} table rows rendered)")
+
+
 if __name__ == "__main__":
     main()
+    render_html()

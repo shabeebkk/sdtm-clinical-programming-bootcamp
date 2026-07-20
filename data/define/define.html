@@ -1,0 +1,1789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Define-XML - ABC-01</title>
+<style type="text/css">
+    body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+           color: #0F2E3D; background: #F6F9FA; margin: 0; padding: 24px 18px 60px; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    h1 { font-size: 24px; margin: 0 0 2px; }
+    h2 { font-size: 17px; color: #0E7C86; margin: 30px 0 8px;
+         border-bottom: 2px solid #CFDEE1; padding-bottom: 5px; }
+    h3 { font-size: 14px; margin: 22px 0 6px; }
+    .sub { color: #5A7682; font-size: 13px; margin: 0 0 4px; }
+    .kicker { font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+              color: #0E7C86; font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; margin: 6px 0 14px;
+            font-size: 12.5px; background: #fff; }
+    th { background: #0F2E3D; color: #fff; text-align: left; font-weight: 600;
+         padding: 6px 8px; font-size: 11.5px; white-space: nowrap; }
+    td { border-top: 1px solid #CFDEE1; padding: 5px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background: #F1F6F7; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .key  { color: #B5651A; font-weight: bold; }
+    .req  { color: #C0455B; font-weight: bold; }
+    .note { color: #5A7682; font-size: 12px; }
+    a { color: #0E7C86; }
+    .toc a { display: inline-block; margin: 0 10px 6px 0; font-family: ui-monospace, monospace; }
+    .banner { background: #FDF0D5; border-left: 4px solid #E8833A;
+              padding: 9px 12px; margin: 14px 0; font-size: 12.5px; }
+  </style>
+</head>
+<body><div class="wrap"><p style="background:#FDF0D5;border-left:4px solid #E8833A;padding:9px 12px;font-size:12.5px;margin:14px 0"><b>This is a pre-rendered copy.</b> The real artifact is <code>define.xml</code>, which a browser styles on the fly using <code>define2-0-0.xsl</code>. Chrome and Edge block that over <code>file://</code>, so this HTML is provided for convenience.</p>
+<div class="kicker">Define-XML
+    2.0.0</div>
+<h1>ABC-01</h1>
+<p class="sub">Synthetic training study. Randomised, double-blind, placebo-controlled, 8 subjects at 2 sites, 4 weeks of treatment.</p>
+<p class="sub">SDTM-IG 3.3 · generated 2026-07-20T00:00:00</p>
+<div class="banner">
+<b>Synthetic training data.</b> This define.xml describes a teaching study. It is
+    structurally correct but has not been schema-validated against define2-0-0.xsd.
+  </div>
+<h2>Datasets</h2>
+<table>
+<tr>
+<th>Dataset</th>
+<th>Description</th>
+<th>Class</th>
+<th>Structure</th>
+<th>Keys</th>
+<th>File</th>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.AE">AE</a></td>
+<td>Adverse Events</td>
+<td>Events</td>
+<td>One record per adverse event per subject</td>
+<td class="mono">STUDYID, USUBJID, AESEQ</td>
+<td class="mono">ae.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.CM">CM</a></td>
+<td>Concomitant Medications</td>
+<td>Interventions</td>
+<td>One record per medication per subject</td>
+<td class="mono">STUDYID, USUBJID, CMSEQ</td>
+<td class="mono">cm.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.DM">DM</a></td>
+<td>Demographics</td>
+<td>Special Purpose</td>
+<td>One record per subject</td>
+<td class="mono">STUDYID, USUBJID</td>
+<td class="mono">dm.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.DS">DS</a></td>
+<td>Disposition</td>
+<td>Events</td>
+<td>One record per disposition event per subject</td>
+<td class="mono">STUDYID, USUBJID, DSSEQ</td>
+<td class="mono">ds.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.EX">EX</a></td>
+<td>Exposure</td>
+<td>Interventions</td>
+<td>One record per dosing period per subject</td>
+<td class="mono">STUDYID, USUBJID, EXSEQ</td>
+<td class="mono">ex.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.LB">LB</a></td>
+<td>Laboratory Test Results</td>
+<td>Findings</td>
+<td>One record per test per visit per subject</td>
+<td class="mono">STUDYID, USUBJID, LBSEQ</td>
+<td class="mono">lb.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.SUPPAE">SUPPAE</a></td>
+<td>Supplemental Qualifiers for AE</td>
+<td>Relationship</td>
+<td>One record per supplemental qualifier per parent record</td>
+<td class="mono">STUDYID, RDOMAIN, USUBJID, IDVAR, IDVARVAL, QNAM</td>
+<td class="mono">suppae.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.VS">VS</a></td>
+<td>Vital Signs</td>
+<td>Findings</td>
+<td>One record per test per visit per subject</td>
+<td class="mono">STUDYID, USUBJID, VSSEQ</td>
+<td class="mono">vs.xpt</td>
+</tr>
+</table>
+<h2>Variables</h2>
+<p class="note"><span class="req">Red</span> = Required (Mandatory="Yes").
+    <span class="key">Orange</span> = part of the dataset key.
+    Hover nothing, click a Method to see the derivation.
+  </p>
+<h3 id="IG.AE">
+<span class="mono">AE</span> - Adverse Events</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.AE.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">AESEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">AETERM</td>
+<td>Reported Term for the Adverse Event</td>
+<td>text</td>
+<td>22</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono req">AEDECOD</td>
+<td>Dictionary-Derived Term</td>
+<td>text</td>
+<td>18</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.AE.AEDECOD">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">AESEV</td>
+<td>Severity/Intensity</td>
+<td>text</td>
+<td>8</td>
+<td>CRF</td>
+<td class="mono"><a href="#CL.AESEV">Severity/Intensity Scale for Adverse Events</a></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">AESER</td>
+<td>Serious Event</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">AEREL</td>
+<td>Causality</td>
+<td>text</td>
+<td>16</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">AEOUT</td>
+<td>Outcome of Adverse Event</td>
+<td>text</td>
+<td>26</td>
+<td>CRF</td>
+<td class="mono"><a href="#CL.AEOUT">Outcome of Event</a></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">AESTDTC</td>
+<td>Start Date/Time of Adverse Event</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">AEENDTC</td>
+<td>End Date/Time of Adverse Event</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">AESTDY</td>
+<td>Study Day of Start of Event</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">AEENDY</td>
+<td>Study Day of End of Event</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.CM">
+<span class="mono">CM</span> - Concomitant Medications</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.CM.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">CMSEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">CMTRT</td>
+<td>Reported Name of Drug, Med, or Therapy</td>
+<td>text</td>
+<td>20</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">CMDECOD</td>
+<td>Standardized Medication Name</td>
+<td>text</td>
+<td>20</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.CM.CMDECOD">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">CMINDC</td>
+<td>Indication</td>
+<td>text</td>
+<td>19</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">CMDOSE</td>
+<td>Dose per Administration</td>
+<td>integer</td>
+<td></td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">CMDOSU</td>
+<td>Dose Units</td>
+<td>text</td>
+<td>2</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">CMDOSFRQ</td>
+<td>Dosing Frequency per Interval</td>
+<td>text</td>
+<td>3</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">CMROUTE</td>
+<td>Route of Administration</td>
+<td>text</td>
+<td>7</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">CMSTDTC</td>
+<td>Start Date/Time of Medication</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">CMENDTC</td>
+<td>End Date/Time of Medication</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">CMSTDY</td>
+<td>Study Day of Start of Medication</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">CMENDY</td>
+<td>Study Day of End of Medication</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.DM">
+<span class="mono">DM</span> - Demographics</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono req">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">RFSTDTC</td>
+<td>Subject Reference Start Date/Time</td>
+<td>text</td>
+<td>10</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.RFSTDTC">derivation</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">RFENDTC</td>
+<td>Subject Reference End Date/Time</td>
+<td>text</td>
+<td>10</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.RFENDTC">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">RFXSTDTC</td>
+<td>Date/Time of First Study Treatment</td>
+<td>text</td>
+<td>10</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.RFXSTDTC">derivation</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">RFXENDTC</td>
+<td>Date/Time of Last Study Treatment</td>
+<td>text</td>
+<td>10</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.RFXENDTC">derivation</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">RFICDTC</td>
+<td>Date/Time of Informed Consent</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">RFPENDTC</td>
+<td>Date/Time of End of Participation</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">DTHDTC</td>
+<td>Date/Time of Death</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">DTHFL</td>
+<td>Subject Death Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono req">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.AGE">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">AGEU</td>
+<td>Age Units</td>
+<td>text</td>
+<td>5</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono req">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>25</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono">ETHNIC</td>
+<td>Ethnicity</td>
+<td>text</td>
+<td>22</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono req">ARMCD</td>
+<td>Planned Arm Code</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.ARMCD">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono req">ARM</td>
+<td>Description of Planned Arm</td>
+<td>text</td>
+<td>7</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono req">ACTARMCD</td>
+<td>Actual Arm Code</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.ACTARMCD">derivation</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono req">ACTARM</td>
+<td>Description of Actual Arm</td>
+<td>text</td>
+<td>7</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DM.ACTARM">derivation</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono req">COUNTRY</td>
+<td>Country</td>
+<td>text</td>
+<td>3</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.DS">
+<span class="mono">DS</span> - Disposition</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.DS.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">DSSEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">DSTERM</td>
+<td>Reported Term for the Disposition Event</td>
+<td>text</td>
+<td>27</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono req">DSDECOD</td>
+<td>Standardized Disposition Term</td>
+<td>text</td>
+<td>25</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NCOMPLT">Completion/Reason for Non-Completion</a></td>
+<td><a href="#MT.DS.DSDECOD">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">DSCAT</td>
+<td>Category for Disposition Event</td>
+<td>text</td>
+<td>18</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">DSSTDTC</td>
+<td>Start Date/Time of Disposition Event</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">DSSTDY</td>
+<td>Study Day of Start of Disposition Event</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.EX">
+<span class="mono">EX</span> - Exposure</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.EX.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">EXSEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">EXTRT</td>
+<td>Name of Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">EXDOSE</td>
+<td>Dose per Administration</td>
+<td>integer</td>
+<td></td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">EXDOSU</td>
+<td>Dose Units</td>
+<td>text</td>
+<td>2</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">EXDOSFRQ</td>
+<td>Dosing Frequency per Interval</td>
+<td>text</td>
+<td>2</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">EXROUTE</td>
+<td>Route of Administration</td>
+<td>text</td>
+<td>4</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">EXSTDTC</td>
+<td>Start Date/Time of Treatment</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">EXENDTC</td>
+<td>End Date/Time of Treatment</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">EXSTDY</td>
+<td>Study Day of Start of Treatment</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">EXENDY</td>
+<td>Study Day of End of Treatment</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">(EOSOTH)</td>
+<td>'If Other, specify' — NOT an SDTM variable</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">(VSND)</td>
+<td>Assessments not performed? — NOT an SDTM variable</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">(EXINTP)</td>
+<td>Dosing interrupted? — NOT an SDTM variable</td>
+<td>text</td>
+<td>1</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.LB">
+<span class="mono">LB</span> - Laboratory Test Results</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">LBSEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">LBTESTCD</td>
+<td>Lab Test or Examination Short Name</td>
+<td>text</td>
+<td>5</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.LBTESTCD">derivation</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono req">LBTEST</td>
+<td>Lab Test or Examination Name</td>
+<td>text</td>
+<td>24</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.LBTEST">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">LBCAT</td>
+<td>Category for Lab Test</td>
+<td>text</td>
+<td>10</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.LBCAT">derivation</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">LBORRES</td>
+<td>Result or Finding in Original Units</td>
+<td>text</td>
+<td>4</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">LBORRESU</td>
+<td>Original Units</td>
+<td>text</td>
+<td>6</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">LBORNRLO</td>
+<td>Reference Range Lower Limit (orig)</td>
+<td>text</td>
+<td>4</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">LBORNRHI</td>
+<td>Reference Range Upper Limit (orig)</td>
+<td>text</td>
+<td>4</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">LBSTRESC</td>
+<td>Character Result in Std Format</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">LBSTRESN</td>
+<td>Numeric Result in Std Units</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">LBSTRESU</td>
+<td>Standard Units</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">LBSTNRLO</td>
+<td>Reference Range Lower Limit (std)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">LBSTNRHI</td>
+<td>Reference Range Upper Limit (std)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">LBNRIND</td>
+<td>Reference Range Indicator</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono">LBBLFL</td>
+<td>Baseline Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.LBBLFL">derivation</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">VISITNUM</td>
+<td>Visit Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.LB.VISITNUM">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">VISIT</td>
+<td>Visit Name</td>
+<td>text</td>
+<td>8</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">LBDTC</td>
+<td>Date/Time of Specimen Collection</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">LBDY</td>
+<td>Study Day of Specimen Collection</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.SUPPAE">
+<span class="mono">SUPPAE</span> - Supplemental Qualifiers for AE</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">RDOMAIN</td>
+<td>Related Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.SUPPAE.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">IDVAR</td>
+<td>Identifying Variable</td>
+<td>text</td>
+<td>5</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono key">IDVARVAL</td>
+<td>Identifying Variable Value</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.SUPPAE.IDVARVAL">derivation</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono key">QNAM</td>
+<td>Qualifier Variable Name</td>
+<td>text</td>
+<td>7</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">QLABEL</td>
+<td>Qualifier Variable Label</td>
+<td>text</td>
+<td>23</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono req">QVAL</td>
+<td>Data Value</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.SUPPAE.QVAL">derivation</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">QORIG</td>
+<td>Origin</td>
+<td>text</td>
+<td>7</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">QEVAL</td>
+<td>Evaluator</td>
+<td>text</td>
+<td>1</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h3 id="IG.VS">
+<span class="mono">VS</span> - Vital Signs</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono req">DOMAIN</td>
+<td>Domain Abbreviation</td>
+<td>text</td>
+<td>2</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.VS.USUBJID">derivation</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono key">VSSEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono req">VSTESTCD</td>
+<td>Vital Signs Test Short Name</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.VS.VSTESTCD">derivation</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono req">VSTEST</td>
+<td>Vital Signs Test Name</td>
+<td>text</td>
+<td>24</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.VS.VSTEST">derivation</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">VSORRES</td>
+<td>Result or Finding in Original Units</td>
+<td>text</td>
+<td>4</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">VSORRESU</td>
+<td>Original Units</td>
+<td>text</td>
+<td>9</td>
+<td>Protocol</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">VSSTRESC</td>
+<td>Character Result in Std Format</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">VSSTRESN</td>
+<td>Numeric Result in Std Units</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">VSSTRESU</td>
+<td>Standard Units</td>
+<td>text</td>
+<td>9</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">VSBLFL</td>
+<td>Baseline Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.VS.VSBLFL">derivation</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">VISITNUM</td>
+<td>Visit Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.VS.VISITNUM">derivation</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">VISIT</td>
+<td>Visit Name</td>
+<td>text</td>
+<td>9</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">VSDTC</td>
+<td>Date/Time of Measurements</td>
+<td>text</td>
+<td>10</td>
+<td>CRF</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">VSDY</td>
+<td>Study Day of Measurements</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+</table>
+<h2>Controlled Terminology</h2>
+<h3 id="CL.SEX"><span class="mono">Sex</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">M</td>
+<td>Male</td>
+</tr>
+<tr>
+<td class="mono">F</td>
+<td>Female</td>
+</tr>
+<tr>
+<td class="mono">U</td>
+<td>Unknown</td>
+</tr>
+</table>
+<h3 id="CL.NY"><span class="mono">No Yes Response</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">N</td>
+<td>No</td>
+</tr>
+<tr>
+<td class="mono">Y</td>
+<td>Yes</td>
+</tr>
+</table>
+<h3 id="CL.AESEV"><span class="mono">Severity/Intensity Scale for Adverse Events</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">MILD</td>
+<td>Mild</td>
+</tr>
+<tr>
+<td class="mono">MODERATE</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td class="mono">SEVERE</td>
+<td>Severe</td>
+</tr>
+</table>
+<h3 id="CL.AEOUT"><span class="mono">Outcome of Event</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">RECOVERED/RESOLVED</td>
+<td>Recovered/Resolved</td>
+</tr>
+<tr>
+<td class="mono">RECOVERING/RESOLVING</td>
+<td>Recovering/Resolving</td>
+</tr>
+<tr>
+<td class="mono">NOT RECOVERED/NOT RESOLVED</td>
+<td>Not Recovered/Not Resolved</td>
+</tr>
+<tr>
+<td class="mono">FATAL</td>
+<td>Fatal</td>
+</tr>
+<tr>
+<td class="mono">UNKNOWN</td>
+<td>Unknown</td>
+</tr>
+</table>
+<h3 id="CL.NCOMPLT"><span class="mono">Completion/Reason for Non-Completion</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">COMPLETED</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td class="mono">ADVERSE EVENT</td>
+<td>Adverse Event</td>
+</tr>
+</table>
+<h2>Derivations</h2>
+<p class="note">Every variable whose Origin is <i>Derived</i> has a method here
+    explaining how it was produced.</p>
+<table>
+<tr>
+<th>Method</th>
+<th>Applies to</th>
+<th>Derivation</th>
+</tr>
+<tr id="MT.AE.AEDECOD">
+<td class="mono">MT.AE.AEDECOD</td>
+<td>Derivation of AEDECOD</td>
+<td>Dictionary-coded term for AETERM. ILLUSTRATIVE ONLY - a real value comes from MedDRA coding performed by trained coders against a licensed version.</td>
+</tr>
+<tr id="MT.AE.USUBJID">
+<td class="mono">MT.AE.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.CM.CMDECOD">
+<td class="mono">MT.CM.CMDECOD</td>
+<td>Derivation of CMDECOD</td>
+<td>Dictionary-coded term for CMTRT. ILLUSTRATIVE ONLY - a real value comes from WHODrug coding against a licensed version.</td>
+</tr>
+<tr id="MT.CM.USUBJID">
+<td class="mono">MT.CM.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.DM.ACTARM">
+<td class="mono">MT.DM.ACTARM</td>
+<td>Derivation of ACTARM</td>
+<td>Actual arm. Equal to planned ARM in this study; no subject was mis-dosed.</td>
+</tr>
+<tr id="MT.DM.ACTARMCD">
+<td class="mono">MT.DM.ACTARMCD</td>
+<td>Derivation of ACTARMCD</td>
+<td>Actual arm code. Equal to ARMCD in this study.</td>
+</tr>
+<tr id="MT.DM.AGE">
+<td class="mono">MT.DM.AGE</td>
+<td>Derivation of AGE</td>
+<td>Completed years from BRTHDTC to RFICDTC (informed consent), using continuous interval counting so a birthday not yet reached is not counted.</td>
+</tr>
+<tr id="MT.DM.ARMCD">
+<td class="mono">MT.DM.ARMCD</td>
+<td>Derivation of ARMCD</td>
+<td>Derived from ARM: 'Drug A' to 'A', 'Placebo' to 'P'.</td>
+</tr>
+<tr id="MT.DM.RFENDTC">
+<td class="mono">MT.DM.RFENDTC</td>
+<td>Derivation of RFENDTC</td>
+<td>Date of last study treatment: the latest EXENDTC for the subject.</td>
+</tr>
+<tr id="MT.DM.RFSTDTC">
+<td class="mono">MT.DM.RFSTDTC</td>
+<td>Derivation of RFSTDTC</td>
+<td>Date of first study treatment: the earliest EXSTDTC for the subject. This is the reference start date from which all --DY values are derived.</td>
+</tr>
+<tr id="MT.DM.RFXENDTC">
+<td class="mono">MT.DM.RFXENDTC</td>
+<td>Derivation of RFXENDTC</td>
+<td>Last study-treatment exposure; equal to RFENDTC in this study.</td>
+</tr>
+<tr id="MT.DM.RFXSTDTC">
+<td class="mono">MT.DM.RFXSTDTC</td>
+<td>Derivation of RFXSTDTC</td>
+<td>First study-treatment exposure; equal to RFSTDTC in this study.</td>
+</tr>
+<tr id="MT.DM.USUBJID">
+<td class="mono">MT.DM.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.DS.DSDECOD">
+<td class="mono">MT.DS.DSDECOD</td>
+<td>Derivation of DSDECOD</td>
+<td>Standardised disposition term derived from the collected end-of-study status and reason.</td>
+</tr>
+<tr id="MT.DS.USUBJID">
+<td class="mono">MT.DS.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.EX.USUBJID">
+<td class="mono">MT.EX.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.LB.LBBLFL">
+<td class="mono">MT.LB.LBBLFL</td>
+<td>Derivation of LBBLFL</td>
+<td>Baseline flag. 'Y' on the last record on or before first dose, per subject per test, for tests that also have a post-dose result. Otherwise null.</td>
+</tr>
+<tr id="MT.LB.LBCAT">
+<td class="mono">MT.LB.LBCAT</td>
+<td>Derivation of LBCAT</td>
+<td>Derived from lb_raw.</td>
+</tr>
+<tr id="MT.LB.LBTEST">
+<td class="mono">MT.LB.LBTEST</td>
+<td>Derivation of LBTEST</td>
+<td>Derived from lb_raw.</td>
+</tr>
+<tr id="MT.LB.LBTESTCD">
+<td class="mono">MT.LB.LBTESTCD</td>
+<td>Derivation of LBTESTCD</td>
+<td>Derived from lb_raw.</td>
+</tr>
+<tr id="MT.LB.USUBJID">
+<td class="mono">MT.LB.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.LB.VISITNUM">
+<td class="mono">MT.LB.VISITNUM</td>
+<td>Derivation of VISITNUM</td>
+<td>Derived from lb_raw.</td>
+</tr>
+<tr id="MT.SUPPAE.IDVARVAL">
+<td class="mono">MT.SUPPAE.IDVARVAL</td>
+<td>Derivation of IDVARVAL</td>
+<td>Derived from sdtm/ae.csv.</td>
+</tr>
+<tr id="MT.SUPPAE.QVAL">
+<td class="mono">MT.SUPPAE.QVAL</td>
+<td>Derivation of QVAL</td>
+<td>Derived from sdtm/ae.csv.</td>
+</tr>
+<tr id="MT.SUPPAE.USUBJID">
+<td class="mono">MT.SUPPAE.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.VS.USUBJID">
+<td class="mono">MT.VS.USUBJID</td>
+<td>Derivation of USUBJID</td>
+<td>Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</td>
+</tr>
+<tr id="MT.VS.VISITNUM">
+<td class="mono">MT.VS.VISITNUM</td>
+<td>Derivation of VISITNUM</td>
+<td>Derived from vs_raw.</td>
+</tr>
+<tr id="MT.VS.VSBLFL">
+<td class="mono">MT.VS.VSBLFL</td>
+<td>Derivation of VSBLFL</td>
+<td>Baseline flag. 'Y' on the last record on or before first dose, per subject per test, for tests that also have a post-dose result. Otherwise null.</td>
+</tr>
+<tr id="MT.VS.VSTEST">
+<td class="mono">MT.VS.VSTEST</td>
+<td>Derivation of VSTEST</td>
+<td>Derived from vs_raw.</td>
+</tr>
+<tr id="MT.VS.VSTESTCD">
+<td class="mono">MT.VS.VSTESTCD</td>
+<td>Derivation of VSTESTCD</td>
+<td>Derived from vs_raw.</td>
+</tr>
+</table>
+<h2>Documents</h2>
+<table>
+<tr>
+<th>Document</th>
+<th>File</th>
+</tr>
+<tr>
+<td>Annotated Case Report Form</td>
+<td class="mono"><a href="ABC-01_Sample_CRF.pdf">ABC-01_Sample_CRF.pdf</a></td>
+</tr>
+<tr>
+<td>ae.xpt</td>
+<td class="mono"><a href="ae.xpt">ae.xpt</a></td>
+</tr>
+<tr>
+<td>cm.xpt</td>
+<td class="mono"><a href="cm.xpt">cm.xpt</a></td>
+</tr>
+<tr>
+<td>dm.xpt</td>
+<td class="mono"><a href="dm.xpt">dm.xpt</a></td>
+</tr>
+<tr>
+<td>ds.xpt</td>
+<td class="mono"><a href="ds.xpt">ds.xpt</a></td>
+</tr>
+<tr>
+<td>ex.xpt</td>
+<td class="mono"><a href="ex.xpt">ex.xpt</a></td>
+</tr>
+<tr>
+<td>lb.xpt</td>
+<td class="mono"><a href="lb.xpt">lb.xpt</a></td>
+</tr>
+<tr>
+<td>suppae.xpt</td>
+<td class="mono"><a href="suppae.xpt">suppae.xpt</a></td>
+</tr>
+<tr>
+<td>vs.xpt</td>
+<td class="mono"><a href="vs.xpt">vs.xpt</a></td>
+</tr>
+</table>
+<p class="note" style="margin-top:26px">
+    Rendered by define2-0-0.xsl - a simplified teaching stylesheet.
+    A real submission uses the official CDISC stylesheet.
+  </p>
+</div></body>
+</html>
