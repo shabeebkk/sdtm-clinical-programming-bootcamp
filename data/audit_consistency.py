@@ -517,6 +517,39 @@ try:
 except Exception as e:
     warn(f"deck content check skipped: {e}")
 
+# ================================================ 8c. cSDRG PDF TEXT OVERLAY
+#  reportlab Table cells do NOT wrap unless the content is a Paragraph object.
+#  A plain string overflows its column and prints straight over the next one -
+#  which happened in cSDRG sections 3.4/3.5 ("per subjec24", "Qualifiers
+#  forAElationship"). The tell is a lowercase letter running directly into a
+#  digit or a capital, so scan the extracted text for that signature.
+hdr("8c. cSDRG HAS NO OVERLAPPING TABLE TEXT")
+csdrg = os.path.join(ROOT, "docs", "cSDRG_ABC-01.pdf")
+if os.path.exists(csdrg):
+    try:
+        from pypdf import PdfReader
+        #  lowercase running straight into a digit OR any capital. The second
+        #  branch must be [A-Z], not [A-Z][a-z] - the real collision was
+        #  "forAElationship" (r + AE), two capitals, which [A-Z][a-z] misses.
+        sig = re.compile(r"[a-z](?:\d|[A-Z])")
+        #  Legitimate look-alikes: version strings, identifiers, known CamelCase.
+        allow = re.compile(r"\d{4}-\d{2}|ABC-01|SDTM|CDISC|WHODrug|MedDRA|XML|"
+                           r"CRF|aCRF|cSDRG|IDVAR|USUBJID|v\d+\.\d|\d-\d-\d")
+        hits = []
+        pages = PdfReader(csdrg).pages
+        for i, p in enumerate(pages, 1):
+            for line in (p.extract_text() or "").split("\n"):
+                for m in sig.finditer(line):
+                    frag = line[max(0, m.start() - 18):m.start() + 18]
+                    if not allow.search(frag):
+                        hits.append(f"p{i}: {frag.strip()}")
+        check(not hits, f"cSDRG: no collided text across {len(pages)} pages",
+              f"cSDRG: {len(hits)} possible text collisions, e.g. {hits[:3]}")
+    except ImportError:
+        warn("pypdf not available — skipped the cSDRG overlay check")
+else:
+    warn("cSDRG PDF not found — skipped the overlay check")
+
 # ============================================================ 9. CROSS-DOMAIN STORY
 hdr("9. CROSS-DOMAIN STORY CONSISTENCY")
 ds = read(SDTM["ds"])
