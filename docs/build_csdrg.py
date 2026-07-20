@@ -83,11 +83,22 @@ def build():
                             title="cSDRG - Study ABC-01", author="Clinical Programming Bootcamp")
     S = []
 
+    #  Cell text MUST be wrapped in Paragraph objects. A plain string in a
+    #  reportlab table cell does NOT wrap - it overflows the column and prints
+    #  straight over the next one, which is exactly what happened in 3.4 and 4.2
+    #  ("per subjec24", "Supplemental Qualifiers forAElationship"). Column widths
+    #  are irrelevant until the content can actually wrap.
+    cell = ParagraphStyle("cell", fontName="Helvetica", fontSize=8.5, leading=11.2)
+    cellhead = ParagraphStyle("cellhead", fontName="Helvetica-Bold", fontSize=8.5,
+                              leading=11.2, textColor=colors.white)
+
     def tbl(data, widths, head=True):
-        t = Table(data, colWidths=widths, repeatRows=1 if head else 0)
+        wrapped = []
+        for i, row in enumerate(data):
+            st = cellhead if (head and i == 0) else cell
+            wrapped.append([c if hasattr(c, "wrap") else Paragraph(str(c), st) for c in row])
+        t = Table(wrapped, colWidths=widths, repeatRows=1 if head else 0)
         style = [
-            ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
-            ("FONTSIZE", (0, 0), (-1, -1), 8.5),
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
             ("GRID", (0, 0), (-1, -1), 0.5, LINE),
             ("LEFTPADDING", (0, 0), (-1, -1), 5),
@@ -96,9 +107,7 @@ def build():
             ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
         ]
         if head:
-            style += [("BACKGROUND", (0, 0), (-1, 0), INK),
-                      ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-                      ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold")]
+            style += [("BACKGROUND", (0, 0), (-1, 0), INK)]
             style += [("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, PAPER])]
         t.setStyle(TableStyle(style))
         return t
@@ -114,7 +123,7 @@ def build():
         ["Define-XML", "v2.0"],
         ["Prepared", "2026-07-20"],
         ["Status", "DRAFT - synthetic training data"],
-    ], [4*cm, 11*cm], head=False))
+    ], [4*cm, 12*cm], head=False))
     S.append(Spacer(1, 10))
     S.append(Paragraph(
         "<b>All data in this study is synthetic.</b> No real patients, sites, investigators, "
@@ -142,7 +151,7 @@ def build():
         ["SDTM", "Study Data Tabulation Model"],
         ["SDTMIG", "SDTM Implementation Guide"],
         ["WHODrug", "World Health Organization Drug Dictionary"],
-    ], [3*cm, 12*cm]))
+    ], [3.2*cm, 12.8*cm]))
 
     S.append(Paragraph("1.3 Study Data Standards and Dictionary Inventory", h2))
     S.append(tbl([
@@ -153,7 +162,7 @@ def build():
         ["Define-XML", "2.0"],
         ["MedDRA", "ILLUSTRATIVE ONLY - see section 3.3"],
         ["WHODrug", "ILLUSTRATIVE ONLY - see section 3.3"],
-    ], [8*cm, 7*cm]))
+    ], [8*cm, 8*cm]))
 
     # ---------------- 2. Protocol Description ----------------
     S.append(Paragraph("2. Protocol Description", h1))
@@ -204,7 +213,7 @@ def build():
     S.append(Paragraph("3.4 Subject Data Tabulation Datasets", h2))
     rows = [["Dataset", "Label", "Class", "Structure", "Records", "Variables"]]
     rows += list(dataset_facts())
-    S.append(tbl(rows, [1.8*cm, 3.6*cm, 2.4*cm, 4.6*cm, 1.4*cm, 1.6*cm]))
+    S.append(tbl(rows, [1.7*cm, 3.2*cm, 2.2*cm, 5.1*cm, 1.9*cm, 1.9*cm]))
     S.append(Spacer(1, 4))
     S.append(Paragraph("Record counts are read directly from the submitted datasets.", small))
 
@@ -220,7 +229,7 @@ def build():
         ["VSND", "Vital Signs",
          "'Not done' is represented by the absence of a record in a tall structure."],
         ["EOSOTH", "Disposition", "Free-text 'other' detail not required for tabulation."],
-    ], [2.6*cm, 3.4*cm, 9*cm]))
+    ], [2.5*cm, 3.0*cm, 10.5*cm]))
 
     S.append(Paragraph("3.6 Data Relationships", h2))
     S.append(Paragraph(
@@ -234,7 +243,6 @@ def build():
         "relationships beyond SUPPAE.", body))
 
     # ---------------- 4. Conformance ----------------
-    S.append(PageBreak())
     S.append(Paragraph("4. Data Conformance Summary", h1))
 
     S.append(Paragraph("4.1 Conformance Inputs", h2))
@@ -243,7 +251,7 @@ def build():
         ["Validation tool", "Not run - see note below"],
         ["SDTM IG version", "3.3"],
         ["Define-XML", "v2.0, generated from the study mapping specification"],
-    ], [5*cm, 10*cm]))
+    ], [5*cm, 11*cm]))
     S.append(Spacer(1, 4))
     S.append(Paragraph(
         "<b>Note.</b> A real submission would report the validation tool and rule-set version "
@@ -276,7 +284,7 @@ def build():
          "Subject ABC-01-01-003 has an elevated ALT at Week 4 (72 U/L, reference 7-56). No "
          "corresponding adverse event was reported by the investigator. LBNRIND reflects the "
          "reference range comparison only and does not imply clinical significance."],
-    ], [4.6*cm, 10.4*cm]))
+    ], [4.5*cm, 11.5*cm]))
 
     # ---------------- 5. Appendix ----------------
     S.append(Paragraph("5. Appendix - Submission Contents", h1))
@@ -286,7 +294,7 @@ def build():
         ["Metadata", "define.xml (with define2-0-0.xsl stylesheet)"],
         ["Annotated CRF", "ABC-01_Sample_CRF.pdf"],
         ["Reviewer's guide", "cSDRG_ABC-01.pdf (this document)"],
-    ], [4.6*cm, 10.4*cm]))
+    ], [4.5*cm, 11.5*cm]))
     S.append(Spacer(1, 14))
     S.append(Paragraph(
         "End of document. Synthetic training data - not for regulatory use.", small))
