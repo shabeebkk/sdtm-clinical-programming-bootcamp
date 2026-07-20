@@ -60,6 +60,7 @@ only *practise* in SAS.
 **Day 2 — Your toolkit: SAS and R** ✅
 - Deck 03 · *Your Toolkit: SAS & R for Clinical Programming* (16 slides)
 - Notebook 01 · *SAS Basics* — libraries, DATA step, PROC PRINT/SORT/FREQ, formats.
+- Notebook 02 · *SAS Functions* — the ~25 functions that do the work: STRIP/UPCASE/SCAN/SUBSTR/CATX, ROUND/SUM, date functions, **INPUT vs PUT**, MISSING/COALESCE. **Self-contained** (uses DATALINES — no data files, runs anywhere).
 - *(R equivalent `01_r_basics_R.ipynb` exists but is optional under the SAS-only policy.)*
 
 **Day 3 — Reading raw clinical data** ✅
@@ -113,7 +114,7 @@ only *practise* in SAS.
 **Presentations** (`presentations/`) — 01 Intro ✅ · 02 Clinical Trials 101 ✅ · 03 SAS & R Toolkit ✅ · 04 Reading Raw Data ✅ · 05 DM & Special Purpose ✅ · 06 Interventions & Events ✅ · 07 Findings ✅ · 08 Controlled Terminology ✅ · 09 Derivations ✅ · 10 Quality & Validation ✅ · 11 Relationships & Trial Design ✅ · 12 Define-XML & Submission ✅ · 13 Capstone ✅
 
 **Notebooks** (`notebooks/sas/`) — each is a `.sas` program plus a `.md` walkthrough:
-01 SAS Basics ✅ · 03 Importing Raw Data ✅ · 04 Build DM ✅ · 05 Build AE ✅ · 06 Build CM ✅ · 07 Build EX ✅ · 08 Build VS ✅ · 09 Build LB ✅ · 10 Applying CT ✅ · 11 Deriving --DY/--SEQ ✅ · 12 QC & Validation ✅ · 13 Capstone (DEF-01) ✅
+01 SAS Basics ✅ · 02 SAS Functions ✅ · 03 Importing Raw Data ✅ · 04 Build DM ✅ · 05 Build AE ✅ · 06 Build CM ✅ · 07 Build EX ✅ · 08 Build VS ✅ · 09 Build LB ✅ · 10 Applying CT ✅ · 11 Deriving --DY/--SEQ ✅ · 12 QC & Validation ✅ · 13 Capstone (DEF-01) ✅
 
 Plus the run harness: `00_setup.sas` (paths) · `run_all.sas` (smoke test) · `verify_against_reference.sas` (value-level check).
 
