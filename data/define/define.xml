@@ -124,9 +124,6 @@
         <ItemRef ItemOID="IT.EX.EXENDTC" OrderNumber="11" Mandatory="No"/>
         <ItemRef ItemOID="IT.EX.EXSTDY" OrderNumber="12" Mandatory="No"/>
         <ItemRef ItemOID="IT.EX.EXENDY" OrderNumber="13" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.(EOSOTH)" OrderNumber="14" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.(VSND)" OrderNumber="15" Mandatory="No"/>
-        <ItemRef ItemOID="IT.EX.(EXINTP)" OrderNumber="16" Mandatory="No"/>
       </ItemGroupDef>
       <def:leaf ID="LF.EX" xlink:href="ex.xpt">
         <def:title>ex.xpt</def:title>
@@ -651,24 +648,6 @@
           <TranslatedText xml:lang="en">Study Day of End of Treatment</TranslatedText>
         </Description>
         <def:Origin Type="Derived"/>
-      </ItemDef>
-      <ItemDef OID="IT.EX.(EOSOTH)" Name="(EOSOTH)" SASFieldName="(EOSOTH)" DataType="text" Length="1">
-        <Description>
-          <TranslatedText xml:lang="en">'If Other, specify' — NOT an SDTM variable</TranslatedText>
-        </Description>
-        <def:Origin Type="CRF"/>
-      </ItemDef>
-      <ItemDef OID="IT.EX.(VSND)" Name="(VSND)" SASFieldName="(VSND)" DataType="text" Length="1">
-        <Description>
-          <TranslatedText xml:lang="en">Assessments not performed? — NOT an SDTM variable</TranslatedText>
-        </Description>
-        <def:Origin Type="CRF"/>
-      </ItemDef>
-      <ItemDef OID="IT.EX.(EXINTP)" Name="(EXINTP)" SASFieldName="(EXINTP)" DataType="text" Length="1">
-        <Description>
-          <TranslatedText xml:lang="en">Dosing interrupted? — NOT an SDTM variable</TranslatedText>
-        </Description>
-        <def:Origin Type="CRF"/>
       </ItemDef>
       <ItemDef OID="IT.LB.STUDYID" Name="STUDYID" SASFieldName="STUDYID" DataType="text" Length="6">
         <Description>

@@ -162,15 +162,38 @@ VAR_CODELIST = {
 }
 
 
+def actual_columns(dom):
+    """The variables the built dataset ACTUALLY contains."""
+    import csv
+    path = os.path.join(HERE, "sdtm", f"{dom.lower()}.csv")
+    if not os.path.exists(path):
+        return None
+    with open(path, newline="") as f:
+        return list(next(csv.reader(f)))
+
+
 def read_spec():
-    """Pull variable-level metadata out of the mapping specification workbook."""
+    """Pull variable-level metadata out of the mapping specification workbook.
+
+    IMPORTANT: define.xml must describe what was SUBMITTED. The specification
+    also documents fields that are COLLECTED BUT NOT SUBMITTED - EOSOTH, VSND
+    and EXINTP - written as "(EOSOTH)" with parentheses and labelled "NOT an
+    SDTM variable". Those are documentation, not variables: they exist in no
+    dataset, and declaring them would tell a reviewer to expect columns that
+    are not there. (They also produced Name="(EOSOTH)", which is not even a
+    legal variable name.)
+
+    So rows are kept only if the variable is genuinely present in the built
+    dataset. The data is the authority; the spec supplies the metadata for it.
+    """
     wb = openpyxl.load_workbook(os.path.join(HERE, "SDTM_Mapping_Specification.xlsx"))
     domains = {}
     for dom in DOMAIN_META:
         if dom not in wb.sheetnames:
             continue
         ws = wb[dom]
-        rows, header_seen = [], False
+        cols = actual_columns(dom)          # None if the dataset is absent
+        rows, header_seen, skipped = [], False, []
         for r in ws.iter_rows(values_only=True):
             vals = list(r)
             if not any(v is not None for v in vals):
@@ -182,8 +205,12 @@ def read_spec():
             # data row: #, Variable, Label, Type, Core, Origin, Source
             if vals[1] is None:
                 continue
+            vname = str(vals[1]).strip()
+            if cols is not None and vname not in cols:
+                skipped.append(vname)
+                continue
             rows.append({
-                "name": str(vals[1]).strip(),
+                "name": vname,
                 "label": str(vals[2] or "").strip(),
                 "type": str(vals[3] or "Char").strip(),
                 "core": str(vals[4] or "").strip(),
@@ -191,6 +218,9 @@ def read_spec():
                 "source": str(vals[6] or "").strip(),
             })
         domains[dom] = rows
+        if skipped:
+            print(f"  {dom}: excluded {len(skipped)} non-submitted field(s): "
+                  f"{', '.join(skipped)}")
     return domains
 
 
@@ -373,6 +403,21 @@ def main():
     print(f"  MethodDef (derivations): {len(mts)}")
     assert len(igds) == len(spec), "dataset count mismatch"
     assert len(itds) == want_vars, "variable count mismatch"
+
+    #  Every declared variable must EXIST in its dataset, and every column in the
+    #  dataset must be declared. define.xml describing columns that are not there
+    #  (or omitting ones that are) is a conformance finding a reviewer will raise.
+    for dom in spec:
+        cols = actual_columns(dom)
+        if cols is None:
+            continue
+        declared = [it.get("Name") for it in itds
+                    if it.get("OID", "").startswith(f"IT.{dom}.")]
+        assert set(declared) == set(cols), (
+            f"{dom}: define.xml and the dataset disagree - "
+            f"only in define {sorted(set(declared) - set(cols))}, "
+            f"only in data {sorted(set(cols) - set(declared))}")
+    print(f"  every ItemDef matches a real column in its dataset")
 
     #  Every MethodDef must be POINTED AT by an ItemRef. An orphaned method is
     #  a silent defect: the file looks complete but the derivation is unreachable.
