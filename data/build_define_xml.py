@@ -100,6 +100,61 @@ CODELISTS = {
     "NCOMPLT": ("Completion/Reason for Non-Completion", "text",
                 [("COMPLETED", "Completed"), ("ADVERSE EVENT", "Adverse Event")]),
 }
+#  Real derivation text. The spec's "Source Dataset" column names WHERE a value
+#  came from, not HOW it was produced - and "how" is exactly what a reviewer opens
+#  a MethodDef to find out. These cover the derivations that get asked about;
+#  anything else falls back to a plain statement of its source.
+DERIVATION_TEXT = {
+    "USUBJID":  "Concatenation of STUDYID, SITEID and SUBJID separated by hyphens "
+                "(e.g. ABC-01-01-001). SUBJID alone is unique only within a site.",
+    "AGE":      "Completed years from BRTHDTC to RFICDTC (informed consent), using "
+                "continuous interval counting so a birthday not yet reached is not counted.",
+    "RFSTDTC":  "Date of first study treatment: the earliest EXSTDTC for the subject. "
+                "This is the reference start date from which all --DY values are derived.",
+    "RFENDTC":  "Date of last study treatment: the latest EXENDTC for the subject.",
+    "RFXSTDTC": "First study-treatment exposure; equal to RFSTDTC in this study.",
+    "RFXENDTC": "Last study-treatment exposure; equal to RFENDTC in this study.",
+    "RFICDTC":  "Informed consent date, converted from the collected DD-MMM-YYYY to ISO 8601.",
+    "RFPENDTC": "End of subject participation, taken from the disposition form (EOSDT).",
+    "ARMCD":    "Derived from ARM: 'Drug A' to 'A', 'Placebo' to 'P'.",
+    "ACTARM":   "Actual arm. Equal to planned ARM in this study; no subject was mis-dosed.",
+    "ACTARMCD": "Actual arm code. Equal to ARMCD in this study.",
+    "AEDECOD":  "Dictionary-coded term for AETERM. ILLUSTRATIVE ONLY - a real value comes "
+                "from MedDRA coding performed by trained coders against a licensed version.",
+    "CMDECOD":  "Dictionary-coded term for CMTRT. ILLUSTRATIVE ONLY - a real value comes "
+                "from WHODrug coding against a licensed version.",
+    "VSSTRESN": "Standardised numeric result. Equal to the collected value in this study; "
+                "no unit conversion was required.",
+    "VSSTRESC": "Standardised result as character. Copies VSORRES verbatim when no unit "
+                "conversion is required, preserving the precision the site recorded.",
+    "LBNRIND":  "Reference range indicator, derived by comparing LBSTRESN with LBSTNRLO and "
+                "LBSTNRHI: LOW if below, HIGH if above, otherwise NORMAL. Indicates the range "
+                "comparison only and does not imply clinical significance.",
+    "DSDECOD":  "Standardised disposition term derived from the collected end-of-study "
+                "status and reason.",
+    "DSCAT":    "PROTOCOL MILESTONE for informed consent and randomisation records; "
+                "DISPOSITION EVENT for the record describing how the subject left the study.",
+}
+
+def derivation_text(var, source):
+    """How the value was produced. Falls back to naming the source."""
+    if var in DERIVATION_TEXT:
+        return DERIVATION_TEXT[var]
+    if var.endswith("SEQ"):
+        return ("Sequence number assigned per subject after sorting the records into a "
+                "deterministic order, so that USUBJID plus this variable is unique.")
+    if var.endswith("DY"):
+        return ("Study day relative to RFSTDTC. On or after the reference date the value is "
+                "the date difference plus one; before it, the plain difference. There is no Day 0.")
+    if var.endswith("BLFL"):
+        return ("Baseline flag. 'Y' on the last record on or before first dose, per subject "
+                "per test, for tests that also have a post-dose result. Otherwise null.")
+    if var.endswith("DTC"):
+        return f"Collected date from {source}, converted to ISO 8601 (YYYY-MM-DD)."
+    if var.endswith("STRESU") or var.endswith("STNRLO") or var.endswith("STNRHI"):
+        return f"Standardised from the collected value in {source}."
+    return f"Derived from {source}."
+
 # variable -> codelist OID
 VAR_CODELIST = {
     "SEX": "SEX", "AESER": "NY", "AESEV": "AESEV", "AEOUT": "AEOUT",
@@ -269,7 +324,7 @@ def build():
     for (dom, vname), (mid, how) in sorted(derived.items()):
         md = ET.SubElement(mdv, q(ODM_NS, "MethodDef"),
                            {"OID": mid, "Name": f"Derivation of {vname}", "Type": "Computation"})
-        md.append(desc(how))
+        md.append(desc(derivation_text(vname, how)))
 
     return root
 

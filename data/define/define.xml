@@ -1045,152 +1045,152 @@
       </CodeList>
       <MethodDef OID="MT.AE.AEDECOD" Name="Derivation of AEDECOD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ae_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Dictionary-coded term for AETERM. ILLUSTRATIVE ONLY - a real value comes from MedDRA coding performed by trained coders against a licensed version.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.AE.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ae_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.CM.CMDECOD" Name="Derivation of CMDECOD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">cm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Dictionary-coded term for CMTRT. ILLUSTRATIVE ONLY - a real value comes from WHODrug coding against a licensed version.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.CM.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">cm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.ACTARM" Name="Derivation of ACTARM" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Actual arm. Equal to planned ARM in this study; no subject was mis-dosed.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.ACTARMCD" Name="Derivation of ACTARMCD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Actual arm code. Equal to ARMCD in this study.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.AGE" Name="Derivation of AGE" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Completed years from BRTHDTC to RFICDTC (informed consent), using continuous interval counting so a birthday not yet reached is not counted.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.ARMCD" Name="Derivation of ARMCD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from ARM: 'Drug A' to 'A', 'Placebo' to 'P'.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.RFENDTC" Name="Derivation of RFENDTC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ex_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Date of last study treatment: the latest EXENDTC for the subject.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.RFSTDTC" Name="Derivation of RFSTDTC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ex_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Date of first study treatment: the earliest EXSTDTC for the subject. This is the reference start date from which all --DY values are derived.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.RFXENDTC" Name="Derivation of RFXENDTC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ex_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Last study-treatment exposure; equal to RFENDTC in this study.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.RFXSTDTC" Name="Derivation of RFXSTDTC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ex_raw</TranslatedText>
+          <TranslatedText xml:lang="en">First study-treatment exposure; equal to RFSTDTC in this study.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DM.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DS.DSDECOD" Name="Derivation of DSDECOD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ds_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Standardised disposition term derived from the collected end-of-study status and reason.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.DS.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">dm_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.EX.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">ex_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.LBBLFL" Name="Derivation of LBBLFL" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Baseline flag. 'Y' on the last record on or before first dose, per subject per test, for tests that also have a post-dose result. Otherwise null.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.LBCAT" Name="Derivation of LBCAT" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from lb_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.LBTEST" Name="Derivation of LBTEST" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from lb_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.LBTESTCD" Name="Derivation of LBTESTCD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from lb_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.LB.VISITNUM" Name="Derivation of VISITNUM" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">lb_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from lb_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.SUPPAE.IDVARVAL" Name="Derivation of IDVARVAL" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">sdtm/ae.csv</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from sdtm/ae.csv.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.SUPPAE.QVAL" Name="Derivation of QVAL" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">sdtm/ae.csv</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from sdtm/ae.csv.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.SUPPAE.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">sdtm/ae.csv</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.VS.USUBJID" Name="Derivation of USUBJID" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">vs_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Concatenation of STUDYID, SITEID and SUBJID separated by hyphens (e.g. ABC-01-01-001). SUBJID alone is unique only within a site.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.VS.VISITNUM" Name="Derivation of VISITNUM" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">vs_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from vs_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.VS.VSBLFL" Name="Derivation of VSBLFL" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">vs_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Baseline flag. 'Y' on the last record on or before first dose, per subject per test, for tests that also have a post-dose result. Otherwise null.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.VS.VSTEST" Name="Derivation of VSTEST" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">vs_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from vs_raw.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.VS.VSTESTCD" Name="Derivation of VSTESTCD" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">vs_raw</TranslatedText>
+          <TranslatedText xml:lang="en">Derived from vs_raw.</TranslatedText>
         </Description>
       </MethodDef>
     </MetaDataVersion>
