@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------------------
+# SECRETS — never commit these
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.key
+*credentials*
+
+# ---------------------------------------------------------------------------
+# INSTRUCTOR-ONLY — answers must not reach a repository trainees can see
+# ---------------------------------------------------------------------------
+answer-keys/
+capstone/answer-keys/
+capstone/notebooks/13_capstone_DEF01_SOLUTION.sas
+
+# The capstone ODA bundle packages the SOLUTION, so the whole folder is
+# excluded. Rebuild it any time with:
+#   cd capstone/oda_upload && zip -r sdtm_capstone_oda.zip sdtm_capstone README_capstone_ODA.md
+capstone/oda_upload/
+
+# ---------------------------------------------------------------------------
+# DEPENDENCIES & BUILD ARTIFACTS
+# ---------------------------------------------------------------------------
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Remotion render cache (the finished .mp4 in out/ IS kept)
+video/remotion/.remotion/
+
+# ---------------------------------------------------------------------------
+# RUN ARTIFACTS — machine- and session-specific
+# ---------------------------------------------------------------------------
+logs/
+output/
+capstone/output/
+*.log
+
+# ---------------------------------------------------------------------------
+# OS / EDITOR
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

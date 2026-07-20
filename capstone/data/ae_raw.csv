@@ -1,0 +1,8 @@
+STUDYID,SITEID,SUBJID,AETERM,AESTDT,AEENDT,AESEV,AESER,AEREL,AEOUT
+DEF-01,01,001,feeling sick,13/03/2024,16/03/2024,mild,No,Possibly related,1
+DEF-01,01,002,headache,20-Mar-2024,21-Mar-2024,mild,No,Not related,1
+DEF-01,01,003,low blood sugar,27/03/2024,28/03/2024,moderate,No,Related,1
+DEF-01,02,001,sinus congestion,FEB-2024,,mild,No,Not related,3
+DEF-01,02,001,headache,21-Mar-2024,23-Mar-2024,mild,No,Possibly related,1
+DEF-01,02,003,low blood sugar,07/04/2024,09/04/2024,severe,No,Related,1
+DEF-01,02,003,nausea,19-Apr-2024,,mild,No,Possibly related,3
