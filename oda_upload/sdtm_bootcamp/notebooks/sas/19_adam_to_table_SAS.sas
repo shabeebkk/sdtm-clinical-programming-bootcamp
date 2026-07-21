@@ -29,10 +29,8 @@
     %if %superq(outpath) = %then
         %let outpath  = /Volumes/D Drive/SDTM Training/Bootcamp/output;   /* local default */
 
-    %if %sysfunc(libref(adam)) ne 0 %then %do;
-        libname adam "&outpath";
-    %end;
-
+    /*  This notebook reads the analysis datasets from CSV and writes nothing
+        permanent, so it needs no output library. Nothing to assign.          */
     %put NOTE: datapath = &datapath;
 %mend;
 %_setpath;

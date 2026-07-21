@@ -49,7 +49,7 @@
 options nosyntaxcheck;   /* one bad step must not silently skip everything after it */
 
 %macro setup_check;
-    %local i n missing_raw missing_ref missing_adam rawlist reflist adamlist;
+    %local i n d nm pa rc missing_raw missing_ref missing_adam rawlist reflist adamlist;
     %let rawlist  = dm ds ex ae cm vs lb;
     %let reflist  = dm ds ex ae suppae cm vs lb;
     %let adamlist = adsl adae advs adlb adtte;
@@ -134,7 +134,6 @@ options nosyntaxcheck;   /* one bad step must not silently skip everything after
 
     /* --- 6. the OUTPUT library: create the folder, then point the librefs at it --- */
     %if %sysfunc(fileexist(&outpath)) = 0 %then %do;
-        %local nm pa rc;
         %let nm = %scan(&outpath, -1, %str(/));
         %let pa = %substr(&outpath, 1, %eval(%length(&outpath) - %length(&nm) - 1));
         %let rc = %sysfunc(dcreate(&nm, &pa));
@@ -144,24 +143,29 @@ options nosyntaxcheck;   /* one bad step must not silently skip everything after
     %end;
     %else %put   PASS  output folder exists;
 
-    /* Both librefs point at the SAME output folder: the SDTM notebooks write
-       their domains to SDTM.<domain>, the ADaM notebooks write ADSL etc. to
-       ADAM.<dataset>. They coexist in one library directory without clashing. */
+    /* The SDTM notebooks write their domains to SDTM.<domain> in &outpath.
+       The ADaM notebooks write ADSL etc. to ADAM.<dataset> in a SEPARATE
+       subfolder &outpath/adam, so the ADAM library shows ONLY your analysis
+       datasets and never the SDTM domains you built. A libref does not recurse
+       into subfolders, so the SDTM library ignores the adam/ folder in turn. */
     libname sdtm "&outpath";
     %if %sysfunc(libref(sdtm)) = 0 %then
         %put   PASS  libref SDTM assigned to &outpath;
     %else %put ERROR: could not assign libref SDTM to &outpath;
 
-    libname adam "&outpath";
+    %if %sysfunc(fileexist(&outpath/adam)) = 0 %then %do;
+        %let rc = %sysfunc(dcreate(adam, &outpath));
+    %end;
+    libname adam "&outpath/adam";
     %if %sysfunc(libref(adam)) = 0 %then
-        %put   PASS  libref ADAM assigned to &outpath;
-    %else %put ERROR: could not assign libref ADAM to &outpath;
+        %put   PASS  libref ADAM assigned to &outpath/adam;
+    %else %put ERROR: could not assign libref ADAM to &outpath/adam;
 
     %if %length(&missing_raw) = 0 and %sysfunc(fileexist(&codepath)) %then %do;
         %put ;
         %put   SETUP OK - you can now run any notebook, or run_all.sas;
-        %put   Domains you build are saved to the SDTM library, so they;
-        %put   SURVIVE after the session ends - unlike WORK.;
+        %put   SDTM domains you build are saved to the SDTM library, and ADaM;
+        %put   datasets to the ADAM library, so both SURVIVE the session - unlike WORK.;
     %end;
     %put ===========================================================;
     %put ;

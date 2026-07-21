@@ -35,22 +35,27 @@
     %if %superq(outpath) = %then
         %let outpath  = /Volumes/D Drive/SDTM Training/Bootcamp/output;   /* local default */
 
+    %local nm pa rc;
     %if %sysfunc(fileexist(&outpath)) = 0 %then %do;
-        %local nm pa rc;
         %let nm = %scan(&outpath, -1, %str(/));
         %let pa = %substr(&outpath, 1, %eval(%length(&outpath) - %length(&nm) - 1));
         %let rc = %sysfunc(dcreate(&nm, &pa));
     %end;
 
-    /*  ADAM is where YOUR analysis datasets are saved. It is deliberately a
-        different folder from data/adam - that one holds the REFERENCE answers
-        and writing over it would destroy the thing you check your work against. */
+    /*  ADAM is where YOUR analysis datasets are saved. It gets its OWN
+        subfolder, &outpath/adam, so the ADAM library shows only the datasets
+        you built here - never the SDTM domains, which the SDTM notebooks write
+        to &outpath itself. (A libref does not recurse into subfolders.)
+        It is also deliberately NOT data/adam - that holds the REFERENCE
+        answers, and writing over them would destroy what you check against. */
+    %if %sysfunc(fileexist(&outpath/adam)) = 0 %then
+        %let rc = %sysfunc(dcreate(adam, &outpath));
     %if %sysfunc(libref(adam)) ne 0 %then %do;
-        libname adam "&outpath";
+        libname adam "&outpath/adam";
     %end;
 
     %put NOTE: datapath = &datapath;
-    %put NOTE: outpath  = &outpath   (libref ADAM);
+    %put NOTE: outpath  = &outpath/adam   (libref ADAM);
 %mend;
 %_setpath;
 
