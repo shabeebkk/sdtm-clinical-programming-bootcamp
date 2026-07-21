@@ -13,6 +13,9 @@
 
 ## Build status
 
+> **This is the SDTM course.** A 5-day **ADaM** course continues from it —
+> see [`ADAM_CURRICULUM.md`](ADAM_CURRICULUM.md).
+
 **All 10 days are complete.** DM · DS · AE · SUPPAE · CM · EX · VS · LB built and verified on ABC-01; a second study (DEF-01) built for the capstone.
 
 | | Built | Remaining |
@@ -28,8 +31,8 @@ zero errors, zero warnings. Days 8–9's notebooks (10–12) and the capstone pa
 
 | Checker | What it guards |
 |---|---|
-| `data/audit_consistency.py` | 216 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs all agree |
-| `notebooks/sas/check_sas_static.py` | 149 checks — SAS syntax, informat widths, rename collisions, join-key leaks |
+| `data/audit_consistency.py` | 269 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs all agree |
+| `notebooks/sas/check_sas_static.py` | 186 checks — SAS syntax, informat widths, rename collisions, join-key leaks |
 | `presentations/check_deck_layout.py` | deck geometry — hidden text, content running off-slide |
 
 ---

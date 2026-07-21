@@ -1,7 +1,14 @@
-# Clinical Programming Bootcamp — SDTM
+# Clinical Programming Bootcamp — SDTM and ADaM
 
-A 10-day, hands-on training course that takes someone with **no clinical and no programming
-background** to mapping raw clinical trial data into **CDISC SDTM** domains in SAS.
+A hands-on training course that takes someone with **no clinical and no programming background**
+all the way from raw clinical trial data to a submission table, in SAS.
+
+**Two courses, run back to back:**
+
+| | Days | Covers | Curriculum |
+|---|---|---|---|
+| **SDTM** | 10 | raw CRF data → CDISC SDTM domains | [`CURRICULUM.md`](CURRICULUM.md) |
+| **ADaM** | 5 | SDTM domains → analysis datasets → a table | [`ADAM_CURRICULUM.md`](ADAM_CURRICULUM.md) |
 
 Built around two complete synthetic studies: **ABC-01** for teaching and **DEF-01** as a capstone.
 
@@ -14,30 +21,43 @@ Built around two complete synthetic studies: **ABC-01** for teaching and **DEF-0
 
 | Folder | Contents |
 |---|---|
-| `presentations/` | 13 decks (`.pptx` + build scripts + rendered PDFs) |
-| `notebooks/sas/` | 12 SAS programs, each with a `.md` walkthrough, plus the run harness |
-| `data/` | Study ABC-01 — 7 raw CSVs, 8 reference SDTM datasets, specs, sample CRF/aCRF |
+| `presentations/` | 18 decks (`.pptx` + build scripts + rendered PDFs) — 13 SDTM, 5 ADaM |
+| `notebooks/sas/` | 18 SAS programs, each with a `.md` walkthrough, plus the run harness |
+| `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF |
 | `capstone/` | Study DEF-01 — a second study trainees map end to end |
 | `oda_upload/` | Ready-to-upload bundle for SAS OnDemand for Academics |
 | `video/` | Remotion source for an animated explainer on clinical programming |
 
-Domains covered: **DM · DS · AE (+SUPPAE) · CM · EX · VS · LB**, plus controlled terminology,
-`--DY`/`--SEQ` derivations, QC/validation, Define-XML concepts and a capstone.
+**SDTM domains covered:** DM · DS · AE (+SUPPAE) · CM · EX · VS · LB, plus controlled
+terminology, `--DY`/`--SEQ` derivations, QC/validation, Define-XML concepts and a capstone.
+
+**ADaM datasets covered:** ADSL · ADAE (OCCDS) · ADVS · ADLB (BDS) · ADTTE, plus the baseline
+rule, occurrence flags, derived parameters, shift and criterion flags, censoring, and one
+notebook that produces two real submission tables with no joins and no derivations.
 
 ---
 
 ## Verified, not just written
 
-Every SAS program has been **executed on SAS OnDemand for Academics** (SAS 9.04.01M8P022223)
-and reproduces its reference datasets exactly — 8 domains for ABC-01, 6 for DEF-01, zero errors.
+**The SDTM track** has been **executed on SAS OnDemand for Academics** (SAS 9.04.01M8P022223) and
+reproduces its reference datasets exactly — 8 domains for ABC-01, 6 for DEF-01, zero errors.
 
-Three checkers guard the corpus and run on every change:
+**The ADaM track has not yet been run on SAS.** Its notebooks pass static checks and its five
+reference datasets are independently audited, but by this project's own standard that is *not*
+verified — see the defect list below for why that distinction matters. Treat notebooks 14–19 as
+unexecuted until an ODA run confirms them.
+
+Four checkers guard the corpus and run on every change. Counts are as of 2026-07-20 and grow as
+material is added — run a checker to see its current total:
 
 | Checker | Guards |
 |---|---|
-| `data/audit_consistency.py` | 221 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs agree |
-| `notebooks/sas/check_sas_static.py` | 151 checks — SAS syntax, informat widths, rename collisions, macro quoting |
+| `data/audit_consistency.py` | 269 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs agree |
+| `notebooks/sas/check_sas_static.py` | 186 checks — SAS syntax, informat widths, rename collisions, macro quoting |
+| `data/audit_adam.py` | 85 checks — ADaM re-derived independently from SDTM; mutation-tested |
 | `capstone/data/def01_audit.py` | 65 checks — the capstone study and its four deliberate traps |
+
+A fifth, `presentations/check_deck_layout.py`, checks deck geometry on the built `.pptx` files.
 
 **That execution mattered.** Running the code on real SAS surfaced **11 defects** that neither
 static analysis nor an independent Python reimplementation could see, because all of them were
@@ -68,8 +88,21 @@ Trainees work through the notebooks one at a time; `run_all.sas` is an instructo
 ## Regenerating the data
 
 ```bash
-cd data     && python3 generate_mock_data.py && python3 build_sdtm_reference.py && python3 audit_consistency.py
+# SDTM — raw data, then the reference domains, then the audit
+cd data && python3 generate_mock_data.py && python3 build_sdtm_reference.py && python3 audit_consistency.py
+
+# ADaM — derived from the SDTM datasets above, so run it after them
+cd data && python3 build_adam_reference.py && python3 audit_adam.py
+
+# Capstone study DEF-01
 cd capstone/data && python3 def01_generate_mock_data.py && python3 def01_build_sdtm_reference.py && python3 def01_audit.py
+```
+
+Rebuilding a deck needs `pptxgenjs`, which is installed globally rather than vendored:
+
+```bash
+cd presentations && NODE_PATH=$(npm root -g) node build_14_why_adam_adsl.js
+python3 check_deck_layout.py
 ```
 
 ---
