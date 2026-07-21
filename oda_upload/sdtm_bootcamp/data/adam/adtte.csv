@@ -1,0 +1,9 @@
+STUDYID,USUBJID,SUBJID,SITEID,TRTP,TRTPN,TRTA,TRTAN,AGE,AGEGR1,SEX,RACE,SAFFL,ITTFL,PARAMCD,PARAM,PARAMN,STARTDT,ADT,AVAL,CNSR,EVNTDESC,CNSDTDSC,SRCDOM,SRCVAR
+ABC-01,ABC-01-01-001,001,01,Drug A,2,Drug A,2,54,<65,F,WHITE,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-01,2024-03-15,15,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-01-002,002,01,Placebo,1,Placebo,1,60,<65,M,ASIAN,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-04,2024-03-10,7,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-01-003,003,01,Drug A,2,Drug A,2,46,<65,F,BLACK OR AFRICAN AMERICAN,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-05,2024-04-01,28,1,Censored at last dose,LAST DOSE,ADSL,TRTEDT
+ABC-01,ABC-01-01-004,004,01,Placebo,1,Placebo,1,66,>=65,M,WHITE,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-06,2024-03-18,13,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-02-001,001,02,Drug A,2,Drug A,2,51,<65,M,WHITE,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-11,2024-03-15,5,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-02-002,002,02,Placebo,1,Placebo,1,43,<65,F,ASIAN,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-12,2024-03-20,9,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-02-003,003,02,Drug A,2,Drug A,2,57,<65,F,WHITE,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-14,2024-03-25,12,0,First treatment-emergent adverse event,,ADAE,ASTDT
+ABC-01,ABC-01-02-004,004,02,Placebo,1,Placebo,1,68,>=65,M,BLACK OR AFRICAN AMERICAN,Y,Y,TTFAE,Time to First Treatment-Emergent Adverse Event (days),1,2024-03-15,2024-04-11,28,1,Censored at last dose,LAST DOSE,ADSL,TRTEDT

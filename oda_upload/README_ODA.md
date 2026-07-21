@@ -1,6 +1,7 @@
 # Running the bootcamp on SAS OnDemand for Academics
 
-Everything in `sdtm_bootcamp/` is ready to upload. Follow these five steps.
+Everything in `sdtm_bootcamp/` is ready to upload — both the SDTM track (notebooks 01–12b) and
+the ADaM track (notebooks 14–19). Follow these five steps.
 
 ---
 
@@ -27,21 +28,28 @@ you end up with exactly this structure:
 ├── data/
 │   ├── ae_raw.csv  cm_raw.csv  dm_raw.csv  ds_raw.csv
 │   ├── ex_raw.csv  lb_raw.csv  vs_raw.csv          (7 files)
-│   └── sdtm/
-│       └── ae.csv cm.csv dm.csv ds.csv ex.csv lb.csv suppae.csv vs.csv   (8 files)
-├── output/          <-- created automatically; YOUR built domains land here
+│   ├── sdtm/
+│   │   └── ae.csv cm.csv dm.csv ds.csv ex.csv lb.csv suppae.csv vs.csv  (8 files)
+│   └── adam/
+│       └── adsl.csv adae.csv advs.csv adlb.csv adtte.csv               (5 files)
+├── output/          <-- created automatically; YOUR built datasets land here
 └── notebooks/
     └── sas/
-        └── 00_setup.sas … 09_build_lb_domain_SAS.sas, run_all.sas,
-            verify_against_reference.sas                                  (11 files)
+        └── 00_setup.sas … 12b_submission_package_SAS.sas   (SDTM, 16 files)
+            14_build_adsl_SAS.sas … 19_adam_to_table_SAS.sas (ADaM, 6 files)
+            run_all.sas, verify_against_reference.sas       (22 files total)
 ```
 
 SAS Studio's upload button takes multiple files at once but **not folders**, so create
-`sdtm_bootcamp`, `data`, `data/sdtm`, `notebooks` and `notebooks/sas` first (right-click →
-*New* → *Folder*), then upload into each.
+`sdtm_bootcamp`, `data`, `data/sdtm`, `data/adam`, `notebooks` and `notebooks/sas` first
+(right-click → *New* → *Folder*), then upload into each.
 
-> The `data/sdtm/` reference files are what let you check your work. Without them the
-> notebooks still run, but nothing can verify the answers.
+> The `data/sdtm/` and `data/adam/` reference files are what let you check your work. Without
+> them the notebooks still run, but nothing can verify the answers.
+>
+> **`data/adam/` is required, not optional, for notebooks 14–19.** Those notebooks read the
+> reference ADSL to merge subject-level variables from, as well as for their `PROC COMPARE`
+> step — so without the folder they fail immediately on the first `INFILE`.
 
 ---
 
@@ -126,7 +134,9 @@ are:
 
 ---
 
-## Status: verified
+## Status
+
+### SDTM notebooks (01–12b): verified
 
 **These programs have been run.** On 2026-07-19 the full set executed on SAS OnDemand for
 Academics (SAS 9.04.01M8P022223, Linux x64) with **zero errors, zero warnings, and all 7
@@ -146,11 +156,42 @@ semantics rather than logic:
 **Three of the four announced themselves as WARNINGs while the run reported success.** Read the
 log, not just the exit status.
 
+### ADaM notebooks (14–19): NOT yet run
+
+The ADaM notebooks pass static checks and their reference datasets are independently audited,
+but **they have not been executed on SAS**. Given that the SDTM run above found four defects
+that no amount of static analysis could see, treat them as unproven until you have run them.
+
+Run them in order — each builds on the last:
+
+| Notebook | Builds | Expected |
+|---|---|---|
+| `14_build_adsl_SAS.sas` | ADSL | 8 rows, one per subject |
+| `15_build_adae_SAS.sas` | ADAE | 10 rows; 9 treatment-emergent |
+| `16_build_advs_SAS.sas` | ADVS | 152 rows = 128 observed + 24 derived BMI |
+| `17_build_adlb_SAS.sas` | ADLB | 48 rows, 4 subjects only |
+| `18_build_adtte_SAS.sas` | ADTTE | 8 rows; 6 events, 2 censored |
+| `19_adam_to_table_SAS.sas` | two tables | no datasets — produces output only |
+
+Each of 14–18 ends with a `PROC COMPARE` against its reference and should report **no
+differences**. Notebook 19 builds nothing; it produces the demographics and adverse-event
+tables from the datasets you have already built.
+
+The places most likely to break on a first real run, based on where the SDTM defects clustered:
+
+- the **two-merge baseline pattern** in notebooks 16 and 17 — `ABLFL` is merged by
+  subject+parameter+visit while `BASE` is merged by subject+parameter, and getting both by the
+  same key yields a `CHG` column that is entirely missing
+- **`PROC LIFETEST`** in notebook 18 — the `cnsr(1)` argument, and whether the quartile output
+  appears as expected
+- **numeric formatting** — `CHG`/`PCHG` are rounded to 0.0001 and BMI to 0.01 by the spec; any
+  `PROC COMPARE` difference around 1E-15 means a `ROUND()` was dropped somewhere
+
 ## Notes
 
 - **Running a notebook on its own is fine.** Each one falls back to a default path if you
   haven't run `00_setup.sas`, but that default points at the author's laptop — so always run
   setup first on ODA.
 - **ODA has a storage quota** (a few GB). This bundle is well under 1 MB.
-- **Nothing here contains real patient data.** All 15 CSVs are synthetic mock data for study
+- **Nothing here contains real patient data.** All 20 CSVs are synthetic mock data for study
   `ABC-01`, generated for training.
