@@ -1,9 +1,0 @@
-STUDYID,SITEID,SUBJID,CMTRT,CMINDC,CMSTDT,CMENDT,CMDOSE,CMDOSU,CMROUTE,CMFREQ
-ABC-01,01,001,Paracetamol,headache,15/03/2024,16/03/2024,500,mg,ORAL,PRN
-ABC-01,01,001,Vitamin D,supplementation,01/01/2024,,1000,IU,ORAL,QD
-ABC-01,01,002,Lisinopril,hypertension,01-Feb-2024,,10,mg,ORAL,QD
-ABC-01,01,004,Amlodipine,high blood pressure,05-Jan-2024,,5,mg,ORAL,QD
-ABC-01,02,001,Aspirin,headache,15/03/2024,15/03/2024,100,mg,ORAL,PRN
-ABC-01,02,002,Ondansetron,vomiting,20/03/2024,21/03/2024,4,mg,ORAL,PRN
-ABC-01,02,003,Hydrocortisone cream,rash,25/03/2024,30/03/2024,1,%,TOPICAL,BID
-ABC-01,02,004,Metformin,type 2 diabetes,10-Dec-2023,,500,mg,ORAL,BID
