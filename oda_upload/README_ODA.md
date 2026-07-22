@@ -173,9 +173,15 @@ Run them in order — each builds on the last:
 | `18_build_adtte_SAS.sas` | ADTTE | 8 rows; 6 events, 2 censored |
 | `19_adam_to_table_SAS.sas` | two tables | no datasets — produces output only |
 
+Or smoke-test the whole track at once: after `00_setup.sas`, open **`run_all_adam.sas`** and
+submit. It runs 14–19 in order and prints one summary table with a PASS/FAIL per notebook — the
+ADaM counterpart of `run_all.sas`. The two harnesses are independent; you do not have to run the
+SDTM track first, because the ADaM notebooks read their inputs from the reference CSVs.
+
 Each of 14–18 ends with a `PROC COMPARE` against its reference and should report **no
-differences**. Notebook 19 builds nothing; it produces the demographics and adverse-event
-tables from the datasets you have already built.
+differences** (this is the value-level check — there is no separate `verify` step for ADaM, and
+`run_all_adam.sas` surfaces these compares in its log). Notebook 19 builds nothing; it produces
+the demographics and adverse-event tables from the datasets you have already built.
 
 The places most likely to break on a first real run, based on where the SDTM defects clustered:
 

@@ -380,7 +380,7 @@ for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
 hdr("7b. EVERY NOTEBOOK HAS A WALKTHROUGH AND AN ANSWER KEY")
 keydir = os.path.join(ROOT, "answer-keys")
 # Instructor tooling, not teaching material — no walkthrough or answer key expected.
-TOOLING = {"00_setup", "run_all", "verify_against_reference"}
+TOOLING = {"00_setup", "run_all", "run_all_adam", "verify_against_reference"}
 for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
     stem = os.path.basename(sf)[:-4]                     # e.g. 06_build_cm_domain_SAS
     if stem in TOOLING:

@@ -12,6 +12,9 @@
  |  than nine separate runs. It is a smoke test for the instructor, not a     |
  |  teaching exercise - trainees should run the notebooks individually.       |
  |                                                                            |
+ |  This covers the SDTM track (01-12). The ADaM track (14-19) has its own    |
+ |  harness, run_all_adam.sas - the two are independent.                      |
+ |                                                                            |
  |  Scroll to the bottom of the output for the summary table.                 |
  *===========================================================================*/
 

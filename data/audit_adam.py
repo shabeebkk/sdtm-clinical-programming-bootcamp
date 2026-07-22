@@ -13,7 +13,7 @@ Run after ANY change to the ADaM model:  python3 audit_adam.py
 Exit code 0 = clean, 1 = at least one FAIL.
 """
 
-import csv, os, sys
+import csv, os, re, sys
 from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -527,6 +527,31 @@ for rows in (ADAE, ADVS, ADLB, ADTTE):
 check(allsub <= set(BY_SUBJ),
       "no analysis dataset contains a subject missing from ADSL",
       f"subjects appear downstream but not in ADSL: {allsub - set(BY_SUBJ)}")
+
+# ============================================================ 8. HARNESS
+hdr("8. run_all_adam.sas — hardcoded row counts match the data")
+
+# run_all_adam.sas smoke-tests each notebook against a row count typed into the
+# harness. When the data model changes, that number silently goes stale and the
+# smoke test starts asserting the wrong thing — the exact failure mode section
+# 7c of audit_consistency.py guards for the SDTM run_all. Same guard here.
+DATASETS = {"adsl": ADSL, "adae": ADAE, "advs": ADVS, "adlb": ADLB, "adtte": ADTTE}
+runall = os.path.join(HERE, "..", "notebooks", "sas", "run_all_adam.sas")
+if os.path.exists(runall):
+    src = open(runall).read()
+    found = dict(re.findall(r"ds\s*=\s*(\w+)\s*,\s*expect\s*=\s*(\d+)", src))
+    check(bool(found), f"run_all_adam.sas declares expectations for {len(found)} datasets",
+          "run_all_adam.sas: could not parse any ds=/expect= pairs")
+    for ds, exp in sorted(found.items()):
+        if ds not in DATASETS:
+            fail(f"run_all_adam.sas expects dataset '{ds}' which has no reference")
+            continue
+        actual = len(DATASETS[ds])
+        check(int(exp) == actual,
+              f"run_all_adam.sas: {ds.upper()} expect={exp} matches the data ({actual})",
+              f"run_all_adam.sas: {ds.upper()} expect={exp} but the dataset has {actual} rows")
+else:
+    warn("run_all_adam.sas not found — skipped the harness expectation check")
 
 # ============================================================ SUMMARY
 hdr("SUMMARY")
