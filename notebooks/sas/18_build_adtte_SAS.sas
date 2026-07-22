@@ -228,14 +228,23 @@ title;
 /*  The row count is the whole point: 8 rows for 8 safety subjects, even
     though only 6 had an event. If you get 6 rows, you dropped the censored
     subjects - go back to section 2.                                          */
-proc sql;
-    title 'Row count check - these MUST be equal';
-    select (select count(*) from adtte)                                as adtte_rows,
-           (select count(*) from ref_adsl where saffl = 'Y')           as safety_subjects,
-           (select count(*) from adtte where cnsr = 0)                 as events,
-           (select count(*) from adtte where cnsr = 1)                 as censored;
-    title;
+/*  Counts into macro vars, then a one-row table. A no-FROM SELECT cannot hold
+    a subquery in its column list on SAS 9.4 - see the note in notebook 15.    */
+proc sql noprint;
+    select count(*) into :n_rows  trimmed from adtte;
+    select count(*) into :n_saf   trimmed from ref_adsl where saffl = 'Y';
+    select count(*) into :n_event trimmed from adtte where cnsr = 0;
+    select count(*) into :n_cens  trimmed from adtte where cnsr = 1;
 quit;
+data _rowcount_check;
+    adtte_rows      = &n_rows;
+    safety_subjects = &n_saf;
+    events          = &n_event;
+    censored        = &n_cens;
+run;
+title 'Row count check - these MUST be equal';
+proc print data = _rowcount_check noobs; run;
+title;
 
 /*  CNSDTDSC belongs on censored records ONLY. An event needs no explanation
     for why we stopped looking - we stopped because it happened.              */

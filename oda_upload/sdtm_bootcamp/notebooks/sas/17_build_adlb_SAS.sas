@@ -105,14 +105,19 @@ proc sort data = ref_adsl; by usubjid; run;
  | This is the most common ADaM error in practice, and it is invisible:       |
  | 50% is a perfectly plausible number. Nothing warns you.                    |
  *---------------------------------------------------------------------------*/
-proc sql;
-    title 'The denominator problem - these two numbers are NOT the same';
-    select (select count(distinct usubjid) from ref_adsl where saffl = 'Y')
-               as subjects_in_safety_population,
-           (select count(distinct usubjid) from lb)
-               as subjects_with_any_lab_data;
-    title;
+/*  Counts into macro vars, then a one-row table. A no-FROM SELECT cannot hold
+    a subquery in its column list on SAS 9.4 - see the note in notebook 15.    */
+proc sql noprint;
+    select count(distinct usubjid) into :n_safety  trimmed from ref_adsl where saffl = 'Y';
+    select count(distinct usubjid) into :n_withlab trimmed from lb;
 quit;
+data _denom_problem;
+    subjects_in_safety_population = &n_safety;
+    subjects_with_any_lab_data    = &n_withlab;
+run;
+title 'The denominator problem - these two numbers are NOT the same';
+proc print data = _denom_problem noobs; run;
+title;
 
 
 /*---------------------------------------------------------------------------*
@@ -353,16 +358,19 @@ title;
 
 /*  THE DENOMINATOR, DONE CORRECTLY. The percentage divides by the SAFETY
     POPULATION from ADSL, not by the number of subjects who had labs.        */
-proc sql;
-    title 'Subjects with ALT > ULN - correct vs wrong denominator';
-    select (select count(distinct usubjid) from adlb where crit1fl = 'Y')
-               as subjects_meeting_criterion,
-           (select count(distinct usubjid) from ref_adsl where saffl = 'Y')
-               as correct_denominator_from_adsl,
-           (select count(distinct usubjid) from adlb)
-               as wrong_denominator_from_adlb;
-    title;
+proc sql noprint;
+    select count(distinct usubjid) into :n_crit trimmed from adlb where crit1fl = 'Y';
+    select count(distinct usubjid) into :n_adsl trimmed from ref_adsl where saffl = 'Y';
+    select count(distinct usubjid) into :n_adlb trimmed from adlb;
 quit;
+data _crit_denom;
+    subjects_meeting_criterion    = &n_crit;
+    correct_denominator_from_adsl = &n_adsl;
+    wrong_denominator_from_adlb   = &n_adlb;
+run;
+title 'Subjects with ALT > ULN - correct vs wrong denominator';
+proc print data = _crit_denom noobs; run;
+title;
 
 title 'Multiple-baseline check - MUST be empty';
 proc sql;

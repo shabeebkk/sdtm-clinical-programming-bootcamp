@@ -174,15 +174,19 @@ happened to arrive in — and a result that changes when you re-sort the input i
 reproducible. Exercise 5 makes you demonstrate this, because "it works on my machine" is not a
 defence a reviewer accepts.
 
-The notebook proves the arithmetic:
+The notebook proves the arithmetic — counting each into a macro variable, then
+printing the two side by side:
 
 ```sas
-select (select count(*) from adae where aoccfl = 'Y')          as flagged_rows,
-       (select count(distinct usubjid) from adae
-        where trtemfl = 'Y')                                   as subjects_with_teae;
+proc sql noprint;
+    select count(*)                into :flagged_rows trimmed from adae where aoccfl = 'Y';
+    select count(distinct usubjid) into :subj_teae    trimmed from adae where trtemfl = 'Y';
+quit;
 ```
 
-Both are **6**.
+Both are **6**. (Note the shape: each count is its own `SELECT ... INTO :` with a
+`FROM`. SAS 9.4 rejects a subquery in a column list when the outer `SELECT` has no
+`FROM` — so `select (select count(*) ...) as n;` is a syntax error, not a shortcut.)
 
 ---
 

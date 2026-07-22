@@ -335,18 +335,27 @@ title;
 title 'The pre-dose event - real, retained, and not treatment-emergent';
 proc print data = adae noobs;
     where trtemfl = 'N';
-    var usubjid aeseq aedecod aestdtc astdy trtemfl aoccfl aoccpfl;
+    var usubjid aeseq aedecod astdt astdy trtemfl aoccfl aoccpfl;
 run;
 title;
 
 /*  The counting test: flagged rows must equal subjects with a TEAE.          */
-proc sql;
-    title 'Occurrence flag arithmetic - the two numbers MUST match';
-    select (select count(*) from adae where aoccfl = 'Y')          as flagged_rows,
-           (select count(distinct usubjid) from adae
-            where trtemfl = 'Y')                                   as subjects_with_teae;
-    title;
+/*  Compute each count into a macro variable, then show them side by side.
+    A SELECT that has no FROM clause cannot carry a subquery in its column
+    list - SAS 9.4 rejects "select (select count(*) ...) as n;" with a syntax
+    error. Counting into macro vars (each query has its own FROM) is the
+    portable idiom, and it is what the SDTM notebooks use.                    */
+proc sql noprint;
+    select count(*)                into :flagged_rows trimmed from adae where aoccfl = 'Y';
+    select count(distinct usubjid) into :subj_teae    trimmed from adae where trtemfl = 'Y';
 quit;
+data _occ_check;
+    flagged_rows       = &flagged_rows;
+    subjects_with_teae = &subj_teae;
+run;
+title 'Occurrence flag arithmetic - the two numbers MUST match';
+proc print data = _occ_check noobs; run;
+title;
 
 title 'Treatment-emergent AEs by treatment and severity';
 proc freq data = adae;
