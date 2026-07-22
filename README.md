@@ -127,15 +127,16 @@ The course now produces the three things a regulator actually receives:
 
 | Part | Artifact | Built by |
 |---|---|---|
-| Data | one `.xpt` per dataset (XPORT v5) | `notebooks/sas/12b_submission_package_SAS.sas` |
-| Metadata | `data/define/define.xml` (Define-XML v2.0) | `data/build_define_xml.py` — **generated from the mapping spec** |
+| Data (SDTM) | one `.xpt` per tabulation dataset (XPORT v5) | `notebooks/sas/12b_submission_package_SAS.sas` |
+| Metadata (SDTM) | `data/define/define.xml` (Define-XML v2.0, SDTM-IG v3.3) | `data/build_define_xml.py` — **generated from `SDTM_Mapping_Specification.xlsx`** |
+| Metadata (ADaM) | `data/define/define_adam.xml` (Define-XML v2.0, ADaM-IG v1.2, with value-level metadata) | `data/build_adam_define_xml.py` — **generated from `ADaM_Specification.xlsx`** |
 | Narrative | `docs/cSDRG_ABC-01.pdf` | `docs/build_csdrg.py` |
 
 Plus the CRF, split as a submission does: `data/blankcrf.pdf` (the forms as asked) and
 `data/acrf.pdf` (the same forms annotated with SDTM variables), the latter linked from the define.
 
-> define.xml here is structurally correct and self-checked, but **not** schema-validated
-> against `define2-0-0.xsd` — that needs Pinnacle 21. Treat it as a teaching artifact.
+> Both defines are structurally correct and self-checked, but **not** schema-validated against
+> `define2-0-0.xsd` — that needs Pinnacle 21. Treat them as teaching artifacts.
 
 ## Troubleshooting
 

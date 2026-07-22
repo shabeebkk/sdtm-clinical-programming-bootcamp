@@ -1,0 +1,2647 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Define-XML - ABC-01</title>
+<style type="text/css">
+    body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+           color: #0F2E3D; background: #F6F9FA; margin: 0; padding: 24px 18px 60px; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    h1 { font-size: 24px; margin: 0 0 2px; }
+    h2 { font-size: 17px; color: #0E7C86; margin: 30px 0 8px;
+         border-bottom: 2px solid #CFDEE1; padding-bottom: 5px; }
+    h3 { font-size: 14px; margin: 22px 0 6px; }
+    .sub { color: #5A7682; font-size: 13px; margin: 0 0 4px; }
+    .kicker { font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+              color: #0E7C86; font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; margin: 6px 0 14px;
+            font-size: 12.5px; background: #fff; }
+    th { background: #0F2E3D; color: #fff; text-align: left; font-weight: 600;
+         padding: 6px 8px; font-size: 11.5px; white-space: nowrap; }
+    td { border-top: 1px solid #CFDEE1; padding: 5px 8px; vertical-align: top; }
+    tr:nth-child(even) td { background: #F1F6F7; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .key  { color: #B5651A; font-weight: bold; }
+    .req  { color: #C0455B; font-weight: bold; }
+    .note { color: #5A7682; font-size: 12px; }
+    a { color: #0E7C86; }
+    .toc a { display: inline-block; margin: 0 10px 6px 0; font-family: ui-monospace, monospace; }
+    .banner { background: #FDF0D5; border-left: 4px solid #E8833A;
+              padding: 9px 12px; margin: 14px 0; font-size: 12.5px; }
+  </style>
+</head>
+<body><div class="wrap">
+<div class="kicker">Define-XML
+    2.0.0</div>
+<h1>ABC-01</h1>
+<p class="sub">Synthetic training study. Randomised, double-blind, placebo-controlled, 8 subjects at 2 sites, 4 weeks of treatment.</p>
+<p class="sub">ADaM-IG 1.2 · generated 2026-07-21T00:00:00</p>
+<div class="banner">
+<b>Synthetic training data.</b> This define.xml describes a teaching study. It is
+    structurally correct but has not been schema-validated against define2-0-0.xsd.
+  </div>
+<h2>Datasets</h2>
+<table>
+<tr>
+<th>Dataset</th>
+<th>Description</th>
+<th>Class</th>
+<th>Structure</th>
+<th>Keys</th>
+<th>File</th>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.ADSL">ADSL</a></td>
+<td>Subject-Level Analysis Dataset</td>
+<td>SUBJECT LEVEL ANALYSIS DATASET</td>
+<td>One record per subject</td>
+<td class="mono">STUDYID, USUBJID</td>
+<td class="mono">adsl.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.ADAE">ADAE</a></td>
+<td>Adverse Events Analysis Dataset</td>
+<td>OCCURRENCE DATA STRUCTURE</td>
+<td>One record per adverse event per subject</td>
+<td class="mono">STUDYID, USUBJID, AESEQ</td>
+<td class="mono">adae.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.ADVS">ADVS</a></td>
+<td>Vital Signs Analysis Dataset</td>
+<td>BASIC DATA STRUCTURE</td>
+<td>One record per subject per parameter per analysis visit</td>
+<td class="mono">STUDYID, USUBJID, PARAMCD, AVISITN</td>
+<td class="mono">advs.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.ADLB">ADLB</a></td>
+<td>Laboratory Analysis Dataset</td>
+<td>BASIC DATA STRUCTURE</td>
+<td>One record per subject per parameter per analysis visit</td>
+<td class="mono">STUDYID, USUBJID, PARAMCD, AVISITN</td>
+<td class="mono">adlb.xpt</td>
+</tr>
+<tr>
+<td class="mono"><a href="#IG.ADTTE">ADTTE</a></td>
+<td>Time-to-Event Analysis Dataset</td>
+<td>BASIC DATA STRUCTURE</td>
+<td>One record per subject per parameter</td>
+<td class="mono">STUDYID, USUBJID, PARAMCD</td>
+<td class="mono">adtte.xpt</td>
+</tr>
+</table>
+<h2>Variables</h2>
+<p class="note"><span class="req">Red</span> = Required (Mandatory="Yes").
+    <span class="key">Orange</span> = part of the dataset key.
+    Hover nothing, click a Method to see the derivation.
+  </p>
+<h3 id="IG.ADSL">
+<span class="mono">ADSL</span> - Subject-Level Analysis Dataset</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">COUNTRY</td>
+<td>Country</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">ARM</td>
+<td>Description of Planned Arm</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">ACTARM</td>
+<td>Description of Actual Arm</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">TRT01P</td>
+<td>Planned Treatment for Period 01</td>
+<td>text</td>
+<td>7</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.TRT01P">derivation</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">TRT01PN</td>
+<td>Planned Treatment for Period 01 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Assigned</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td><a href="#MT.ADSL.TRT01PN">derivation</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">TRT01A</td>
+<td>Actual Treatment for Period 01</td>
+<td>text</td>
+<td>7</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.TRT01A">derivation</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">TRT01AN</td>
+<td>Actual Treatment for Period 01 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Assigned</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td><a href="#MT.ADSL.TRT01AN">derivation</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">AGEU</td>
+<td>Age Units</td>
+<td>text</td>
+<td>5</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">AGEGR1</td>
+<td>Pooled Age Group 1</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1">Pooled Age Group 1</a></td>
+<td><a href="#MT.ADSL.AGEGR1">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">AGEGR1N</td>
+<td>Pooled Age Group 1 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1N">Pooled Age Group 1 (N)</a></td>
+<td><a href="#MT.ADSL.AGEGR1N">derivation</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>25</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono">ETHNIC</td>
+<td>Ethnicity</td>
+<td>text</td>
+<td>22</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">RFICDT</td>
+<td>Date of Informed Consent</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.RFICDT">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">RANDDT</td>
+<td>Date of Randomization</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.RANDDT">derivation</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">TRTSDT</td>
+<td>Date of First Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.TRTSDT">derivation</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">TRTEDT</td>
+<td>Date of Last Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.TRTEDT">derivation</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono">TRTDURD</td>
+<td>Total Treatment Duration (Days)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.TRTDURD">derivation</a></td>
+</tr>
+<tr>
+<td>24</td>
+<td class="mono">EOSSTT</td>
+<td>End of Study Status</td>
+<td>text</td>
+<td>12</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.EOSSTT">derivation</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td class="mono">DCSREAS</td>
+<td>Reason for Discontinuation from Study</td>
+<td>text</td>
+<td>13</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.DCSREAS">derivation</a></td>
+</tr>
+<tr>
+<td>26</td>
+<td class="mono">DCSREASP</td>
+<td>Reason Spec for Discont from Study</td>
+<td>text</td>
+<td>27</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.DCSREASP">derivation</a></td>
+</tr>
+<tr>
+<td>27</td>
+<td class="mono">SAFFL</td>
+<td>Safety Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADSL.SAFFL">derivation</a></td>
+</tr>
+<tr>
+<td>28</td>
+<td class="mono">ITTFL</td>
+<td>Intent-To-Treat Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADSL.ITTFL">derivation</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td class="mono">COMPLFL</td>
+<td>Completers Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADSL.COMPLFL">derivation</a></td>
+</tr>
+<tr>
+<td>30</td>
+<td class="mono">HEIGHTBL</td>
+<td>Baseline Height (cm)</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.HEIGHTBL">derivation</a></td>
+</tr>
+<tr>
+<td>31</td>
+<td class="mono">WEIGHTBL</td>
+<td>Baseline Weight (kg)</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.WEIGHTBL">derivation</a></td>
+</tr>
+<tr>
+<td>32</td>
+<td class="mono">BMIBL</td>
+<td>Baseline Body Mass Index (kg/m2)</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADSL.BMIBL">derivation</a></td>
+</tr>
+</table>
+<h3 id="IG.ADAE">
+<span class="mono">ADAE</span> - Adverse Events Analysis Dataset</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">TRTA</td>
+<td>Actual Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">TRTAN</td>
+<td>Actual Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">AGEGR1</td>
+<td>Pooled Age Group 1</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1">Pooled Age Group 1</a></td>
+<td><a href="#MT.ADAE.AGEGR1">derivation</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">AGEGR1N</td>
+<td>Pooled Age Group 1 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1N">Pooled Age Group 1 (N)</a></td>
+<td><a href="#MT.ADAE.AGEGR1N">derivation</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>5</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">SAFFL</td>
+<td>Safety Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADAE.SAFFL">derivation</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">TRTSDT</td>
+<td>Date of First Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.TRTSDT">derivation</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">TRTEDT</td>
+<td>Date of Last Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.TRTEDT">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono key">AESEQ</td>
+<td>Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">AETERM</td>
+<td>Reported Term for the Adverse Event</td>
+<td>text</td>
+<td>22</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">AEDECOD</td>
+<td>Dictionary-Derived Term</td>
+<td>text</td>
+<td>18</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono">AESEV</td>
+<td>Severity/Intensity</td>
+<td>text</td>
+<td>8</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.AESEV">Severity/Intensity Scale</a></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">ASEVN</td>
+<td>Analysis Severity (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.ASEVN">Analysis Severity (N)</a></td>
+<td><a href="#MT.ADAE.ASEVN">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">AESER</td>
+<td>Serious Event</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">AEREL</td>
+<td>Causality</td>
+<td>text</td>
+<td>16</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">AREL</td>
+<td>Analysis Causality</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADAE.AREL">derivation</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono">AEOUT</td>
+<td>Outcome of Adverse Event</td>
+<td>text</td>
+<td>26</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.AEOUT">Outcome of Event</a></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td class="mono">ASTDT</td>
+<td>Analysis Start Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.ASTDT">derivation</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td class="mono">AENDT</td>
+<td>Analysis End Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.AENDT">derivation</a></td>
+</tr>
+<tr>
+<td>26</td>
+<td class="mono">ASTDY</td>
+<td>Analysis Start Relative Day</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.ASTDY">derivation</a></td>
+</tr>
+<tr>
+<td>27</td>
+<td class="mono">AENDY</td>
+<td>Analysis End Relative Day</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.AENDY">derivation</a></td>
+</tr>
+<tr>
+<td>28</td>
+<td class="mono">ADURN</td>
+<td>Analysis Duration (Days)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADAE.ADURN">derivation</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td class="mono">TRTEMFL</td>
+<td>Treatment Emergent Analysis Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td class="mono">AOCCFL</td>
+<td>1st Occurrence of Any AE Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADAE.AOCCFL">derivation</a></td>
+</tr>
+<tr>
+<td>31</td>
+<td class="mono">AOCCPFL</td>
+<td>1st Occurrence of Preferred Term Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADAE.AOCCPFL">derivation</a></td>
+</tr>
+</table>
+<h3 id="IG.ADVS">
+<span class="mono">ADVS</span> - Vital Signs Analysis Dataset</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">TRTP</td>
+<td>Planned Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">TRTPN</td>
+<td>Planned Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">TRTA</td>
+<td>Actual Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">TRTAN</td>
+<td>Actual Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">AGEGR1</td>
+<td>Pooled Age Group 1</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1">Pooled Age Group 1</a></td>
+<td><a href="#MT.ADVS.AGEGR1">derivation</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">AGEGR1N</td>
+<td>Pooled Age Group 1 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1N">Pooled Age Group 1 (N)</a></td>
+<td><a href="#MT.ADVS.AGEGR1N">derivation</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>25</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">SAFFL</td>
+<td>Safety Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADVS.SAFFL">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">ITTFL</td>
+<td>Intent-To-Treat Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADVS.ITTFL">derivation</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">TRTSDT</td>
+<td>Date of First Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.TRTSDT">derivation</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">TRTEDT</td>
+<td>Date of Last Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.TRTEDT">derivation</a></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono key">PARAMCD</td>
+<td>Parameter Code</td>
+<td>text</td>
+<td>6</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.PARAMCD">derivation</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">PARAM</td>
+<td>Parameter</td>
+<td>text</td>
+<td>31</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.PARAM">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">PARAMN</td>
+<td>Parameter (N)</td>
+<td>integer</td>
+<td></td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.PARAMN">derivation</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">AVAL</td>
+<td>Analysis Value</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.AVAL">derivation</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">AVALU</td>
+<td>Analysis Value Unit</td>
+<td>text</td>
+<td>9</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono">AVISIT</td>
+<td>Analysis Visit</td>
+<td>text</td>
+<td>9</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.AVISIT">derivation</a></td>
+</tr>
+<tr>
+<td>24</td>
+<td class="mono key">AVISITN</td>
+<td>Analysis Visit (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.AVISITN">derivation</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td class="mono">VISIT</td>
+<td>Visit Name</td>
+<td>text</td>
+<td>9</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td class="mono">VISITNUM</td>
+<td>Visit Number</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td class="mono">ADT</td>
+<td>Analysis Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.ADT">derivation</a></td>
+</tr>
+<tr>
+<td>28</td>
+<td class="mono">ADY</td>
+<td>Analysis Relative Day</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.ADY">derivation</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td class="mono">ABLFL</td>
+<td>Baseline Record Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADVS.ABLFL">derivation</a></td>
+</tr>
+<tr>
+<td>30</td>
+<td class="mono">BASE</td>
+<td>Baseline Value</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.BASE">derivation</a></td>
+</tr>
+<tr>
+<td>31</td>
+<td class="mono">CHG</td>
+<td>Change from Baseline</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.CHG">derivation</a></td>
+</tr>
+<tr>
+<td>32</td>
+<td class="mono">PCHG</td>
+<td>Percent Change from Baseline</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.PCHG">derivation</a></td>
+</tr>
+<tr>
+<td>33</td>
+<td class="mono">DTYPE</td>
+<td>Derivation Type</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.DTYPE">derivation</a></td>
+</tr>
+<tr>
+<td>34</td>
+<td class="mono">ANL01FL</td>
+<td>Analysis Flag 01</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADVS.ANL01FL">derivation</a></td>
+</tr>
+<tr>
+<td>35</td>
+<td class="mono">SRCDOM</td>
+<td>Source Domain</td>
+<td>text</td>
+<td>2</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.SRCDOM">derivation</a></td>
+</tr>
+<tr>
+<td>36</td>
+<td class="mono">SRCVAR</td>
+<td>Source Variable</td>
+<td>text</td>
+<td>8</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.SRCVAR">derivation</a></td>
+</tr>
+<tr>
+<td>37</td>
+<td class="mono">SRCSEQ</td>
+<td>Source Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADVS.SRCSEQ">derivation</a></td>
+</tr>
+</table>
+<h3 id="IG.ADLB">
+<span class="mono">ADLB</span> - Laboratory Analysis Dataset</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">TRTP</td>
+<td>Planned Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">TRTPN</td>
+<td>Planned Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">TRTA</td>
+<td>Actual Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">TRTAN</td>
+<td>Actual Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">AGEGR1</td>
+<td>Pooled Age Group 1</td>
+<td>text</td>
+<td>3</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1">Pooled Age Group 1</a></td>
+<td><a href="#MT.ADLB.AGEGR1">derivation</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">AGEGR1N</td>
+<td>Pooled Age Group 1 (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1N">Pooled Age Group 1 (N)</a></td>
+<td><a href="#MT.ADLB.AGEGR1N">derivation</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>25</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">SAFFL</td>
+<td>Safety Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADLB.SAFFL">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono">ITTFL</td>
+<td>Intent-To-Treat Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADLB.ITTFL">derivation</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">TRTSDT</td>
+<td>Date of First Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.TRTSDT">derivation</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">TRTEDT</td>
+<td>Date of Last Exposure to Treatment</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.TRTEDT">derivation</a></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono key">PARAMCD</td>
+<td>Parameter Code</td>
+<td>text</td>
+<td>5</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.PARAMCD">derivation</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">PARAM</td>
+<td>Parameter</td>
+<td>text</td>
+<td>30</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.PARAM">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">PARAMN</td>
+<td>Parameter (N)</td>
+<td>integer</td>
+<td></td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.PARAMN">derivation</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">PARCAT1</td>
+<td>Parameter Category 1</td>
+<td>text</td>
+<td>10</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">AVAL</td>
+<td>Analysis Value</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.AVAL">derivation</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono">AVALU</td>
+<td>Analysis Value Unit</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td class="mono">AVISIT</td>
+<td>Analysis Visit</td>
+<td>text</td>
+<td>8</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.AVISIT">derivation</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td class="mono key">AVISITN</td>
+<td>Analysis Visit (N)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.AVISITN">derivation</a></td>
+</tr>
+<tr>
+<td>26</td>
+<td class="mono">VISIT</td>
+<td>Visit Name</td>
+<td>text</td>
+<td>8</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td class="mono">VISITNUM</td>
+<td>Visit Number</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td class="mono">ADT</td>
+<td>Analysis Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.ADT">derivation</a></td>
+</tr>
+<tr>
+<td>29</td>
+<td class="mono">ADY</td>
+<td>Analysis Relative Day</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.ADY">derivation</a></td>
+</tr>
+<tr>
+<td>30</td>
+<td class="mono">ABLFL</td>
+<td>Baseline Record Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADLB.ABLFL">derivation</a></td>
+</tr>
+<tr>
+<td>31</td>
+<td class="mono">BASE</td>
+<td>Baseline Value</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.BASE">derivation</a></td>
+</tr>
+<tr>
+<td>32</td>
+<td class="mono">CHG</td>
+<td>Change from Baseline</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.CHG">derivation</a></td>
+</tr>
+<tr>
+<td>33</td>
+<td class="mono">PCHG</td>
+<td>Percent Change from Baseline</td>
+<td>float</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.PCHG">derivation</a></td>
+</tr>
+<tr>
+<td>34</td>
+<td class="mono">DTYPE</td>
+<td>Derivation Type</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.DTYPE">derivation</a></td>
+</tr>
+<tr>
+<td>35</td>
+<td class="mono">ANL01FL</td>
+<td>Analysis Flag 01</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADLB.ANL01FL">derivation</a></td>
+</tr>
+<tr>
+<td>36</td>
+<td class="mono">ANRLO</td>
+<td>Analysis Normal Range Lower Limit</td>
+<td>float</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td class="mono">ANRHI</td>
+<td>Analysis Normal Range Upper Limit</td>
+<td>float</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td class="mono">ANRIND</td>
+<td>Analysis Reference Range Indicator</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NRIND">Reference Range Indicator</a></td>
+<td><a href="#MT.ADLB.ANRIND">derivation</a></td>
+</tr>
+<tr>
+<td>39</td>
+<td class="mono">BNRIND</td>
+<td>Baseline Reference Range Indicator</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NRIND">Reference Range Indicator</a></td>
+<td><a href="#MT.ADLB.BNRIND">derivation</a></td>
+</tr>
+<tr>
+<td>40</td>
+<td class="mono">SHIFT1</td>
+<td>Shift 1</td>
+<td>text</td>
+<td>16</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.SHIFT1">derivation</a></td>
+</tr>
+<tr>
+<td>41</td>
+<td class="mono">CRIT1</td>
+<td>Analysis Criterion 1</td>
+<td>text</td>
+<td>9</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.CRIT1">derivation</a></td>
+</tr>
+<tr>
+<td>42</td>
+<td class="mono">CRIT1FL</td>
+<td>Criterion 1 Evaluation Result Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADLB.CRIT1FL">derivation</a></td>
+</tr>
+<tr>
+<td>43</td>
+<td class="mono">SRCDOM</td>
+<td>Source Domain</td>
+<td>text</td>
+<td>2</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.SRCDOM">derivation</a></td>
+</tr>
+<tr>
+<td>44</td>
+<td class="mono">SRCVAR</td>
+<td>Source Variable</td>
+<td>text</td>
+<td>8</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.SRCVAR">derivation</a></td>
+</tr>
+<tr>
+<td>45</td>
+<td class="mono">SRCSEQ</td>
+<td>Source Sequence Number</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADLB.SRCSEQ">derivation</a></td>
+</tr>
+</table>
+<h3 id="IG.ADTTE">
+<span class="mono">ADTTE</span> - Time-to-Event Analysis Dataset</h3>
+<table>
+<tr>
+<th>#</th>
+<th>Variable</th>
+<th>Label</th>
+<th>Type</th>
+<th>Length</th>
+<th>Origin</th>
+<th>Codelist</th>
+<th>Method</th>
+</tr>
+<tr>
+<td>1</td>
+<td class="mono key">STUDYID</td>
+<td>Study Identifier</td>
+<td>text</td>
+<td>6</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td class="mono key">USUBJID</td>
+<td>Unique Subject Identifier</td>
+<td>text</td>
+<td>13</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td class="mono">SUBJID</td>
+<td>Subject Identifier for the Study</td>
+<td>text</td>
+<td>3</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td class="mono">SITEID</td>
+<td>Study Site Identifier</td>
+<td>text</td>
+<td>2</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td class="mono">TRTP</td>
+<td>Planned Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td class="mono">TRTPN</td>
+<td>Planned Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td class="mono">TRTA</td>
+<td>Actual Treatment</td>
+<td>text</td>
+<td>7</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td class="mono">TRTAN</td>
+<td>Actual Treatment (N)</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.TRTN">Treatment (N)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td class="mono">AGE</td>
+<td>Age</td>
+<td>integer</td>
+<td></td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td class="mono">AGEGR1</td>
+<td>Pooled Age Group 1</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.AGEGR1">Pooled Age Group 1</a></td>
+<td><a href="#MT.ADTTE.AGEGR1">derivation</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td class="mono">SEX</td>
+<td>Sex</td>
+<td>text</td>
+<td>1</td>
+<td>Predecessor</td>
+<td class="mono"><a href="#CL.SEX">Sex</a></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td class="mono">RACE</td>
+<td>Race</td>
+<td>text</td>
+<td>25</td>
+<td>Predecessor</td>
+<td class="mono"></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td class="mono">SAFFL</td>
+<td>Safety Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADTTE.SAFFL">derivation</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td class="mono">ITTFL</td>
+<td>Intent-To-Treat Population Flag</td>
+<td>text</td>
+<td>1</td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.NY">No Yes Response</a></td>
+<td><a href="#MT.ADTTE.ITTFL">derivation</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td class="mono key">PARAMCD</td>
+<td>Parameter Code</td>
+<td>text</td>
+<td>5</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.PARAMCD">derivation</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td class="mono">PARAM</td>
+<td>Parameter</td>
+<td>text</td>
+<td>53</td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.PARAM">derivation</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td class="mono">PARAMN</td>
+<td>Parameter (N)</td>
+<td>integer</td>
+<td></td>
+<td>Assigned</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.PARAMN">derivation</a></td>
+</tr>
+<tr>
+<td>18</td>
+<td class="mono">STARTDT</td>
+<td>Time to Event Origin Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.STARTDT">derivation</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td class="mono">ADT</td>
+<td>Analysis Date</td>
+<td>date</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.ADT">derivation</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td class="mono">AVAL</td>
+<td>Analysis Value (Days)</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.AVAL">derivation</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td class="mono">CNSR</td>
+<td>Censor</td>
+<td>integer</td>
+<td></td>
+<td>Derived</td>
+<td class="mono"><a href="#CL.CNSR">Censor</a></td>
+<td><a href="#MT.ADTTE.CNSR">derivation</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td class="mono">EVNTDESC</td>
+<td>Event or Censoring Description</td>
+<td>text</td>
+<td>38</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.EVNTDESC">derivation</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td class="mono">CNSDTDSC</td>
+<td>Censoring Description</td>
+<td>text</td>
+<td>9</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.CNSDTDSC">derivation</a></td>
+</tr>
+<tr>
+<td>24</td>
+<td class="mono">SRCDOM</td>
+<td>Source Domain</td>
+<td>text</td>
+<td>4</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.SRCDOM">derivation</a></td>
+</tr>
+<tr>
+<td>25</td>
+<td class="mono">SRCVAR</td>
+<td>Source Variable</td>
+<td>text</td>
+<td>6</td>
+<td>Derived</td>
+<td class="mono"></td>
+<td><a href="#MT.ADTTE.SRCVAR">derivation</a></td>
+</tr>
+</table>
+<h2>Controlled Terminology</h2>
+<h3 id="CL.NY"><span class="mono">No Yes Response</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">N</td>
+<td>No</td>
+</tr>
+<tr>
+<td class="mono">Y</td>
+<td>Yes</td>
+</tr>
+</table>
+<h3 id="CL.SEX"><span class="mono">Sex</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">M</td>
+<td>Male</td>
+</tr>
+<tr>
+<td class="mono">F</td>
+<td>Female</td>
+</tr>
+<tr>
+<td class="mono">U</td>
+<td>Unknown</td>
+</tr>
+</table>
+<h3 id="CL.AGEGR1"><span class="mono">Pooled Age Group 1</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">&lt;65</td>
+<td>Less than 65 years</td>
+</tr>
+<tr>
+<td class="mono">&gt;=65</td>
+<td>65 years or older</td>
+</tr>
+</table>
+<h3 id="CL.AGEGR1N"><span class="mono">Pooled Age Group 1 (N)</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">1</td>
+<td>&lt;65</td>
+</tr>
+<tr>
+<td class="mono">2</td>
+<td>&gt;=65</td>
+</tr>
+</table>
+<h3 id="CL.TRTN"><span class="mono">Treatment (N)</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">1</td>
+<td>Placebo</td>
+</tr>
+<tr>
+<td class="mono">2</td>
+<td>Drug A</td>
+</tr>
+</table>
+<h3 id="CL.AESEV"><span class="mono">Severity/Intensity Scale</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">MILD</td>
+<td>Mild</td>
+</tr>
+<tr>
+<td class="mono">MODERATE</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td class="mono">SEVERE</td>
+<td>Severe</td>
+</tr>
+</table>
+<h3 id="CL.ASEVN"><span class="mono">Analysis Severity (N)</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">1</td>
+<td>Mild</td>
+</tr>
+<tr>
+<td class="mono">2</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td class="mono">3</td>
+<td>Severe</td>
+</tr>
+</table>
+<h3 id="CL.AEOUT"><span class="mono">Outcome of Event</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">RECOVERED/RESOLVED</td>
+<td>Recovered/Resolved</td>
+</tr>
+<tr>
+<td class="mono">RECOVERING/RESOLVING</td>
+<td>Recovering/Resolving</td>
+</tr>
+<tr>
+<td class="mono">NOT RECOVERED/NOT RESOLVED</td>
+<td>Not Recovered/Not Resolved</td>
+</tr>
+</table>
+<h3 id="CL.NRIND"><span class="mono">Reference Range Indicator</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">LOW</td>
+<td>Low</td>
+</tr>
+<tr>
+<td class="mono">NORMAL</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td class="mono">HIGH</td>
+<td>High</td>
+</tr>
+</table>
+<h3 id="CL.CNSR"><span class="mono">Censor</span></h3>
+<table>
+<tr>
+<th>Coded Value</th>
+<th>Decode</th>
+</tr>
+<tr>
+<td class="mono">0</td>
+<td>Event</td>
+</tr>
+<tr>
+<td class="mono">1</td>
+<td>Censored</td>
+</tr>
+</table>
+<h2>Derivations</h2>
+<p class="note">Every variable whose Origin is <i>Derived</i> has a method here
+    explaining how it was produced.</p>
+<table>
+<tr>
+<th>Method</th>
+<th>Applies to</th>
+<th>Derivation</th>
+</tr>
+<tr id="MT.ADSL.TRT01P">
+<td class="mono">MT.ADSL.TRT01P</td>
+<td>Algorithm for TRT01P</td>
+<td>Planned treatment, set equal to SDTM.DM.ARM.</td>
+</tr>
+<tr id="MT.ADSL.TRT01PN">
+<td class="mono">MT.ADSL.TRT01PN</td>
+<td>Algorithm for TRT01PN</td>
+<td>Numeric code for TRT01P: Placebo=1, Drug A=2. Display order, not a dose.</td>
+</tr>
+<tr id="MT.ADSL.TRT01A">
+<td class="mono">MT.ADSL.TRT01A</td>
+<td>Algorithm for TRT01A</td>
+<td>Actual treatment, set equal to SDTM.DM.ACTARM.</td>
+</tr>
+<tr id="MT.ADSL.TRT01AN">
+<td class="mono">MT.ADSL.TRT01AN</td>
+<td>Algorithm for TRT01AN</td>
+<td>Numeric code for TRT01A: Placebo=1, Drug A=2.</td>
+</tr>
+<tr id="MT.ADSL.AGEGR1">
+<td class="mono">MT.ADSL.AGEGR1</td>
+<td>Algorithm for AGEGR1</td>
+<td>'&lt;65' when AGE &lt; 65, else '&gt;=65'.</td>
+</tr>
+<tr id="MT.ADSL.AGEGR1N">
+<td class="mono">MT.ADSL.AGEGR1N</td>
+<td>Algorithm for AGEGR1N</td>
+<td>Numeric code for AGEGR1: '&lt;65'=1, '&gt;=65'=2.</td>
+</tr>
+<tr id="MT.ADSL.RFICDT">
+<td class="mono">MT.ADSL.RFICDT</td>
+<td>Algorithm for RFICDT</td>
+<td>Numeric date from SDTM.DM.RFICDTC.</td>
+</tr>
+<tr id="MT.ADSL.RANDDT">
+<td class="mono">MT.ADSL.RANDDT</td>
+<td>Algorithm for RANDDT</td>
+<td>Numeric date from SDTM.DS.DSSTDTC where DSDECOD='RANDOMIZED'.</td>
+</tr>
+<tr id="MT.ADSL.TRTSDT">
+<td class="mono">MT.ADSL.TRTSDT</td>
+<td>Algorithm for TRTSDT</td>
+<td>Numeric date from SDTM.DM.RFXSTDTC. Defines analysis Day 1.</td>
+</tr>
+<tr id="MT.ADSL.TRTEDT">
+<td class="mono">MT.ADSL.TRTEDT</td>
+<td>Algorithm for TRTEDT</td>
+<td>Numeric date from SDTM.DM.RFXENDTC.</td>
+</tr>
+<tr id="MT.ADSL.TRTDURD">
+<td class="mono">MT.ADSL.TRTDURD</td>
+<td>Algorithm for TRTDURD</td>
+<td>TRTEDT - TRTSDT + 1 (both endpoints inclusive).</td>
+</tr>
+<tr id="MT.ADSL.EOSSTT">
+<td class="mono">MT.ADSL.EOSSTT</td>
+<td>Algorithm for EOSSTT</td>
+<td>'COMPLETED' when the DS disposition event is COMPLETED, else 'DISCONTINUED'.</td>
+</tr>
+<tr id="MT.ADSL.DCSREAS">
+<td class="mono">MT.ADSL.DCSREAS</td>
+<td>Algorithm for DCSREAS</td>
+<td>Null when completed; otherwise the disposition event's DSDECOD.</td>
+</tr>
+<tr id="MT.ADSL.DCSREASP">
+<td class="mono">MT.ADSL.DCSREASP</td>
+<td>Algorithm for DCSREASP</td>
+<td>Null when completed; otherwise the verbatim disposition DSTERM.</td>
+</tr>
+<tr id="MT.ADSL.SAFFL">
+<td class="mono">MT.ADSL.SAFFL</td>
+<td>Algorithm for SAFFL</td>
+<td>'Y' when the subject took at least one dose (TRTSDT non-missing).</td>
+</tr>
+<tr id="MT.ADSL.ITTFL">
+<td class="mono">MT.ADSL.ITTFL</td>
+<td>Algorithm for ITTFL</td>
+<td>'Y' when the subject was randomised (RANDDT non-missing).</td>
+</tr>
+<tr id="MT.ADSL.COMPLFL">
+<td class="mono">MT.ADSL.COMPLFL</td>
+<td>Algorithm for COMPLFL</td>
+<td>'Y' when EOSSTT='COMPLETED'.</td>
+</tr>
+<tr id="MT.ADSL.HEIGHTBL">
+<td class="mono">MT.ADSL.HEIGHTBL</td>
+<td>Algorithm for HEIGHTBL</td>
+<td>Last non-missing VS height on or before TRTSDT.</td>
+</tr>
+<tr id="MT.ADSL.WEIGHTBL">
+<td class="mono">MT.ADSL.WEIGHTBL</td>
+<td>Algorithm for WEIGHTBL</td>
+<td>Last non-missing VS weight on or before TRTSDT.</td>
+</tr>
+<tr id="MT.ADSL.BMIBL">
+<td class="mono">MT.ADSL.BMIBL</td>
+<td>Algorithm for BMIBL</td>
+<td>WEIGHTBL / (HEIGHTBL/100)**2, rounded to 0.01.</td>
+</tr>
+<tr id="MT.ADAE.AGEGR1">
+<td class="mono">MT.ADAE.AGEGR1</td>
+<td>Algorithm for AGEGR1</td>
+<td>'&lt;65' when AGE &lt; 65, else '&gt;=65'.</td>
+</tr>
+<tr id="MT.ADAE.AGEGR1N">
+<td class="mono">MT.ADAE.AGEGR1N</td>
+<td>Algorithm for AGEGR1N</td>
+<td>Numeric code for AGEGR1: '&lt;65'=1, '&gt;=65'=2.</td>
+</tr>
+<tr id="MT.ADAE.SAFFL">
+<td class="mono">MT.ADAE.SAFFL</td>
+<td>Algorithm for SAFFL</td>
+<td>'Y' when the subject took at least one dose (TRTSDT non-missing).</td>
+</tr>
+<tr id="MT.ADAE.TRTSDT">
+<td class="mono">MT.ADAE.TRTSDT</td>
+<td>Algorithm for TRTSDT</td>
+<td>Numeric date from SDTM.DM.RFXSTDTC. Defines analysis Day 1.</td>
+</tr>
+<tr id="MT.ADAE.TRTEDT">
+<td class="mono">MT.ADAE.TRTEDT</td>
+<td>Algorithm for TRTEDT</td>
+<td>Numeric date from SDTM.DM.RFXENDTC.</td>
+</tr>
+<tr id="MT.ADAE.ASEVN">
+<td class="mono">MT.ADAE.ASEVN</td>
+<td>Algorithm for ASEVN</td>
+<td>Numeric severity: MILD=1, MODERATE=2, SEVERE=3.</td>
+</tr>
+<tr id="MT.ADAE.AREL">
+<td class="mono">MT.ADAE.AREL</td>
+<td>Algorithm for AREL</td>
+<td>'Y' when AEREL in (RELATED, POSSIBLY RELATED), else 'N'. Collapse per the SAP.</td>
+</tr>
+<tr id="MT.ADAE.ASTDT">
+<td class="mono">MT.ADAE.ASTDT</td>
+<td>Algorithm for ASTDT</td>
+<td>Numeric date from SDTM.AE.AESTDTC.</td>
+</tr>
+<tr id="MT.ADAE.AENDT">
+<td class="mono">MT.ADAE.AENDT</td>
+<td>Algorithm for AENDT</td>
+<td>Numeric date from SDTM.AE.AEENDTC.</td>
+</tr>
+<tr id="MT.ADAE.ASTDY">
+<td class="mono">MT.ADAE.ASTDY</td>
+<td>Algorithm for ASTDY</td>
+<td>Study day of ASTDT relative to TRTSDT. No Day 0.</td>
+</tr>
+<tr id="MT.ADAE.AENDY">
+<td class="mono">MT.ADAE.AENDY</td>
+<td>Algorithm for AENDY</td>
+<td>Study day of AENDT relative to TRTSDT. No Day 0.</td>
+</tr>
+<tr id="MT.ADAE.ADURN">
+<td class="mono">MT.ADAE.ADURN</td>
+<td>Algorithm for ADURN</td>
+<td>AENDT - ASTDT + 1. Missing (not 0) for an ongoing event.</td>
+</tr>
+<tr id="MT.ADAE.AOCCFL">
+<td class="mono">MT.ADAE.AOCCFL</td>
+<td>Algorithm for AOCCFL</td>
+<td>'Y' on the first treatment-emergent event per subject (order ASTDT, AESEQ).</td>
+</tr>
+<tr id="MT.ADAE.AOCCPFL">
+<td class="mono">MT.ADAE.AOCCPFL</td>
+<td>Algorithm for AOCCPFL</td>
+<td>'Y' on the first treatment-emergent event per subject per AEDECOD.</td>
+</tr>
+<tr id="MT.ADVS.AGEGR1">
+<td class="mono">MT.ADVS.AGEGR1</td>
+<td>Algorithm for AGEGR1</td>
+<td>'&lt;65' when AGE &lt; 65, else '&gt;=65'.</td>
+</tr>
+<tr id="MT.ADVS.AGEGR1N">
+<td class="mono">MT.ADVS.AGEGR1N</td>
+<td>Algorithm for AGEGR1N</td>
+<td>Numeric code for AGEGR1: '&lt;65'=1, '&gt;=65'=2.</td>
+</tr>
+<tr id="MT.ADVS.SAFFL">
+<td class="mono">MT.ADVS.SAFFL</td>
+<td>Algorithm for SAFFL</td>
+<td>'Y' when the subject took at least one dose (TRTSDT non-missing).</td>
+</tr>
+<tr id="MT.ADVS.ITTFL">
+<td class="mono">MT.ADVS.ITTFL</td>
+<td>Algorithm for ITTFL</td>
+<td>'Y' when the subject was randomised (RANDDT non-missing).</td>
+</tr>
+<tr id="MT.ADVS.TRTSDT">
+<td class="mono">MT.ADVS.TRTSDT</td>
+<td>Algorithm for TRTSDT</td>
+<td>Numeric date from SDTM.DM.RFXSTDTC. Defines analysis Day 1.</td>
+</tr>
+<tr id="MT.ADVS.TRTEDT">
+<td class="mono">MT.ADVS.TRTEDT</td>
+<td>Algorithm for TRTEDT</td>
+<td>Numeric date from SDTM.DM.RFXENDTC.</td>
+</tr>
+<tr id="MT.ADVS.PARAMCD">
+<td class="mono">MT.ADVS.PARAMCD</td>
+<td>Algorithm for PARAMCD</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADVS.PARAM">
+<td class="mono">MT.ADVS.PARAM</td>
+<td>Algorithm for PARAM</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADVS.PARAMN">
+<td class="mono">MT.ADVS.PARAMN</td>
+<td>Algorithm for PARAMN</td>
+<td>Numeric code for PARAM; see value-level metadata.</td>
+</tr>
+<tr id="MT.ADVS.AVAL">
+<td class="mono">MT.ADVS.AVAL</td>
+<td>Algorithm for AVAL</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADVS.AVISIT">
+<td class="mono">MT.ADVS.AVISIT</td>
+<td>Algorithm for AVISIT</td>
+<td>Analysis visit label mapped from VISIT (Screening / Baseline / Week 4).</td>
+</tr>
+<tr id="MT.ADVS.AVISITN">
+<td class="mono">MT.ADVS.AVISITN</td>
+<td>Algorithm for AVISITN</td>
+<td>Numeric analysis visit: Screening=0, Baseline=1, Week 4=4.</td>
+</tr>
+<tr id="MT.ADVS.ADT">
+<td class="mono">MT.ADVS.ADT</td>
+<td>Algorithm for ADT</td>
+<td>Numeric date from the collected --DTC.</td>
+</tr>
+<tr id="MT.ADVS.ADY">
+<td class="mono">MT.ADVS.ADY</td>
+<td>Algorithm for ADY</td>
+<td>Study day of ADT relative to TRTSDT. No Day 0.</td>
+</tr>
+<tr id="MT.ADVS.ABLFL">
+<td class="mono">MT.ADVS.ABLFL</td>
+<td>Algorithm for ABLFL</td>
+<td>'Y' on the last non-missing record on or before TRTSDT, per subject per parameter.</td>
+</tr>
+<tr id="MT.ADVS.BASE">
+<td class="mono">MT.ADVS.BASE</td>
+<td>Algorithm for BASE</td>
+<td>AVAL of the subject+parameter's ABLFL='Y' record.</td>
+</tr>
+<tr id="MT.ADVS.CHG">
+<td class="mono">MT.ADVS.CHG</td>
+<td>Algorithm for CHG</td>
+<td>AVAL - BASE on post-baseline records (rounded to 0.0001). Missing at baseline.</td>
+</tr>
+<tr id="MT.ADVS.PCHG">
+<td class="mono">MT.ADVS.PCHG</td>
+<td>Algorithm for PCHG</td>
+<td>100 * CHG / BASE on post-baseline records (rounded to 0.0001). Missing when BASE=0.</td>
+</tr>
+<tr id="MT.ADVS.DTYPE">
+<td class="mono">MT.ADVS.DTYPE</td>
+<td>Algorithm for DTYPE</td>
+<td>Null throughout — every record is observed; no imputed/derived records.</td>
+</tr>
+<tr id="MT.ADVS.ANL01FL">
+<td class="mono">MT.ADVS.ANL01FL</td>
+<td>Algorithm for ANL01FL</td>
+<td>'Y' on the baseline record and on-treatment records.</td>
+</tr>
+<tr id="MT.ADVS.SRCDOM">
+<td class="mono">MT.ADVS.SRCDOM</td>
+<td>Algorithm for SRCDOM</td>
+<td>SDTM domain the record traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADVS.SRCVAR">
+<td class="mono">MT.ADVS.SRCVAR</td>
+<td>Algorithm for SRCVAR</td>
+<td>SDTM variable the value traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADVS.SRCSEQ">
+<td class="mono">MT.ADVS.SRCSEQ</td>
+<td>Algorithm for SRCSEQ</td>
+<td>SDTM --SEQ the record traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADLB.AGEGR1">
+<td class="mono">MT.ADLB.AGEGR1</td>
+<td>Algorithm for AGEGR1</td>
+<td>'&lt;65' when AGE &lt; 65, else '&gt;=65'.</td>
+</tr>
+<tr id="MT.ADLB.AGEGR1N">
+<td class="mono">MT.ADLB.AGEGR1N</td>
+<td>Algorithm for AGEGR1N</td>
+<td>Numeric code for AGEGR1: '&lt;65'=1, '&gt;=65'=2.</td>
+</tr>
+<tr id="MT.ADLB.SAFFL">
+<td class="mono">MT.ADLB.SAFFL</td>
+<td>Algorithm for SAFFL</td>
+<td>'Y' when the subject took at least one dose (TRTSDT non-missing).</td>
+</tr>
+<tr id="MT.ADLB.ITTFL">
+<td class="mono">MT.ADLB.ITTFL</td>
+<td>Algorithm for ITTFL</td>
+<td>'Y' when the subject was randomised (RANDDT non-missing).</td>
+</tr>
+<tr id="MT.ADLB.TRTSDT">
+<td class="mono">MT.ADLB.TRTSDT</td>
+<td>Algorithm for TRTSDT</td>
+<td>Numeric date from SDTM.DM.RFXSTDTC. Defines analysis Day 1.</td>
+</tr>
+<tr id="MT.ADLB.TRTEDT">
+<td class="mono">MT.ADLB.TRTEDT</td>
+<td>Algorithm for TRTEDT</td>
+<td>Numeric date from SDTM.DM.RFXENDTC.</td>
+</tr>
+<tr id="MT.ADLB.PARAMCD">
+<td class="mono">MT.ADLB.PARAMCD</td>
+<td>Algorithm for PARAMCD</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADLB.PARAM">
+<td class="mono">MT.ADLB.PARAM</td>
+<td>Algorithm for PARAM</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADLB.PARAMN">
+<td class="mono">MT.ADLB.PARAMN</td>
+<td>Algorithm for PARAMN</td>
+<td>Numeric code for PARAM; see value-level metadata.</td>
+</tr>
+<tr id="MT.ADLB.AVAL">
+<td class="mono">MT.ADLB.AVAL</td>
+<td>Algorithm for AVAL</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADLB.AVISIT">
+<td class="mono">MT.ADLB.AVISIT</td>
+<td>Algorithm for AVISIT</td>
+<td>Analysis visit label mapped from VISIT (Screening / Baseline / Week 4).</td>
+</tr>
+<tr id="MT.ADLB.AVISITN">
+<td class="mono">MT.ADLB.AVISITN</td>
+<td>Algorithm for AVISITN</td>
+<td>Numeric analysis visit: Screening=0, Baseline=1, Week 4=4.</td>
+</tr>
+<tr id="MT.ADLB.ADT">
+<td class="mono">MT.ADLB.ADT</td>
+<td>Algorithm for ADT</td>
+<td>Numeric date from the collected --DTC.</td>
+</tr>
+<tr id="MT.ADLB.ADY">
+<td class="mono">MT.ADLB.ADY</td>
+<td>Algorithm for ADY</td>
+<td>Study day of ADT relative to TRTSDT. No Day 0.</td>
+</tr>
+<tr id="MT.ADLB.ABLFL">
+<td class="mono">MT.ADLB.ABLFL</td>
+<td>Algorithm for ABLFL</td>
+<td>'Y' on the last non-missing record on or before TRTSDT, per subject per parameter.</td>
+</tr>
+<tr id="MT.ADLB.BASE">
+<td class="mono">MT.ADLB.BASE</td>
+<td>Algorithm for BASE</td>
+<td>AVAL of the subject+parameter's ABLFL='Y' record.</td>
+</tr>
+<tr id="MT.ADLB.CHG">
+<td class="mono">MT.ADLB.CHG</td>
+<td>Algorithm for CHG</td>
+<td>AVAL - BASE on post-baseline records (rounded to 0.0001). Missing at baseline.</td>
+</tr>
+<tr id="MT.ADLB.PCHG">
+<td class="mono">MT.ADLB.PCHG</td>
+<td>Algorithm for PCHG</td>
+<td>100 * CHG / BASE on post-baseline records (rounded to 0.0001). Missing when BASE=0.</td>
+</tr>
+<tr id="MT.ADLB.DTYPE">
+<td class="mono">MT.ADLB.DTYPE</td>
+<td>Algorithm for DTYPE</td>
+<td>Null throughout — every record is observed; no imputed/derived records.</td>
+</tr>
+<tr id="MT.ADLB.ANL01FL">
+<td class="mono">MT.ADLB.ANL01FL</td>
+<td>Algorithm for ANL01FL</td>
+<td>'Y' on the baseline record and on-treatment records.</td>
+</tr>
+<tr id="MT.ADLB.ANRIND">
+<td class="mono">MT.ADLB.ANRIND</td>
+<td>Algorithm for ANRIND</td>
+<td>LOW / NORMAL / HIGH from AVAL against ANRLO–ANRHI.</td>
+</tr>
+<tr id="MT.ADLB.BNRIND">
+<td class="mono">MT.ADLB.BNRIND</td>
+<td>Algorithm for BNRIND</td>
+<td>ANRIND of the subject+parameter's baseline record.</td>
+</tr>
+<tr id="MT.ADLB.SHIFT1">
+<td class="mono">MT.ADLB.SHIFT1</td>
+<td>Algorithm for SHIFT1</td>
+<td>'BNRIND to ANRIND' on post-baseline records; null at baseline.</td>
+</tr>
+<tr id="MT.ADLB.CRIT1">
+<td class="mono">MT.ADLB.CRIT1</td>
+<td>Algorithm for CRIT1</td>
+<td>Text of the prespecified criterion; populated only where it applies (ALT).</td>
+</tr>
+<tr id="MT.ADLB.CRIT1FL">
+<td class="mono">MT.ADLB.CRIT1FL</td>
+<td>Algorithm for CRIT1FL</td>
+<td>'Y'/'N' on ALT records (AVAL &gt; ANRHI); null on parameters the criterion does not apply to.</td>
+</tr>
+<tr id="MT.ADLB.SRCDOM">
+<td class="mono">MT.ADLB.SRCDOM</td>
+<td>Algorithm for SRCDOM</td>
+<td>SDTM domain the record traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADLB.SRCVAR">
+<td class="mono">MT.ADLB.SRCVAR</td>
+<td>Algorithm for SRCVAR</td>
+<td>SDTM variable the value traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADLB.SRCSEQ">
+<td class="mono">MT.ADLB.SRCSEQ</td>
+<td>Algorithm for SRCSEQ</td>
+<td>SDTM --SEQ the record traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADTTE.AGEGR1">
+<td class="mono">MT.ADTTE.AGEGR1</td>
+<td>Algorithm for AGEGR1</td>
+<td>'&lt;65' when AGE &lt; 65, else '&gt;=65'.</td>
+</tr>
+<tr id="MT.ADTTE.SAFFL">
+<td class="mono">MT.ADTTE.SAFFL</td>
+<td>Algorithm for SAFFL</td>
+<td>'Y' when the subject took at least one dose (TRTSDT non-missing).</td>
+</tr>
+<tr id="MT.ADTTE.ITTFL">
+<td class="mono">MT.ADTTE.ITTFL</td>
+<td>Algorithm for ITTFL</td>
+<td>'Y' when the subject was randomised (RANDDT non-missing).</td>
+</tr>
+<tr id="MT.ADTTE.PARAMCD">
+<td class="mono">MT.ADTTE.PARAMCD</td>
+<td>Algorithm for PARAMCD</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADTTE.PARAM">
+<td class="mono">MT.ADTTE.PARAM</td>
+<td>Algorithm for PARAM</td>
+<td>See value-level metadata.</td>
+</tr>
+<tr id="MT.ADTTE.PARAMN">
+<td class="mono">MT.ADTTE.PARAMN</td>
+<td>Algorithm for PARAMN</td>
+<td>Numeric code for PARAM; see value-level metadata.</td>
+</tr>
+<tr id="MT.ADTTE.STARTDT">
+<td class="mono">MT.ADTTE.STARTDT</td>
+<td>Algorithm for STARTDT</td>
+<td>Time origin, set to ADSL.TRTSDT.</td>
+</tr>
+<tr id="MT.ADTTE.ADT">
+<td class="mono">MT.ADTTE.ADT</td>
+<td>Algorithm for ADT</td>
+<td>Numeric date from the collected --DTC.</td>
+</tr>
+<tr id="MT.ADTTE.AVAL">
+<td class="mono">MT.ADTTE.AVAL</td>
+<td>Algorithm for AVAL</td>
+<td>ADT - STARTDT + 1 (days).</td>
+</tr>
+<tr id="MT.ADTTE.CNSR">
+<td class="mono">MT.ADTTE.CNSR</td>
+<td>Algorithm for CNSR</td>
+<td>0 = event occurred, 1 = censored. Note: reversed from other ADaM flags.</td>
+</tr>
+<tr id="MT.ADTTE.EVNTDESC">
+<td class="mono">MT.ADTTE.EVNTDESC</td>
+<td>Algorithm for EVNTDESC</td>
+<td>What ADT represents: the event, or the reason for censoring.</td>
+</tr>
+<tr id="MT.ADTTE.CNSDTDSC">
+<td class="mono">MT.ADTTE.CNSDTDSC</td>
+<td>Algorithm for CNSDTDSC</td>
+<td>Why censored; populated on censored records only.</td>
+</tr>
+<tr id="MT.ADTTE.SRCDOM">
+<td class="mono">MT.ADTTE.SRCDOM</td>
+<td>Algorithm for SRCDOM</td>
+<td>SDTM domain the record traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADTTE.SRCVAR">
+<td class="mono">MT.ADTTE.SRCVAR</td>
+<td>Algorithm for SRCVAR</td>
+<td>SDTM variable the value traces to; null for derived parameters.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.SYSBP">
+<td class="mono">MT.ADVS.AVAL.SYSBP</td>
+<td>Algorithm for AVAL where PARAMCD=SYSBP</td>
+<td>VS.VSSTRESN where VSTESTCD='SYSBP'.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.DIABP">
+<td class="mono">MT.ADVS.AVAL.DIABP</td>
+<td>Algorithm for AVAL where PARAMCD=DIABP</td>
+<td>VS.VSSTRESN where VSTESTCD='DIABP'.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.PULSE">
+<td class="mono">MT.ADVS.AVAL.PULSE</td>
+<td>Algorithm for AVAL where PARAMCD=PULSE</td>
+<td>VS.VSSTRESN where VSTESTCD='PULSE'.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.TEMP">
+<td class="mono">MT.ADVS.AVAL.TEMP</td>
+<td>Algorithm for AVAL where PARAMCD=TEMP</td>
+<td>VS.VSSTRESN where VSTESTCD='TEMP'.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.WEIGHT">
+<td class="mono">MT.ADVS.AVAL.WEIGHT</td>
+<td>Algorithm for AVAL where PARAMCD=WEIGHT</td>
+<td>VS.VSSTRESN where VSTESTCD='WEIGHT'.</td>
+</tr>
+<tr id="MT.ADVS.AVAL.HEIGHT">
+<td class="mono">MT.ADVS.AVAL.HEIGHT</td>
+<td>Algorithm for AVAL where PARAMCD=HEIGHT</td>
+<td>VS.VSSTRESN where VSTESTCD='HEIGHT' (Screening only).</td>
+</tr>
+<tr id="MT.ADVS.AVAL.BMI">
+<td class="mono">MT.ADVS.AVAL.BMI</td>
+<td>Algorithm for AVAL where PARAMCD=BMI</td>
+<td>Derived parameter: visit WEIGHT / (ADSL.HEIGHTBL/100)**2, rounded to 0.01. No SDTM source record (SRCDOM/SRCVAR/SRCSEQ null).</td>
+</tr>
+<tr id="MT.ADLB.AVAL.HGB">
+<td class="mono">MT.ADLB.AVAL.HGB</td>
+<td>Algorithm for AVAL where PARAMCD=HGB</td>
+<td>LB.LBSTRESN where LBTESTCD='HGB'.</td>
+</tr>
+<tr id="MT.ADLB.AVAL.HCT">
+<td class="mono">MT.ADLB.AVAL.HCT</td>
+<td>Algorithm for AVAL where PARAMCD=HCT</td>
+<td>LB.LBSTRESN where LBTESTCD='HCT'.</td>
+</tr>
+<tr id="MT.ADLB.AVAL.WBC">
+<td class="mono">MT.ADLB.AVAL.WBC</td>
+<td>Algorithm for AVAL where PARAMCD=WBC</td>
+<td>LB.LBSTRESN where LBTESTCD='WBC'.</td>
+</tr>
+<tr id="MT.ADLB.AVAL.PLAT">
+<td class="mono">MT.ADLB.AVAL.PLAT</td>
+<td>Algorithm for AVAL where PARAMCD=PLAT</td>
+<td>LB.LBSTRESN where LBTESTCD='PLAT'.</td>
+</tr>
+<tr id="MT.ADLB.AVAL.ALT">
+<td class="mono">MT.ADLB.AVAL.ALT</td>
+<td>Algorithm for AVAL where PARAMCD=ALT</td>
+<td>LB.LBSTRESN where LBTESTCD='ALT'.</td>
+</tr>
+<tr id="MT.ADLB.AVAL.CREAT">
+<td class="mono">MT.ADLB.AVAL.CREAT</td>
+<td>Algorithm for AVAL where PARAMCD=CREAT</td>
+<td>LB.LBSTRESN where LBTESTCD='CREAT'.</td>
+</tr>
+<tr id="MT.ADTTE.AVAL.TTFAE">
+<td class="mono">MT.ADTTE.AVAL.TTFAE</td>
+<td>Algorithm for AVAL where PARAMCD=TTFAE</td>
+<td>Days from TRTSDT to the first treatment-emergent AE (ADAE.ASTDT where AOCCFL='Y'); subjects with no event are censored at TRTEDT.</td>
+</tr>
+</table>
+<h2>Documents</h2>
+<table>
+<tr>
+<th>Document</th>
+<th>File</th>
+</tr>
+<tr>
+<td>adsl.xpt</td>
+<td class="mono"><a href="adsl.xpt">adsl.xpt</a></td>
+</tr>
+<tr>
+<td>adae.xpt</td>
+<td class="mono"><a href="adae.xpt">adae.xpt</a></td>
+</tr>
+<tr>
+<td>advs.xpt</td>
+<td class="mono"><a href="advs.xpt">advs.xpt</a></td>
+</tr>
+<tr>
+<td>adlb.xpt</td>
+<td class="mono"><a href="adlb.xpt">adlb.xpt</a></td>
+</tr>
+<tr>
+<td>adtte.xpt</td>
+<td class="mono"><a href="adtte.xpt">adtte.xpt</a></td>
+</tr>
+</table>
+<p class="note" style="margin-top:26px">
+    Rendered by define2-0-0.xsl - a simplified teaching stylesheet.
+    A real submission uses the official CDISC stylesheet.
+  </p>
+</div></body>
+</html>

@@ -2,9 +2,15 @@
 
 | File | What it is |
 |---|---|
-| `define.xml` | **the real artifact** — the machine-readable metadata a regulator receives |
-| `define2-0-0.xsl` | the stylesheet a browser applies to make it readable |
-| `define.html` | a **pre-rendered copy**, for convenience |
+| `define.xml` | **SDTM** define (SDTM-IG v3.3) — metadata for the 8 tabulation datasets |
+| `define_adam.xml` | **ADaM** define (ADaM-IG v1.2) — metadata for ADSL, ADAE, ADVS, ADLB, ADTTE, with value-level metadata per parameter |
+| `define2-0-0.xsl` | the stylesheet a browser applies to make either one readable |
+| `define.html` / `define_adam.html` | **pre-rendered copies**, for convenience |
+
+A submission carries **both**: SDTM define for the tabulation datasets, ADaM define for the
+analysis datasets. The ADaM one additionally describes, for each `PARAMCD`, what `AVAL` means and
+how it was derived — the value-level metadata a reviewer needs to read one parameter without
+reading the rest.
 
 ## "It opens as raw XML / a blank page"
 
@@ -29,10 +35,20 @@ Three ways round it:
 ## Regenerating
 
 ```bash
+# SDTM define
 python3 ../build_define_xml.py
+
+# ADaM spec workbook, then the ADaM define, then its HTML rendering
+python3 ../build_adam_spec_xlsx.py
+python3 ../build_adam_define_xml.py
+xsltproc define2-0-0.xsl define_adam.xml > define_adam.html
 ```
-Reads `../SDTM_Mapping_Specification.xlsx` and rewrites both `define.xml` and `define.html`.
-The spec is the single source of metadata; if the two ever disagree, the spec wins.
+
+Each define is generated from its spec workbook — `SDTM_Mapping_Specification.xlsx` and
+`ADaM_Specification.xlsx`. The spec is the single source of metadata; if the two ever disagree,
+the spec wins. Both generators self-check that every dataset and variable in the spec made it
+into the XML, and the ADaM one additionally checks that every value-list and where-clause
+reference resolves.
 
 ⚠️ Structurally correct and self-checked, but **not schema-validated** against
 `define2-0-0.xsd` — that needs Pinnacle 21.
