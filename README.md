@@ -39,23 +39,28 @@ notebook that produces two real submission tables with no joins and no derivatio
 
 ## Verified, not just written
 
-**The SDTM track** has been **executed on SAS OnDemand for Academics** (SAS 9.04.01M8P022223) and
-reproduces its reference datasets exactly — 8 domains for ABC-01, 6 for DEF-01, zero errors.
+**Both tracks have been executed on SAS OnDemand for Academics** (SAS 9.04.01M8P022223) and
+reproduce their reference datasets exactly, zero errors:
 
-**The ADaM track has not yet been run on SAS.** Its notebooks pass static checks and its five
-reference datasets are independently audited, but by this project's own standard that is *not*
-verified — see the defect list below for why that distinction matters. Treat notebooks 14–19 as
-unexecuted until an ODA run confirms them.
+- **SDTM** — 8 domains for ABC-01, 6 for DEF-01 (`run_all.sas` → `verify_against_reference.sas`).
+- **ADaM** — ADSL, ADAE, ADVS, ADLB, ADTTE, each matching its reference via the notebook's own
+  `PROC COMPARE` (`run_all_adam.sas`).
 
-Four checkers guard the corpus and run on every change. Counts are as of 2026-07-20 and grow as
-material is added — run a checker to see its current total:
+**That execution mattered, on both tracks.** The SDTM run found 11 defects (see below); the first
+ADaM run found two more — a `PROC SQL` subquery SAS rejects in a FROM-less `SELECT`, and a
+`PROC PRINT` naming a variable the final keep list had dropped. Both were pure SAS *execution*
+semantics: the static checker and the independent Python audit passed them, and only a real run
+surfaced them. A clean static pass is not a correct run — which is the thing this course teaches.
+
+Four checkers guard the corpus and run on every change. Counts grow as material is added — run a
+checker to see its current total:
 
 | Checker | Guards |
 |---|---|
-| `data/audit_consistency.py` | 269 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs agree |
-| `notebooks/sas/check_sas_static.py` | 186 checks — SAS syntax, informat widths, rename collisions, macro quoting |
-| `data/audit_adam.py` | 85 checks — ADaM re-derived independently from SDTM; mutation-tested |
-| `capstone/data/def01_audit.py` | 65 checks — the capstone study and its four deliberate traps |
+| `data/audit_consistency.py` | raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs agree |
+| `notebooks/sas/check_sas_static.py` | SAS syntax, informat widths, rename collisions, macro quoting |
+| `data/audit_adam.py` | ADaM re-derived independently from SDTM; mutation-tested |
+| `capstone/data/def01_audit.py` | the capstone study and its four deliberate traps |
 
 A fifth, `presentations/check_deck_layout.py`, checks deck geometry on the built `.pptx` files.
 

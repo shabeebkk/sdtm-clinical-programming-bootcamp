@@ -156,11 +156,12 @@ semantics rather than logic:
 **Three of the four announced themselves as WARNINGs while the run reported success.** Read the
 log, not just the exit status.
 
-### ADaM notebooks (14–19): NOT yet run
+### ADaM notebooks (14–19): verified
 
-The ADaM notebooks pass static checks and their reference datasets are independently audited,
-but **they have not been executed on SAS**. Given that the SDTM run above found four defects
-that no amount of static analysis could see, treat them as unproven until you have run them.
+The ADaM notebooks have been **run on SAS OnDemand** via `run_all_adam.sas` — all six run clean
+and each reproduces its reference dataset through its own `PROC COMPARE`. The first run found two
+defects that static analysis had passed (a FROM-less `PROC SQL` subquery SAS rejects, and a
+`PROC PRINT` naming a dropped variable), both since fixed — the same lesson as the SDTM run above.
 
 Run them in order — each builds on the last:
 

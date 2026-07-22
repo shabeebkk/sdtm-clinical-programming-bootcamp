@@ -34,9 +34,11 @@ The data layer is complete and self-checking. `build_adam_reference.py` derives 
 from the ABC-01 SDTM datasets; `audit_adam.py` re-derives every rule *independently* from the SDTM
 source and compares, so a bug in the builder cannot quietly reproduce itself in the audit.
 
-**Not yet executed on SAS.** Per the course's standard, no ADaM material may be called verified
-until it has run on SAS OnDemand for Academics and reproduced these reference datasets exactly.
-The notebooks are queued for that run.
+**Verified on SAS.** All six notebooks (14–19) run clean on SAS OnDemand for Academics
+(SAS 9.04.01M8P022223) via `run_all_adam.sas`, each reproducing its reference dataset exactly
+through the notebook's own `PROC COMPARE`. The first run found two execution-semantics defects a
+static pass had missed — a FROM-less `PROC SQL` subquery and a dropped-variable `PROC PRINT`, both
+since fixed — which is the course's own lesson: a clean static pass is not a correct run.
 
 ---
 
