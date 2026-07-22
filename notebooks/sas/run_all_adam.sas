@@ -72,6 +72,10 @@ run;
         %else %let n = .;
     %end;
 
+    /*  Echo the verdict to the LOG, not only the listing - so a failing run is
+        diagnosable from a saved .log alone. See the note in run_all.sas.      */
+    %put RUN_ALL RESULT: &file  ds=&ds  built_rows=&n  expected=&expect  rc=&rc;
+
     data _one;
         length notebook $32 built $8 status $8 note $60;
         notebook = "&file";
