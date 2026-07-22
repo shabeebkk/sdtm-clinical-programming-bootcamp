@@ -3,9 +3,10 @@
 > **Every entry below is a real defect found in this course's own code**, by running it on SAS
 > OnDemand for Academics. Not invented examples — actual bugs, with the actual log messages.
 >
-> **Eight of the eleven produced no error at all.** Four raised only a `WARNING`; four raised
-> nothing whatsoever. In every one of those cases the program reported success and the output
-> was wrong.
+> **Eight of the thirteen produced no error at all** — four raised only a `WARNING`, four raised
+> nothing whatsoever — and in every one the program reported success and the output was wrong.
+> The other five failed loudly with an `ERROR`: still bugs, but ones that at least told you where
+> to look. (The last two, from the ADaM track, are that loud kind.)
 
 **The one habit this whole page is trying to build:**
 
@@ -225,6 +226,63 @@ is character.
 
 ---
 
+### "Variable AESTDTC not found" — in a step reading a dataset that used to have it
+
+```
+ERROR: Variable AESTDTC not found.
+```
+
+**Cause.** The dataset the step reads was finished with a `keep` (or `KEEP=`) that does not list
+the variable. In ADaM this bites often: the final ADAE keeps the **numeric** analysis date
+`ASTDT`, not the **character** SDTM date `AESTDTC`, so a `PROC PRINT ... var ... aestdtc;` on the
+finished dataset fails — even though an *earlier* intermediate step still had `AESTDTC`.
+
+**Fix.** Reference the variable the dataset actually carries — here `ASTDT` (formatted `date9.`,
+so it still prints as a date). If you genuinely need the character source date downstream, add it
+to the `keep` list on purpose.
+
+**Why it hid.** The static checker validates syntax but cannot know which variables a `keep` list
+drops, and the Python audit checks the reference CSVs, not the notebooks' display code. Only
+running the step surfaces it.
+
+---
+
+### A `PROC SQL` "select (select …) as …" fails with a syntax error
+
+```
+ERROR 22-322: Syntax error, expecting one of the following: a quoted string, ',', AS,
+              FORMAT, INFORMAT, INTO, LABEL, LEN, LENGTH, TRANSCODE.
+ERROR 76-322: Syntax error, statement will be ignored.
+```
+
+**Cause.** A `SELECT` with **no `FROM` clause** cannot carry a subquery in its column list. SAS
+rejects the tempting "show two counts side by side" shortcut:
+
+```sas
+proc sql;
+    select (select count(*) from adae where aoccfl = 'Y')          as flagged_rows,
+           (select count(distinct usubjid) from adae where trtemfl = 'Y') as subjects;
+quit;
+```
+
+**Fix.** Count each into a macro variable — every query then has its own `FROM` — then print a
+one-row table:
+
+```sas
+proc sql noprint;
+    select count(*)                into :flagged trimmed from adae where aoccfl = 'Y';
+    select count(distinct usubjid) into :nsubj   trimmed from adae where trtemfl = 'Y';
+quit;
+data _check; flagged_rows = &flagged; subjects = &nsubj; run;
+proc print data = _check noobs; run;
+```
+
+**Why it hid.** `check_sas_static.py` validates syntax structurally but does not evaluate SQL
+semantics, and the audit checks the reference CSVs, not the notebooks' check code. It ran clean
+everywhere except real SAS.
+
+---
+
 ## The log messages worth knowing
 
 | Message | Usually means |
@@ -236,6 +294,8 @@ is character.
 | `NOTE: Character values have been converted to numeric` | an implicit conversion — make it explicit |
 | `NOTE: Invalid data for ...` | an informat did not match the value; you now have a missing |
 | `NOTE: MERGE statement has more than one data set with repeats of BY values` | a many-to-many join, almost always a bug |
+| `ERROR: Variable ... not found` | you named a variable a `keep`/`KEEP=` list dropped upstream |
+| `ERROR 22-322: Syntax error, expecting ... AS, FORMAT, INTO ...` | a subquery in a `SELECT` that has no `FROM` clause |
 
 > `NOTE:` lines are easy to scroll past. Two of the entries above are NOTEs.
 

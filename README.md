@@ -139,9 +139,10 @@ Plus the CRF, split as a submission does: `data/blankcrf.pdf` (the forms as aske
 
 ## Troubleshooting
 
-`TROUBLESHOOTING.md` is a symptom-to-cause guide built from **eleven real defects** found by
-running this course on SAS OnDemand for Academics. Eight produced no error at all. It is the
-fastest way to unstick a trainee whose program "ran fine" but produced the wrong data.
+`TROUBLESHOOTING.md` is a symptom-to-cause guide built from **thirteen real defects** found by
+running this course on SAS OnDemand for Academics — eleven from the SDTM track, two from the ADaM
+track. Eight produced no error at all. It is the fastest way to unstick a trainee whose program
+"ran fine" but produced the wrong data.
 
 ---
 
