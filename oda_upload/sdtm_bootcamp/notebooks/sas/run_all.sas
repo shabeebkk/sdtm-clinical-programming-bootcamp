@@ -12,6 +12,9 @@
  |  than nine separate runs. It is a smoke test for the instructor, not a     |
  |  teaching exercise - trainees should run the notebooks individually.       |
  |                                                                            |
+ |  This covers the SDTM track (01-12). The ADaM track (14-19) has its own    |
+ |  harness, run_all_adam.sas - the two are independent.                      |
+ |                                                                            |
  |  Scroll to the bottom of the output for the summary table.                 |
  *===========================================================================*/
 
@@ -64,6 +67,12 @@ run;
         %end;
         %else %let n = .;
     %end;
+
+    /*  Echo the verdict to the LOG, not only the listing. The summary table
+        prints to the results/listing, which a saved .log does not contain -
+        so without this line a failing run cannot be diagnosed from the log
+        alone (rc>4 = error, n=. = dataset missing, else count vs expected).  */
+    %put RUN_ALL RESULT: &file  dom=&dom  built_rows=&n  expected=&expect  rc=&rc;
 
     data _one;
         length notebook $32 built $8 status $8 note $60;

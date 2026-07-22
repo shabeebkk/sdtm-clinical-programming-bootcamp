@@ -29,7 +29,7 @@
 
 %let codepath = /home/YOURUSERID/sdtm_bootcamp/notebooks/sas;   /* the .sas files   */
 %let datapath = /home/YOURUSERID/sdtm_bootcamp/data;            /* the .csv files   */
-%let outpath  = /home/YOURUSERID/sdtm_bootcamp/output;          /* YOUR SDTM output */
+%let outpath  = /home/YOURUSERID/sdtm_bootcamp/output;          /* YOUR built datasets */
 
 /*  Local-machine example, for reference:
       %let codepath = /Volumes/D Drive/SDTM Training/Bootcamp/notebooks/sas;
@@ -49,11 +49,13 @@
 options nosyntaxcheck;   /* one bad step must not silently skip everything after it */
 
 %macro setup_check;
-    %local i n missing_raw missing_ref rawlist reflist;
-    %let rawlist = dm ds ex ae cm vs lb;
-    %let reflist = dm ds ex ae suppae cm vs lb;
-    %let missing_raw = ;
-    %let missing_ref = ;
+    %local i n d nm pa rc missing_raw missing_ref missing_adam rawlist reflist adamlist;
+    %let rawlist  = dm ds ex ae cm vs lb;
+    %let reflist  = dm ds ex ae suppae cm vs lb;
+    %let adamlist = adsl adae advs adlb adtte;
+    %let missing_raw  = ;
+    %let missing_ref  = ;
+    %let missing_adam = ;
 
     %put ;
     %put ===========================================================;
@@ -93,6 +95,18 @@ options nosyntaxcheck;   /* one bad step must not silently skip everything after
             %let missing_ref = &missing_ref sdtm/&d..csv;
     %end;
 
+    /* --- 4b. are the 5 reference ADaM files there? --- */
+    /* The ADaM notebooks (14-19) READ these - not only for PROC COMPARE, but
+       for the reference ADSL they merge subject-level variables from. Without
+       data/adam/, notebook 14 fails on its first INFILE. Only relevant if you
+       are doing the ADaM track; the SDTM notebooks (01-12b) do not need them. */
+    %let n = %sysfunc(countw(&adamlist));
+    %do i = 1 %to &n;
+        %let d = %scan(&adamlist, &i);
+        %if %sysfunc(fileexist(&datapath/adam/&d..csv)) = 0 %then
+            %let missing_adam = &missing_adam adam/&d..csv;
+    %end;
+
     /* --- 5. report --- */
     %if %length(&missing_raw) %then %do;
         %put ERROR: missing raw data files: &missing_raw;
@@ -107,9 +121,19 @@ options nosyntaxcheck;   /* one bad step must not silently skip everything after
     %end;
     %else %put   PASS  all 8 reference SDTM CSVs found;
 
-    /* --- 6. the OUTPUT library: create the folder, then point SDTM at it --- */
+    /* ADaM reference files: a WARNING, not an ERROR, because the SDTM track
+       does not need them. But say so loudly, because if you ARE on the ADaM
+       track their absence shows up as a cryptic INFILE error, not here. */
+    %if %length(&missing_adam) %then %do;
+        %put WARNING: missing reference ADaM files: &missing_adam;
+        %put WARNING- Only needed for the ADaM track (notebooks 14-19).;
+        %put WARNING- Upload data/adam/ before running notebook 14, or those;
+        %put WARNING- notebooks will fail on their first INFILE statement.;
+    %end;
+    %else %put   PASS  all 5 reference ADaM CSVs found;
+
+    /* --- 6. the OUTPUT library: create the folder, then point the librefs at it --- */
     %if %sysfunc(fileexist(&outpath)) = 0 %then %do;
-        %local nm pa rc;
         %let nm = %scan(&outpath, -1, %str(/));
         %let pa = %substr(&outpath, 1, %eval(%length(&outpath) - %length(&nm) - 1));
         %let rc = %sysfunc(dcreate(&nm, &pa));
@@ -119,16 +143,29 @@ options nosyntaxcheck;   /* one bad step must not silently skip everything after
     %end;
     %else %put   PASS  output folder exists;
 
+    /* The SDTM notebooks write their domains to SDTM.<domain> in &outpath.
+       The ADaM notebooks write ADSL etc. to ADAM.<dataset> in a SEPARATE
+       subfolder &outpath/adam, so the ADAM library shows ONLY your analysis
+       datasets and never the SDTM domains you built. A libref does not recurse
+       into subfolders, so the SDTM library ignores the adam/ folder in turn. */
     libname sdtm "&outpath";
     %if %sysfunc(libref(sdtm)) = 0 %then
         %put   PASS  libref SDTM assigned to &outpath;
     %else %put ERROR: could not assign libref SDTM to &outpath;
 
+    %if %sysfunc(fileexist(&outpath/adam)) = 0 %then %do;
+        %let rc = %sysfunc(dcreate(adam, &outpath));
+    %end;
+    libname adam "&outpath/adam";
+    %if %sysfunc(libref(adam)) = 0 %then
+        %put   PASS  libref ADAM assigned to &outpath/adam;
+    %else %put ERROR: could not assign libref ADAM to &outpath/adam;
+
     %if %length(&missing_raw) = 0 and %sysfunc(fileexist(&codepath)) %then %do;
         %put ;
         %put   SETUP OK - you can now run any notebook, or run_all.sas;
-        %put   Domains you build are saved to the SDTM library, so they;
-        %put   SURVIVE after the session ends - unlike WORK.;
+        %put   SDTM domains you build are saved to the SDTM library, and ADaM;
+        %put   datasets to the ADAM library, so both SURVIVE the session - unlike WORK.;
     %end;
     %put ===========================================================;
     %put ;

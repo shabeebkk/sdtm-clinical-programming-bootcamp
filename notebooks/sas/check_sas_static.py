@@ -161,8 +161,23 @@ for path in sorted(glob.glob(os.path.join(HERE, "*.sas"))):
     # 5. informat WIDTH must cover the longest raw value it reads.
     #    SAS reads only <width> characters, so date9. on "14-MAY-1969" (11 chars)
     #    silently truncates to "14-MAY-19" and yields the wrong year.
+    #    The width a variable needs depends on WHICH file this program reads.
+    #    RFICDTC is 11 chars ("20-FEB-2024") in dm_raw.csv but 10 ("2024-02-20")
+    #    in sdtm/dm.csv, so an ADaM notebook reading SDTM needs yymmdd10., and
+    #    judging it against the raw width would be a false failure. Collect the
+    #    files this program actually INFILEs; fall back to the raw files when it
+    #    reads none (DATALINES-only notebooks).
+    sources = []
+    for spec in re.findall(r'infile\s+"([^"]*?)"', code, re.I):
+        rel = spec.split("/", 1)[1] if spec.startswith("&") and "/" in spec else spec
+        cand = os.path.join(DATA, rel)
+        if os.path.exists(cand) and cand.lower().endswith(".csv"):
+            sources.append(cand)
+    if not sources:
+        sources = sorted(glob.glob(os.path.join(DATA, "*_raw.csv")))
+
     widths = {}
-    for csvname in sorted(glob.glob(os.path.join(DATA, "*_raw.csv"))):
+    for csvname in sources:
         with open(csvname) as fh:
             rdr = csv.DictReader(fh)
             for row in rdr:
