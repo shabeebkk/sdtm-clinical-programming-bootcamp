@@ -19,12 +19,15 @@ Built around two complete synthetic studies: **ABC-01** for teaching and **DEF-0
 
 ## What's here
 
+A full item-by-item inventory lives in **[`CONTENTS.md`](CONTENTS.md)**.
+
 | Folder | Contents |
 |---|---|
 | `presentations/` | 18 decks (`.pptx` + build scripts + rendered PDFs) — 13 SDTM, 5 ADaM |
-| `notebooks/sas/` | 18 SAS programs, each with a `.md` walkthrough, plus the run harness |
+| `notebooks/sas/` | 23 SAS programs (19 with a `.md` walkthrough), plus the run harnesses |
 | `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF |
 | `capstone/` | Study DEF-01 — a second study trainees map end to end |
+| `interactive/` | Three self-contained HTML explorers over the ABC-01 data (see below) |
 | `oda_upload/` | Ready-to-upload bundle for SAS OnDemand for Academics |
 | `video/` | Remotion source for an animated explainer on clinical programming |
 
@@ -121,21 +124,45 @@ python3 check_deck_layout.py
 
 ---
 
+## Interactive explorers
+
+Three standalone pages in `interactive/`. Each is a single HTML file with its data inlined or
+alongside as JSON — **open by double-click, no server, no network**. Useful on a projector when a
+static slide isn't landing.
+
+| Page | What it does |
+|---|---|
+| `subject_journey_dashboard.html` | one subject at a time, every domain laid on the study-day axis — dosing, AEs, con meds, visits, labs. Makes `--DY` and the pre-dose AE visible rather than abstract |
+| `sdtm_lineage_explorer.html` | raw CRF field → SDTM variable for all 8 domains, with a real worked record per domain |
+| `ae_mapper.html` | a practice widget: map one real AE record field by field and get graded, with feedback on the four traps (numeric-outcome decode, ISO date on a mixed-format field, negative study day, routing `AETRTEM` to SUPPAE) |
+
+The two JSON files are **generated** from the SDTM datasets, so they can go stale if the study
+data is regenerated and the builders are not re-run:
+
+```bash
+python3 data/build_subject_data.py && python3 data/build_lineage_data.py
+```
+
+Section 11 of `data/audit_consistency.py` guards exactly that: it re-derives the embedded facts —
+demographics, per-subject record counts, the `AETRTEM` flags, each domain's worked example — from
+the SDTM CSVs and fails if the JSON disagrees.
+
 ## Submission package
 
 The course now produces the three things a regulator actually receives:
 
 | Part | Artifact | Built by |
 |---|---|---|
-| Data | one `.xpt` per dataset (XPORT v5) | `notebooks/sas/12b_submission_package_SAS.sas` |
-| Metadata | `data/define/define.xml` (Define-XML v2.0) | `data/build_define_xml.py` — **generated from the mapping spec** |
+| Data (SDTM) | one `.xpt` per tabulation dataset (XPORT v5) | `notebooks/sas/12b_submission_package_SAS.sas` |
+| Metadata (SDTM) | `data/define/define.xml` (Define-XML v2.0, SDTM-IG v3.3) | `data/build_define_xml.py` — **generated from `SDTM_Mapping_Specification.xlsx`** |
+| Metadata (ADaM) | `data/define/define_adam.xml` (Define-XML v2.0, ADaM-IG v1.2, with value-level metadata) | `data/build_adam_define_xml.py` — **generated from `ADaM_Specification.xlsx`** |
 | Narrative | `docs/cSDRG_ABC-01.pdf` | `docs/build_csdrg.py` |
 
 Plus the CRF, split as a submission does: `data/blankcrf.pdf` (the forms as asked) and
 `data/acrf.pdf` (the same forms annotated with SDTM variables), the latter linked from the define.
 
-> define.xml here is structurally correct and self-checked, but **not** schema-validated
-> against `define2-0-0.xsd` — that needs Pinnacle 21. Treat it as a teaching artifact.
+> Both defines are structurally correct and self-checked, but **not** schema-validated against
+> `define2-0-0.xsd` — that needs Pinnacle 21. Treat them as teaching artifacts.
 
 ## Troubleshooting
 

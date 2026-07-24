@@ -159,8 +159,19 @@ table, the ADaM dataset was built wrong — and that is the closing lesson of th
 **Reference data** (`data/adam/`) — `adsl.csv` `adae.csv` `advs.csv` `adlb.csv` `adtte.csv`,
 built by `data/build_adam_reference.py`.
 
-**Specification** — `data/adam_specification.md`, the full derivation spec with the rationale for
-each rule. This is what the notebooks teach from.
+**Specification** — two forms, one source of truth:
+- `data/adam_specification.md` — the narrative derivation spec with the rationale for each rule.
+  This is what the notebooks teach from.
+- `data/ADaM_Specification.xlsx` — the machine-readable spec (one sheet per dataset, a value-level
+  sheet per parameter, a codelist sheet), built by `data/build_adam_spec_xlsx.py`. It is the
+  source the define.xml is generated from.
+
+**Submission metadata** — `data/define/define_adam.xml` (Define-XML v2.0, ADaM-IG v1.2), generated
+from the Excel spec by `data/build_adam_define_xml.py`, plus a pre-rendered `define_adam.html`.
+It carries **value-level metadata**: for each `PARAMCD`, its own `AVAL` derivation, WhereClause and
+Method — the thing that lets a reviewer trace one parameter without reading the rest. Structurally
+correct and self-checked (every dataset, variable and value-list reference resolves), but not
+schema-validated against `define2-0-0.xsd` — that needs Pinnacle 21.
 
 **Audit** — `data/audit_adam.py`. 85 checks covering row counts and structure, every derivation
 re-derived independently from SDTM, cross-dataset agreement with ADSL, and assertions that each

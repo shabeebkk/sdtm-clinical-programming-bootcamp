@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build an SDTM AE Record — ABC-01</title>
+<style>
+  :root{
+    --ink:#0F2E3D; --ink-soft:#33525f; --muted:#5A7682;
+    --bg:#eef3f4; --panel:#ffffff; --panel-2:#f4f8f8;
+    --line:#cfdee1; --line-strong:#b3c9ce;
+    --accent:#0E7C86; --accent-ink:#0a5a62;
+    --trap:#E8833A; --trap-bg:#fdf0d5; --trap-line:#e9c98d;
+    --ok:#157F4E; --ok-bg:#e5f3ec; --ok-line:#a9d6bf;
+    --bad:#C0455B; --bad-bg:#fbe9ec; --bad-line:#e6b4bf;
+    --field:#fbfdfd; --field-line:#c2d3d7;
+    --shadow:0 1px 2px rgba(15,46,61,.06), 0 8px 24px rgba(15,46,61,.06);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ink:#e7f0f2; --ink-soft:#b8ccd1; --muted:#8aa4ac;
+      --bg:#0c1517; --panel:#12211f1a; --panel:#132125; --panel-2:#0f1c1f;
+      --line:#274248; --line-strong:#37585f;
+      --accent:#4fc2cc; --accent-ink:#7fd6de;
+      --trap:#f0a35d; --trap-bg:#2a2013; --trap-line:#5c451f;
+      --ok:#5cc98f; --ok-bg:#12271d; --ok-line:#2c5b41;
+      --bad:#f0899c; --bad-bg:#2b1519; --bad-line:#5e2b33;
+      --field:#0e1b1e; --field-line:#2c484f;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#0F2E3D; --ink-soft:#33525f; --muted:#5A7682;
+    --bg:#eef3f4; --panel:#ffffff; --panel-2:#f4f8f8;
+    --line:#cfdee1; --line-strong:#b3c9ce;
+    --accent:#0E7C86; --accent-ink:#0a5a62;
+    --trap:#E8833A; --trap-bg:#fdf0d5; --trap-line:#e9c98d;
+    --ok:#157F4E; --ok-bg:#e5f3ec; --ok-line:#a9d6bf;
+    --bad:#C0455B; --bad-bg:#fbe9ec; --bad-line:#e6b4bf;
+    --field:#fbfdfd; --field-line:#c2d3d7;
+    --shadow:0 1px 2px rgba(15,46,61,.06), 0 8px 24px rgba(15,46,61,.06);
+  }
+  :root[data-theme="dark"]{
+    --ink:#e7f0f2; --ink-soft:#b8ccd1; --muted:#8aa4ac;
+    --bg:#0c1517; --panel:#132125; --panel-2:#0f1c1f;
+    --line:#274248; --line-strong:#37585f;
+    --accent:#4fc2cc; --accent-ink:#7fd6de;
+    --trap:#f0a35d; --trap-bg:#2a2013; --trap-line:#5c451f;
+    --ok:#5cc98f; --ok-bg:#12271d; --ok-line:#2c5b41;
+    --bad:#f0899c; --bad-bg:#2b1519; --bad-line:#5e2b33;
+    --field:#0e1b1e; --field-line:#2c484f;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0}
+  .page{
+    font-family:var(--sans); color:var(--ink); background:
+      radial-gradient(1200px 500px at 82% -8%, color-mix(in srgb,var(--accent) 9%, transparent), transparent 60%),
+      var(--bg);
+    min-height:100vh; padding:clamp(16px,3vw,40px);
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1080px; margin:0 auto}
+
+  /* ---- header ---- */
+  .eyebrow{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent-ink); font-weight:700; margin:0 0 8px;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--trap)}
+  h1{
+    font-size:clamp(24px,3.4vw,34px); line-height:1.08; margin:0 0 10px;
+    letter-spacing:-.02em; font-weight:800; text-wrap:balance; max-width:20ch;
+  }
+  .lede{font-size:clamp(15px,1.6vw,17px); color:var(--ink-soft); margin:0; max-width:64ch}
+  .lede b{color:var(--ink); font-weight:600}
+
+  /* ---- scenario strip ---- */
+  .scenario{
+    margin:22px 0 8px; padding:14px 16px; border:1px solid var(--line);
+    background:var(--panel-2); border-radius:12px; box-shadow:var(--shadow);
+    display:flex; gap:8px 22px; flex-wrap:wrap; align-items:baseline;
+  }
+  .scenario .k{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:700}
+  .scenario .v{font-family:var(--mono); font-size:13.5px; color:var(--ink)}
+
+  /* ---- board ---- */
+  .board{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:16px; align-items:start}
+  @media (max-width:820px){ .board{grid-template-columns:1fr} }
+
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
+  .panel > header{
+    padding:13px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; background:var(--panel-2);
+  }
+  .panel > header .tag{
+    font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.04em;
+    padding:3px 8px; border-radius:6px; color:#fff;
+  }
+  .panel.raw > header .tag{background:var(--muted)}
+  .panel.sdtm > header .tag{background:var(--accent)}
+  .panel > header h2{font-size:15px; margin:0; font-weight:700; letter-spacing:-.01em}
+  .panel > header .sub{font-size:12px; color:var(--muted); margin-left:auto}
+  .panel .body{padding:6px 18px 18px}
+
+  /* ---- raw record ---- */
+  .rawrow{display:flex; justify-content:space-between; gap:14px; padding:9px 0; border-bottom:1px dashed var(--line)}
+  .rawrow:last-child{border-bottom:0}
+  .rawrow .rk{font-size:13px; color:var(--muted)}
+  .rawrow .rv{font-family:var(--mono); font-size:13.5px; color:var(--ink); text-align:right; font-weight:600}
+  .legend{
+    margin-top:14px; padding:11px 13px; border:1px solid var(--trap-line);
+    background:var(--trap-bg); border-radius:10px; font-size:12.5px; color:var(--ink-soft);
+  }
+  .legend b{color:var(--ink)}
+  .legend .codes{font-family:var(--mono); display:block; margin-top:6px; color:var(--ink); font-size:12.5px}
+
+  /* ---- sdtm fields ---- */
+  .field{padding:14px 0; border-bottom:1px solid var(--line)}
+  .field:last-child{border-bottom:0}
+  .field .flabel{display:flex; align-items:baseline; gap:9px; margin-bottom:7px; flex-wrap:wrap}
+  .field .var{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--accent-ink)}
+  .field .desc{font-size:12px; color:var(--muted)}
+  .chip{font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; padding:2px 7px; border-radius:20px; border:1px solid}
+  .chip.ct{color:var(--accent-ink); border-color:var(--accent); background:color-mix(in srgb,var(--accent) 10%, transparent)}
+  .chip.derive{color:var(--trap); border-color:var(--trap-line); background:var(--trap-bg)}
+  .chip.verbatim{color:var(--muted); border-color:var(--line-strong); background:var(--panel-2)}
+
+  input, select{
+    font-family:var(--mono); font-size:14px; color:var(--ink);
+    width:100%; padding:10px 12px; border:1.5px solid var(--field-line);
+    border-radius:9px; background:var(--field); transition:border-color .15s, box-shadow .15s;
+    -webkit-appearance:none; appearance:none;
+  }
+  select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:34px; cursor:pointer}
+  input::placeholder{color:var(--muted); opacity:.7}
+  input:focus, select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%, transparent)}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .given{font-family:var(--mono); font-size:14px; padding:10px 12px; border:1.5px dashed var(--field-line); border-radius:9px; background:var(--panel-2); color:var(--ink-soft); display:flex; align-items:center; gap:8px}
+  .given .lock{font-size:11px; color:var(--muted); margin-left:auto; font-family:var(--sans)}
+
+  /* radio decision */
+  .choices{display:grid; gap:8px}
+  .choice{display:flex; gap:11px; align-items:flex-start; padding:11px 13px; border:1.5px solid var(--field-line); border-radius:10px; cursor:pointer; background:var(--field); transition:border-color .15s, background .15s}
+  .choice:hover{border-color:var(--line-strong)}
+  .choice input{width:auto; margin:2px 0 0; accent-color:var(--accent)}
+  .choice .ctext{font-family:var(--sans); font-size:13.5px; color:var(--ink)}
+  .choice .ctext code{font-family:var(--mono); font-size:12.5px; color:var(--accent-ink)}
+  .choice:has(input:checked){border-color:var(--accent); background:color-mix(in srgb,var(--accent) 7%, transparent)}
+
+  /* verdict states */
+  .field.correct input, .field.correct select, .field.correct .choice:has(input:checked){border-color:var(--ok-line); background:var(--ok-bg)}
+  .field.incorrect input, .field.incorrect select, .field.incorrect .choice:has(input:checked){border-color:var(--bad-line); background:var(--bad-bg)}
+  .fb{margin-top:9px; font-size:13px; border-radius:9px; padding:10px 12px; display:none; line-height:1.45}
+  .fb .fbh{font-weight:700; display:flex; align-items:center; gap:7px; margin-bottom:3px}
+  .fb code{font-family:var(--mono); font-size:12.5px; padding:1px 5px; border-radius:5px; background:color-mix(in srgb,var(--ink) 8%, transparent)}
+  .field.correct .fb{display:block; background:var(--ok-bg); border:1px solid var(--ok-line); color:var(--ink-soft)}
+  .field.correct .fb .fbh{color:var(--ok)}
+  .field.incorrect .fb{display:block; background:var(--bad-bg); border:1px solid var(--bad-line); color:var(--ink-soft)}
+  .field.incorrect .fb .fbh{color:var(--bad)}
+  .field .fb .trapflag{font-family:var(--sans); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--trap); border:1px solid var(--trap-line); background:var(--trap-bg); padding:1px 6px; border-radius:20px; margin-left:auto}
+  .ic{width:16px;height:16px;flex:none}
+
+  /* ---- action bar ---- */
+  .actions{position:sticky; bottom:0; margin-top:18px; padding:14px; background:color-mix(in srgb,var(--panel) 86%, transparent); backdrop-filter:blur(8px); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  button{font-family:var(--sans); font-size:14.5px; font-weight:650; cursor:pointer; border-radius:10px; padding:11px 20px; border:1.5px solid transparent; transition:transform .06s, filter .15s}
+  button:active{transform:translateY(1px)}
+  .btn-primary{background:var(--accent); color:#fff}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line-strong)}
+  .btn-ghost:hover{background:var(--panel-2)}
+  .score{font-family:var(--mono); font-weight:700; font-size:14px; margin-left:auto; display:flex; align-items:center; gap:10px; color:var(--muted)}
+  .score .num{font-size:20px; color:var(--ink)}
+  .score.pass .num{color:var(--ok)}
+  .banner{margin-top:14px; border-radius:12px; padding:15px 17px; font-size:14px; display:none; border:1px solid}
+  .banner.show{display:block}
+  .banner.win{background:var(--ok-bg); border-color:var(--ok-line); color:var(--ink)}
+  .banner.win b{color:var(--ok)}
+  .banner.part{background:var(--trap-bg); border-color:var(--trap-line); color:var(--ink)}
+
+  footer{margin-top:26px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); display:flex; gap:8px 18px; flex-wrap:wrap; align-items:center}
+  footer .badge{font-weight:700; color:var(--accent-ink)}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="page">
+ <div class="shell">
+  <p class="eyebrow"><span class="dot"></span> SDTM Bootcamp · Interactive · Study ABC-01</p>
+  <h1>Build one SDTM adverse-event record</h1>
+  <p class="lede">On the left is a single adverse event exactly as it was <b>collected on the CRF</b>. On the right, assemble the <b>SDTM <code style="font-family:var(--mono)">AE</code></b> row it maps to. Fill every field, then press <b>Check</b> — you'll get told <i>why</i>, field by field. This one record hides four of the traps that catch real programmers.</p>
+
+  <div class="scenario">
+    <span><span class="k">Study</span> <span class="v">ABC-01</span></span>
+    <span><span class="k">Site</span> <span class="v">01</span></span>
+    <span><span class="k">Subject</span> <span class="v">002</span></span>
+    <span><span class="k">First dose · RFSTDTC</span> <span class="v">2024-03-04</span></span>
+  </div>
+
+  <div class="board">
+    <!-- RAW -->
+    <section class="panel raw">
+      <header><span class="tag">RAW</span><h2>As collected</h2><span class="sub">ae_raw.csv</span></header>
+      <div class="body">
+        <div class="rawrow"><span class="rk">Study</span><span class="rv">ABC-01</span></div>
+        <div class="rawrow"><span class="rk">Site</span><span class="rv">01</span></div>
+        <div class="rawrow"><span class="rk">Subject</span><span class="rv">002</span></div>
+        <div class="rawrow"><span class="rk">Reported term</span><span class="rv">sore throat</span></div>
+        <div class="rawrow"><span class="rk">Start date</span><span class="rv">28-Feb-2024</span></div>
+        <div class="rawrow"><span class="rk">End date</span><span class="rv">02-Mar-2024</span></div>
+        <div class="rawrow"><span class="rk">Severity</span><span class="rv">Mild</span></div>
+        <div class="rawrow"><span class="rk">Serious?</span><span class="rv">No</span></div>
+        <div class="rawrow"><span class="rk">Relationship</span><span class="rv">Not related</span></div>
+        <div class="rawrow"><span class="rk">Outcome (coded)</span><span class="rv">1</span></div>
+        <div class="legend">
+          <b>Sponsor outcome codelist</b> — the CRF stored outcome as a number:
+          <span class="codes">1 = Recovered/Resolved · 2 = Recovering/Resolving · 3 = Not Recovered/Not Resolved · 5 = Fatal</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SDTM -->
+    <section class="panel sdtm">
+      <header><span class="tag">AE</span><h2>SDTM record you build</h2><span class="sub">one row</span></header>
+      <div class="body" id="fields"><!-- injected --></div>
+    </section>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" id="check">Check my record</button>
+    <button class="btn-ghost" id="reset">Reset</button>
+    <div class="score" id="score"><span>Score</span><span class="num">—</span></div>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <footer>
+    <span class="badge">Prototype</span>
+    <span>Synthetic training data — no real patients.</span>
+    <span>One record of the AE domain · the full course covers all 8 domains.</span>
+  </footer>
+ </div>
+</div>
+
+<script>
+const CK = '<svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>';
+const EX = '<svg class="ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 10M15 5L5 15"/></svg>';
+
+// Every field carries its own grader + teaching feedback. Feedback is the product.
+const FIELDS = [
+  {
+    id:'USUBJID', desc:'Unique subject identifier', kind:'derive', input:'text',
+    ph:'e.g. STUDY-SITE-SUBJECT',
+    grade:v => v.trim().toUpperCase().replace(/\s+/g,'') === 'ABC-01-01-002',
+    right:'<code>STUDYID</code> + <code>SITEID</code> + <code>SUBJID</code>, hyphen-joined.',
+    wrong:'Subject <code>002</code> is only unique <i>within</i> a site, so USUBJID pins the site too: <code>ABC-01</code> + <code>01</code> + <code>002</code> → <code>ABC-01-01-002</code>.'
+  },
+  {
+    id:'AETERM', desc:'Reported term', kind:'verbatim', input:'text',
+    ph:'the reported term',
+    grade:v => v.trim() === 'sore throat',
+    special:v => (v.trim().toLowerCase()==='sore throat' && v.trim()!=='sore throat')
+        ? 'Verbatim means <i>verbatim</i>. Keep the investigator’s exact words — <code>sore throat</code>, lowercase and all. The upcasing you’ll apply to CT fields like AESEV never touches AETERM.' : null,
+    right:'Kept exactly as written. AETERM is the reporter’s own words — never coded, never upcased.',
+    wrong:'AETERM is <b>verbatim</b>: copy the reported term unchanged — <code>sore throat</code>. Standardising happens in AEDECOD, not here.'
+  },
+  {
+    id:'AEDECOD', desc:'Dictionary-derived term', kind:'given', value:'Oropharyngeal pain',
+    note:'Assigned by MedDRA coders — you don’t invent or type this. Note the Preferred Term (<code>Oropharyngeal pain</code>) isn’t the words the patient used.'
+  },
+  {
+    id:'AESEV', desc:'Severity', kind:'ct', input:'select',
+    opts:['','MILD','MODERATE','SEVERE'],
+    grade:v => v==='MILD',
+    right:'Controlled terminology, upper-case. <code>Mild</code> → <code>MILD</code>.',
+    wrong:'AESEV uses the CDISC severity codelist in upper case: <code>Mild</code> → <code>MILD</code>.'
+  },
+  {
+    id:'AESER', desc:'Serious event?', kind:'ct', input:'select',
+    opts:['','N','Y'],
+    grade:v => v==='N',
+    right:'<code>No</code> → <code>N</code> on the No/Yes codelist.',
+    wrong:'AESER is the No/Yes codelist: the collected <code>No</code> becomes <code>N</code>.'
+  },
+  {
+    id:'AEREL', desc:'Relationship to study drug', kind:'ct', input:'select',
+    opts:['','RELATED','POSSIBLY RELATED','UNLIKELY RELATED','NOT RELATED'],
+    grade:v => v==='NOT RELATED',
+    right:'The collected <code>Not related</code> maps to <code>NOT RELATED</code>.',
+    wrong:'Match the collected phrase to the study’s relationship codelist: <code>Not related</code> → <code>NOT RELATED</code> (upper case).'
+  },
+  {
+    id:'AEOUT', desc:'Outcome', kind:'ct', input:'select', trap:true,
+    opts:['','RECOVERED/RESOLVED','RECOVERING/RESOLVING','NOT RECOVERED/NOT RESOLVED','FATAL'],
+    grade:v => v==='RECOVERED/RESOLVED',
+    right:'You decoded it: sponsor <code>1</code> → <code>RECOVERED/RESOLVED</code>.',
+    wrong:'The raw value <code>1</code> is a sponsor code, not the answer. Decode it with the legend: <code>1</code> = <code>RECOVERED/RESOLVED</code>.'
+  },
+  {
+    id:'AESTDTC', desc:'Start date (ISO 8601)', kind:'derive', input:'text', trap:true,
+    ph:'YYYY-MM-DD',
+    grade:v => v.trim() === '2024-02-28',
+    right:'Reformatted to ISO 8601: <code>28-Feb-2024</code> → <code>2024-02-28</code>.',
+    wrong:'SDTM dates are ISO 8601 <code>YYYY-MM-DD</code>. <code>28-Feb-2024</code> → <code>2024-02-28</code> — and watch it: the raw file mixes <code>DD-Mon-YYYY</code> and <code>DD/MM/YYYY</code>, so you can’t parse blindly.'
+  },
+  {
+    id:'AESTDY', desc:'Study day of onset', kind:'derive', input:'text', trap:true,
+    ph:'a whole number',
+    grade:v => v.trim() === '-5',
+    right:'<code>-5</code> — correct. Onset <code>2024-02-28</code> is 5 days <i>before</i> first dose, and there is no Day 0.',
+    wrong:'AESTDY counts from RFSTDTC (<code>2024-03-04</code>). Onset <code>2024-02-28</code> is <b>before</b> first dose, so the day is negative and there is no Day 0: it works out to <code>-5</code>. A positive number here is the classic mistake.'
+  },
+  {
+    id:'AETRTEM', desc:'Where does the Treatment-Emergent flag go?', kind:'decision', input:'radio', trap:true,
+    opts:[
+      {v:'AE', t:'A regular column in the <code>AE</code> dataset'},
+      {v:'SUPPAE', t:'<code>SUPPAE</code> — a supplemental qualifier'},
+      {v:'NONE', t:'It isn’t submitted'}
+    ],
+    grade:v => v==='SUPPAE',
+    right:'AETRTEM isn’t an SDTMIG AE variable, so it rides in <b>SUPPAE</b> — keyed back by <code>AESEQ</code>. And its value here is <code>N</code>: onset was pre-dose (that <code>-5</code> again), so this event is <i>not</i> treatment-emergent.',
+    wrong:'AETRTEM is a valid, useful flag — but it isn’t part of the SDTMIG AE model, so it can’t be a column in AE. Non-standard qualifiers go in <b>SUPPAE</b>, linked by <code>AESEQ</code>. (Its value here is <code>N</code> — the pre-dose onset means not treatment-emergent.)'
+  }
+];
+
+const wrap = document.getElementById('fields');
+FIELDS.forEach(f => {
+  const el = document.createElement('div');
+  el.className = 'field'; el.dataset.id = f.id;
+  const chip = f.kind==='ct' ? '<span class="chip ct">controlled term</span>'
+            : f.kind==='derive' ? '<span class="chip derive">derived</span>'
+            : f.kind==='verbatim' ? '<span class="chip verbatim">verbatim</span>'
+            : f.kind==='decision' ? '<span class="chip derive">judgement</span>'
+            : f.kind==='given' ? '<span class="chip verbatim">given</span>' : '';
+  let control = '';
+  if(f.input==='text') control = `<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${f.ph||''}" aria-label="${f.id}">`;
+  else if(f.input==='select') control = `<select aria-label="${f.id}">`+f.opts.map(o=>`<option value="${o}">${o||'— choose —'}</option>`).join('')+`</select>`;
+  else if(f.input==='radio') control = `<div class="choices">`+f.opts.map((o,i)=>`<label class="choice"><input type="radio" name="${f.id}" value="${o.v}"><span class="ctext">${o.t}</span></label>`).join('')+`</div>`;
+  else if(f.kind==='given') control = `<div class="given">${f.value}<span class="lock">🔒 coder-supplied</span></div>`;
+
+  el.innerHTML = `
+    <div class="flabel"><span class="var">${f.id}</span><span class="desc">${f.desc}</span>${chip}</div>
+    ${control}
+    ${f.kind==='given' ? `<div class="fb" style="display:block;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-soft)"><div class="fbh" style="color:var(--muted)">Given</div>${f.note}</div>` : `<div class="fb"></div>`}
+  `;
+  wrap.appendChild(el);
+});
+
+function valOf(f){
+  const el = wrap.querySelector(`[data-id="${f.id}"]`);
+  if(f.input==='radio'){ const c = el.querySelector('input:checked'); return c?c.value:''; }
+  const inp = el.querySelector('input,select'); return inp?inp.value:'';
+}
+
+const scoreEl = document.getElementById('score');
+const banner = document.getElementById('banner');
+
+document.getElementById('check').addEventListener('click', () => {
+  let correct=0, graded=0, blank=0;
+  FIELDS.forEach(f => {
+    if(f.kind==='given') return;
+    graded++;
+    const el = wrap.querySelector(`[data-id="${f.id}"]`);
+    const fb = el.querySelector('.fb');
+    const v = valOf(f);
+    if(v===''||v==null){ blank++; }
+    const ok = f.grade(v);
+    const special = f.special ? f.special(v) : null;
+    el.classList.remove('correct','incorrect');
+    el.classList.add(ok ? 'correct' : 'incorrect');
+    const trap = f.trap ? '<span class="trapflag">trap</span>' : '';
+    if(ok){
+      correct++;
+      fb.innerHTML = `<div class="fbh">${CK} Correct ${trap}</div>${f.right}`;
+    } else {
+      fb.innerHTML = `<div class="fbh">${EX} Not yet ${trap}</div>${special || f.wrong}`;
+    }
+  });
+  const num = scoreEl.querySelector('.num');
+  num.textContent = `${correct}/${graded}`;
+  scoreEl.classList.toggle('pass', correct===graded);
+  banner.classList.add('show');
+  if(correct===graded){
+    banner.className = 'banner win show';
+    banner.innerHTML = `<b>Clean record.</b> All ${graded} fields map correctly — including the four traps: the numeric-outcome decode, the ISO date on a mixed-format field, the negative study day, and routing AETRTEM to SUPPAE. This is exactly the reasoning the notebook drills.`;
+  } else {
+    banner.className = 'banner part show';
+    banner.innerHTML = `<b>${correct} of ${graded} correct.</b> Read the red notes, fix those fields, and check again — the goal isn’t the score, it’s knowing <i>why</i> each value is what it is.`;
+  }
+  banner.scrollIntoView({behavior:'smooth', block:'nearest'});
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  wrap.querySelectorAll('input,select').forEach(i => { if(i.type==='radio') i.checked=false; else i.value=''; });
+  wrap.querySelectorAll('.field').forEach(el => el.classList.remove('correct','incorrect'));
+  wrap.querySelectorAll('.field .fb').forEach(fb => { if(!fb.closest('.field').querySelector('.given')) fb.innerHTML=''; });
+  scoreEl.classList.remove('pass'); scoreEl.querySelector('.num').textContent='—';
+  banner.className='banner';
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+</script>
+</body>
+</html>
