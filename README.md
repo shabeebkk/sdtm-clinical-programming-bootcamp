@@ -25,6 +25,7 @@ Built around two complete synthetic studies: **ABC-01** for teaching and **DEF-0
 | `notebooks/sas/` | 18 SAS programs, each with a `.md` walkthrough, plus the run harness |
 | `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF |
 | `capstone/` | Study DEF-01 — a second study trainees map end to end |
+| `interactive/` | Three self-contained HTML explorers over the ABC-01 data (see below) |
 | `oda_upload/` | Ready-to-upload bundle for SAS OnDemand for Academics |
 | `video/` | Remotion source for an animated explainer on clinical programming |
 
@@ -120,6 +121,29 @@ python3 check_deck_layout.py
 - **API keys** — the voiceover script reads `ELEVENLABS_API_KEY` from a gitignored `.env`.
 
 ---
+
+## Interactive explorers
+
+Three standalone pages in `interactive/`. Each is a single HTML file with its data inlined or
+alongside as JSON — **open by double-click, no server, no network**. Useful on a projector when a
+static slide isn't landing.
+
+| Page | What it does |
+|---|---|
+| `subject_journey_dashboard.html` | one subject at a time, every domain laid on the study-day axis — dosing, AEs, con meds, visits, labs. Makes `--DY` and the pre-dose AE visible rather than abstract |
+| `sdtm_lineage_explorer.html` | raw CRF field → SDTM variable for all 8 domains, with a real worked record per domain |
+| `ae_mapper.html` | a practice widget: map one real AE record field by field and get graded, with feedback on the four traps (numeric-outcome decode, ISO date on a mixed-format field, negative study day, routing `AETRTEM` to SUPPAE) |
+
+The two JSON files are **generated** from the SDTM datasets, so they can go stale if the study
+data is regenerated and the builders are not re-run:
+
+```bash
+python3 data/build_subject_data.py && python3 data/build_lineage_data.py
+```
+
+Section 11 of `data/audit_consistency.py` guards exactly that: it re-derives the embedded facts —
+demographics, per-subject record counts, the `AETRTEM` flags, each domain's worked example — from
+the SDTM CSVs and fails if the JSON disagrees.
 
 ## Submission package
 

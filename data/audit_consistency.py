@@ -591,6 +591,103 @@ check(expect_vs == actual["vs"], f"VS tall row count == non-missing raw measurem
 height = {r["VISIT"] for r in read(SDTM["vs"]) if r["VSTESTCD"] == "HEIGHT"}
 check(height == {"SCREENING"}, "HEIGHT collected at SCREENING only", f"HEIGHT appears at {height}")
 
+# ==================================================== 11. INTERACTIVE DASHBOARDS
+# interactive/*.json are GENERATED SNAPSHOTS of the SDTM data, committed to the
+# repo so the HTML pages work by double-click with no server. That makes them a
+# staleness hazard: regenerate the study data (a documented workflow in README)
+# and forget to re-run the builders, and the dashboards silently teach the old
+# numbers. Nothing in the page would look wrong.
+#
+# So re-derive the embedded facts from the SDTM CSVs and compare — the same
+# discipline audit_adam.py applies to the ADaM layer. Rebuild with:
+#   python3 data/build_subject_data.py && python3 data/build_lineage_data.py
+hdr("11. INTERACTIVE DASHBOARD JSON MATCHES THE SDTM DATA")
+import json
+
+INTER = os.path.join(ROOT, "interactive")
+subj_path = os.path.join(INTER, "subjects.json")
+lin_path = os.path.join(INTER, "lineage_data.json")
+
+if not os.path.exists(subj_path):
+    warn("interactive/subjects.json not found — skipped the dashboard checks")
+else:
+    subj = json.load(open(subj_path))
+    dm_rows = read(SDTM["dm"])
+    by_sub = {r["USUBJID"]: r for r in dm_rows}
+    js = {s["usubjid"]: s for s in subj["subjects"]}
+
+    check(subj.get("study") == "ABC-01", "subjects.json: study is ABC-01",
+          f"subjects.json: study is {subj.get('study')!r}")
+    check(set(js) == set(by_sub),
+          f"subjects.json: covers exactly the {len(by_sub)} DM subjects",
+          f"subjects.json subject set differs from DM: "
+          f"missing {sorted(set(by_sub) - set(js))}, extra {sorted(set(js) - set(by_sub))}")
+
+    # demographics must agree with DM, field by field
+    bad = []
+    for u, s in js.items():
+        d = by_sub.get(u)
+        if not d:
+            continue
+        for jkey, dkey in [("age", "AGE"), ("sex", "SEX"), ("race", "RACE"),
+                           ("country", "COUNTRY"), ("arm", "ARM"), ("actarm", "ACTARM")]:
+            if str(s.get(jkey)) != str(d[dkey]):
+                bad.append(f"{u}.{jkey}={s.get(jkey)!r} vs DM.{dkey}={d[dkey]!r}")
+    check(not bad, "subjects.json: demographics match DM for every subject",
+          f"subjects.json demographics disagree with DM: {bad[:4]}")
+
+    # per-subject record counts must match the domains they came from
+    for dom, key in [("ae", "ae"), ("cm", "cm"), ("vs", "vs"), ("lb", "lb")]:
+        counts = {}
+        for r in read(SDTM[dom]):
+            counts[r["USUBJID"]] = counts.get(r["USUBJID"], 0) + 1
+        bad = [f"{u}: json {len(s.get(key) or [])} vs {dom.upper()} {counts.get(u, 0)}"
+               for u, s in js.items() if len(s.get(key) or []) != counts.get(u, 0)]
+        check(not bad, f"subjects.json: per-subject {dom.upper()} counts match the domain",
+              f"subjects.json {dom.upper()} counts disagree: {bad[:4]}")
+
+    # the treatment-emergent flag is the course's centrepiece — it must survive
+    supp = {(r["USUBJID"], r["IDVARVAL"]): r["QVAL"]
+            for r in read(ALL_SDTM["suppae"]) if r["QNAM"] == "AETRTEM"}
+    bad = [f"{u} seq {a.get('seq')}" for u, s in js.items() for a in (s.get("ae") or [])
+           if a.get("trtem") != supp.get((u, str(a.get("seq"))))]
+    check(not bad, "subjects.json: AETRTEM flags match SUPPAE",
+          f"subjects.json AETRTEM disagrees with SUPPAE for {bad[:4]}")
+    n_pre = sum(1 for s in js.values() for a in (s.get("ae") or []) if a.get("trtem") == "N")
+    check(n_pre == 1, "subjects.json: the one pre-dose non-emergent AE is present",
+          f"subjects.json has {n_pre} non-treatment-emergent AEs, expected 1")
+
+if not os.path.exists(lin_path):
+    warn("interactive/lineage_data.json not found — skipped the lineage checks")
+else:
+    lin = json.load(open(lin_path))
+    names = [d["name"] for d in lin["domains"]]
+    check(set(names) <= set(k.upper() for k in ALL_SDTM),
+          f"lineage_data.json: all {len(names)} domains exist as built datasets",
+          f"lineage_data.json names domains with no dataset: "
+          f"{sorted(set(names) - set(k.upper() for k in ALL_SDTM))}")
+    check(len(names) == len(set(names)), "lineage_data.json: no duplicate domains",
+          "lineage_data.json lists a domain twice")
+
+    # each domain's worked example must be a REAL record of that domain
+    bad = []
+    for d in lin["domains"]:
+        ex = d.get("example") or {}
+        sdtm_ex = ex.get("sdtm") or {}
+        dom_rows = read(ALL_SDTM[d["name"].lower()])
+        if not sdtm_ex:
+            continue
+        keys = [k for k in sdtm_ex if k in (dom_rows[0] if dom_rows else {})]
+        if not any(str(r.get(k, "")) == str(sdtm_ex[k]) for r in dom_rows for k in ["USUBJID"] if k in sdtm_ex):
+            bad.append(f"{d['name']}: example USUBJID {sdtm_ex.get('USUBJID')!r} not in the domain")
+            continue
+        match = [r for r in dom_rows
+                 if all(str(r.get(k, "")) == str(sdtm_ex[k]) for k in keys)]
+        if not match:
+            bad.append(f"{d['name']}: example is not a real record")
+    check(not bad, "lineage_data.json: every worked example is a real SDTM record",
+          f"lineage_data.json examples do not match the data: {bad[:4]}")
+
 # ============================================================ SUMMARY
 hdr("SUMMARY")
 if FAILS:
