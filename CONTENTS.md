@@ -140,12 +140,21 @@ from the `output/` folder their own programs write to.
 | `notebooks/00_setup_capstone.sas` | paths and checks |
 | `notebooks/13_capstone_DEF01_SKELETON.sas` | the starting point |
 | `notebooks/verify_capstone.sas` | self-check against the reference |
-| `oda_upload/sdtm_capstone_oda.zip` | ready-to-upload bundle |
+| `oda_upload/sdtm_capstone_INSTRUCTOR_oda.zip` | ⛔ **instructor only** — contains the solution, so the capstone can be re-validated on ODA. Never hand this to a trainee. |
 
-Four deliberate traps, none of them flagged in the instructions: **unit conversion**
-(imperial at site 02), **dosing interruption** (split EX records, not a flag),
-**a partial date** (`FEB-2024` → `2024-02`, null `AESTDY`, `AETRTEM=N`), and
-**abnormal labs that are not adverse events**.
+The raw data contains **four deliberate traps**, each one something ABC-01 never had, so a
+trainee who copies their ABC-01 programs unchanged fails at all four:
+
+| | Trap | What it tests |
+|---|---|---|
+| 1 | Units collected per site — site 02 uses lb / °F | `--ORRES` keeps the collected value, `--STRESN` standardises |
+| 2 | One subject dosed twice, with an interruption | structure carries the meaning, not a flag |
+| 3 | An adverse event dated only to a month | keep the partial date, derive nothing you cannot know |
+| 4 | Abnormal labs that are not adverse events | the boundary between a finding and an event |
+
+**These are told to the trainee**, in `def01_data_dictionary.md` and again in
+`README_capstone.md` — as a real study spec would. The exercise is not to guess them but to
+implement them correctly; `verify_capstone.sas` fails if any is handled wrong.
 
 > The solution program and answer key are **excluded** from the shared copies.
 

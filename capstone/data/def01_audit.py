@@ -308,6 +308,32 @@ for dom, pre in (("vs", "VS"), ("lb", "LB")):
           f"{pre}: {len(bad_n)} {pre}STRESN values a NUMERIC cannot hold, "
           f"e.g. {[b[pre+'STRESN'] for b in bad_n[:3]]}")
 
+
+# ================================================ SOLUTION CONTAINMENT
+#  A zip carrying 13_capstone_DEF01_SOLUTION.sas hands trainees the answer. Such a
+#  bundle is legitimate for the INSTRUCTOR (re-validating on ODA needs the solution
+#  to run), but the FILENAME must say so, so it can never be handed out by mistake.
+#  Rule: any bundle without "INSTRUCTOR" in its name must be solution-free.
+hdr("SOLUTION CONTAINMENT IN SHIPPABLE BUNDLES")
+import glob as _glob, zipfile as _zip
+_BOOT = os.path.dirname(os.path.dirname(HERE))          # capstone/data -> Bootcamp
+_zips = sorted(_glob.glob(os.path.join(_BOOT, "**", "*.zip"), recursive=True))
+check(bool(_zips), f"found {len(_zips)} bundle(s) to inspect",
+      "no .zip bundles found - this check inspected nothing")
+for _z in _zips:
+    _name = os.path.basename(_z)
+    try:
+        _inside = _zip.ZipFile(_z).namelist()
+    except Exception as _e:
+        check(False, "", f"{_name}: cannot be read ({_e})")
+        continue
+    _leak = [n for n in _inside if "SOLUTION" in n.upper() or "answer" in n.lower()]
+    _flagged = "INSTRUCTOR" in _name.upper()
+    check(not _leak or _flagged,
+          (f"{_name}: carries the solution, correctly marked INSTRUCTOR" if _leak
+           else f"{_name}: solution-free, safe to hand out"),
+          f"{_name}: carries {_leak} but is NOT marked INSTRUCTOR - a trainee could be given this")
+
 # VS specifically: unconverted rows must keep ORRES verbatim in STRESC
 unconv = [r for r in rd(SDTM["vs"]) if r["VSORRESU"] == r["VSSTRESU"]]
 drift = [r for r in unconv if r["VSORRES"] != r["VSSTRESC"]]
