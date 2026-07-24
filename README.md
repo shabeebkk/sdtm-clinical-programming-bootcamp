@@ -19,10 +19,12 @@ Built around two complete synthetic studies: **ABC-01** for teaching and **DEF-0
 
 ## What's here
 
+A full item-by-item inventory lives in **[`CONTENTS.md`](CONTENTS.md)**.
+
 | Folder | Contents |
 |---|---|
 | `presentations/` | 18 decks (`.pptx` + build scripts + rendered PDFs) — 13 SDTM, 5 ADaM |
-| `notebooks/sas/` | 18 SAS programs, each with a `.md` walkthrough, plus the run harness |
+| `notebooks/sas/` | 23 SAS programs (19 with a `.md` walkthrough), plus the run harnesses |
 | `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF |
 | `capstone/` | Study DEF-01 — a second study trainees map end to end |
 | `interactive/` | Three self-contained HTML explorers over the ABC-01 data (see below) |
