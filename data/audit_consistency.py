@@ -610,6 +610,47 @@ try:
 except ImportError:
     warn("lxml not available - skipped the method wiring check")
 
+# ================================================ 8f. STATED RAW ROW COUNTS
+#  The AE raw file grew from 9 rows to 10 and the old number survived in FOUR
+#  places: a deck, the mapping spec, the raw data dictionary, and notebook 03's
+#  expected-output title - where it actively misleads, because a trainee runs
+#  the check, sees 10, and has been told to expect 9. Any file that states a
+#  raw row count is checked against the file it describes.
+hdr("8f. STATED RAW ROW COUNTS MATCH THE RAW FILES")
+_truth = {}
+for _p in sorted(glob.glob(os.path.join(HERE, "*_raw.csv"))):
+    with open(_p) as _fh:
+        _truth[os.path.basename(_p)] = sum(1 for _ in csv.DictReader(_fh))
+
+#  notebook 03 prints the whole expected sequence in one title
+_nb = os.path.join(ROOT, "notebooks", "sas", "03_import_raw_data_SAS.sas")
+_order = ["dm_raw.csv", "ds_raw.csv", "ex_raw.csv", "ae_raw.csv",
+          "cm_raw.csv", "vs_raw.csv", "lb_raw.csv"]
+if os.path.exists(_nb):
+    _m = re.search(r"row counts \(expect ([0-9 /]+)\)", open(_nb).read())
+    if _m:
+        _stated = [int(x) for x in _m.group(1).split("/")]
+        _want = [_truth[k] for k in _order]
+        check(_stated == _want,
+              f"notebook 03: expected row counts match the raw files {_want}",
+              f"notebook 03: title says {_stated}, raw files are {_want}")
+    else:
+        warn("notebook 03: could not find the expected-row-count title")
+
+#  the raw data dictionary and deck 04 both tabulate per-file row counts
+for _rel, _pat in ((os.path.join(HERE, "raw_data_dictionary.md"),
+                    r"`(\w+_raw\.csv)`[^|]*\|[^|]*\|[^|]*\|\s*(\d+)\s*\|"),
+                   (os.path.join(ROOT, "presentations", "build_04_reading_raw_data.js"),
+                    r'\["(\w+_raw\.csv)",[^\]]*?"(\d+)"')):
+    if not os.path.exists(_rel):
+        continue
+    _bad = []
+    for _fn, _n in re.findall(_pat, open(_rel).read()):
+        if _fn in _truth and int(_n) != _truth[_fn]:
+            _bad.append(f"{_fn}: says {_n}, actually {_truth[_fn]}")
+    check(not _bad, f"{os.path.basename(_rel)}: stated raw row counts are correct",
+          f"{os.path.basename(_rel)}: {_bad}")
+
 # ============================================================ 9. CROSS-DOMAIN STORY
 hdr("9. CROSS-DOMAIN STORY CONSISTENCY")
 ds = read(SDTM["ds"])

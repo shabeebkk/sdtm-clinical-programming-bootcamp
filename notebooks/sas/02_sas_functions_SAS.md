@@ -146,6 +146,33 @@ Both are the same underlying lesson: **SAS truncates quietly.** It will not tell
 
 ---
 
+## PROC SQL — SAS's other language
+
+Section 7 exists because **notebook 03 opens with a `PROC SQL` block**, and until now
+nothing had told you SAS has two languages.
+
+|  | DATA step | PROC SQL |
+|---|---|---|
+| works | row by row | a whole table at once |
+| you say | "for each record, do this" | "give me the answer to this" |
+| best for | **building** records — most of SDTM mapping | **asking** about a table — most of QC |
+
+Neither is better. You will use both, often in the same program.
+
+The section covers exactly the SQL this bootcamp uses and nothing more: `SELECT`/`FROM`,
+naming a result with `as`, `count(*)` versus `count(distinct x)`, `UNION ALL` for stacking
+results, a `NOT IN (subquery)` orphan check, and `GROUP BY`.
+
+Three things that catch people out:
+
+1. **`PROC SQL` ends with `QUIT`, not `RUN`.** It stays open until you quit it.
+2. **Missing is still smaller than every number** — the same trap as section 5. `where dose < 100` is true for a row with no dose.
+3. **SQL rarely errors; it returns something.** Always check the row count is what you expected.
+
+> The `count(distinct ...)` example is the one to remember. "Is this identifier as unique as
+> I think it is?" is the question behind `USUBJID`, and notebook 03 uses this exact query to
+> prove `SUBJID` is unique only within a site.
+
 ## Exercises
 Six tasks at the bottom of the `.sas` file. Solutions:
 `../../answer-keys/02_functions_answers.md`.

@@ -145,7 +145,7 @@ run;
  |    Expected: dm 8, ds 8, ex 8, ae 9, cm 8, vs 24, lb 48.                  |
  *---------------------------------------------------------------------------*/
 proc sql;
-    title "Check 1 - row counts (expect 8 / 8 / 8 / 9 / 8 / 24 / 48)";
+    title "Check 1 - row counts (expect 8 / 8 / 8 / 10 / 8 / 24 / 48)";
     select "dm_raw" as dataset length=10, count(*) as n from dm_raw
     union all select "ds_raw", count(*) from ds_raw
     union all select "ex_raw", count(*) from ex_raw

@@ -18,7 +18,7 @@ discontinues early.
 | `dm_raw.csv` | Demographics / enrolment (screening) | one row per subject | 8 |
 | `ds_raw.csv` | Disposition / end of study | one row per subject | 8 |
 | `ex_raw.csv` | Study-drug exposure | one row per subject | 8 |
-| `ae_raw.csv` | Adverse events | one row per event | 9 |
+| `ae_raw.csv` | Adverse events | one row per event | 10 |
 | `cm_raw.csv` | Concomitant medications | one row per medication | 8 |
 | `vs_raw.csv` | Vital signs | **wide**: one row per subject per visit | 24 |
 | `lb_raw.csv` | Laboratory results | **tall**: one row per test | 48 |

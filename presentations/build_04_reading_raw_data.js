@@ -91,7 +91,7 @@ const files = [
   ["dm_raw.csv", "Demographics (screening)", "one row per subject", "8", TEAL],
   ["ds_raw.csv", "Disposition / end of study", "one row per subject", "8", TEAL],
   ["ex_raw.csv", "Study drug exposure", "one row per subject", "8", SEA],
-  ["ae_raw.csv", "Adverse events", "one row per event", "9", ACCENT],
+  ["ae_raw.csv", "Adverse events", "one row per event", "10", ACCENT],
   ["cm_raw.csv", "Concomitant meds", "one row per medication", "8", INK],
   ["vs_raw.csv", "Vital signs", "WIDE — one row per visit", "24", TEAL],
   ["lb_raw.csv", "Laboratory", "tall — one row per test", "48", SEA],
