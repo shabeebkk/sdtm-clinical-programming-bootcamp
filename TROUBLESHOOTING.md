@@ -328,3 +328,23 @@ caught a single wrong character in a plausible-looking date across 96 rows. Noth
 ---
 
 *Compiled from defects found running this course on SAS OnDemand for Academics (SAS 9.4M8).*
+
+## Notebook 12b aborts instead of exporting
+
+**Symptom.** `12b_submission_package_SAS.sas` stops with `ERROR: Export ABORTED`
+and no `.xpt` files are written.
+
+**Cause.** That is the gate working. One or more variables break a SAS transport
+v5 limit: a dataset or variable name over 8 characters, a label over 40, a
+character column over 200 bytes, or a non-ASCII character in a name, label or
+value. Transport v5 is single-byte ASCII, so a smart quote pasted in from Word
+survives in a SAS dataset and then corrupts on the way into the XPT.
+
+**Fix.** Read the `XPT v5 violations` listing printed just above the abort, fix
+the named variable, and re-run. The gate deliberately blocks: until 2026-07-26
+it printed the error and exported anyway, which produced files that looked fine
+alongside a log saying ERROR.
+
+> **Not yet run on ODA.** The abort and the non-ASCII value scan were added
+> 2026-07-26 and have passed static checks only. Re-run notebook 12b on SAS
+> OnDemand and confirm both behave before relying on them.

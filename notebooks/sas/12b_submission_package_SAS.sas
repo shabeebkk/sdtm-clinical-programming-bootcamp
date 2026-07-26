@@ -77,12 +77,55 @@ proc sql;
                when length(compress(name))    > 8 then "VARIABLE NAME > 8 chars"
                when length(label)            > 40 then "LABEL        > 40 chars"
                when type = "char" and length > 200 then "CHAR LENGTH  > 200 bytes"
+               /*  NOTNASCII returns the position of the first character
+                   outside the ASCII range, or 0 if there is none. Transport v5
+                   is a single-byte ASCII format: a smart quote or an accented
+                   letter pasted in from Word survives happily in a SAS dataset
+                   and then corrupts on the way into XPT. Names and labels are
+                   checked here; VALUES are checked in the step below, because
+                   dictionary.columns describes metadata, not data.          */
+               when notnascii(name)  > 0 then "NAME has non-ASCII chars"
+               when notnascii(label) > 0 then "LABEL has non-ASCII chars"
                else ""
            end as issue length = 30
     from dictionary.columns
     where libname = "SDTM"
     having issue ne "";
 quit;
+
+/*  Non-ASCII in the DATA itself. The query above can only see metadata, so a
+    stray smart quote inside a character VALUE - by far the likeliest way this
+    happens - would pass a metadata-only check and still break the transport
+    file. Walk the character columns of every domain and append any offender. */
+%macro ascii_scan;
+    %local i n ds;
+    proc sql noprint;
+        select memname into :dslist separated by " " from dictionary.tables
+        where libname = "SDTM";
+    quit;
+    %let n = %sysfunc(countw(&dslist));
+    %do i = 1 %to &n;
+        %let ds = %scan(&dslist, &i);
+        data _ascii_&i;
+            length dataset $32 variable $32 type $8 len 8 label $256 issue $30;
+            set sdtm.&ds;
+            array _c {*} _character_;
+            do _j = 1 to dim(_c);
+                if notnascii(_c{_j}) > 0 then do;
+                    dataset  = "&ds";
+                    variable = vname(_c{_j});
+                    type = "char"; len = .; label = _c{_j};
+                    issue = "VALUE has non-ASCII chars";
+                    output;
+                end;
+            end;
+            keep dataset variable type len label issue;
+        run;
+        proc append base = xpt_issues data = _ascii_&i force nowarn; run;
+        proc datasets library = work nolist; delete _ascii_&i; quit;
+    %end;
+%mend;
+%ascii_scan;
 
 proc sql noprint;
     select count(*) into :n_issues trimmed from xpt_issues;
@@ -100,6 +143,15 @@ quit;
         proc print data = xpt_issues noobs label; run;
         title;
         %put ERROR: &n_issues variable(s) break the XPORT v5 limits. See the listing.;
+        %put ERROR- Export ABORTED. Nothing was written to &xptpath..;
+        %put ERROR- A gate that only complains is not a gate: if this macro merely;
+        %put ERROR- printed and carried on, you would get .xpt files that LOOK fine,;
+        %put ERROR- a log that says ERROR, and a package the agency cannot read.;
+        %put ERROR- Fix the variable(s) above, then re-run this notebook.;
+        /*  %abort cancel stops the whole submitted block, so none of the
+            %to_xpt calls below can run. Without it, execution fell straight
+            through and every violating dataset was exported anyway.        */
+        %abort cancel;
     %end;
 %mend;
 %xpt_gate;
