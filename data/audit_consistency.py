@@ -581,6 +581,35 @@ try:
 except ImportError:
     warn("lxml not available - skipped the define leaf check")
 
+# ================================================ 8e. DEFINE.XML METHOD WIRING
+#  A MethodDef nothing references is dead metadata: the derivation exists in
+#  the file but no variable points at it, so a reviewer never sees it. This bit
+#  ADaM value-level metadata - 14 AVAL methods were defined while none of the
+#  ValueListDef ItemRefs carried def:MethodOID. Check BOTH directions.
+hdr("8e. DEFINE.XML METHODS ARE WIRED UP")
+try:
+    from lxml import etree as _ET2
+    _ODM = "{http://www.cdisc.org/ns/odm/v1.3}"
+    _DEF = "{http://www.cdisc.org/ns/def/v2.0}"
+    for _dn in ("define.xml", "define_adam.xml"):
+        _dp = os.path.join(HERE, "define", _dn)
+        if not os.path.exists(_dp):
+            warn(f"{_dn} not found - skipped")
+            continue
+        _doc = _ET2.parse(_dp)
+        _defined = {m.get("OID") for m in _doc.findall(f".//{_ODM}MethodDef")}
+        _used = {ir.get(_DEF + "MethodOID")
+                 for ir in _doc.findall(f".//{_ODM}ItemRef")}
+        _used = {u for u in _used if u}
+        _orphan = sorted(_defined - _used)
+        _dangling = sorted(_used - _defined)
+        check(not _orphan, f"{_dn}: all {len(_defined)} MethodDef(s) are referenced",
+              f"{_dn}: {len(_orphan)} MethodDef(s) defined but never referenced: {_orphan[:4]}")
+        check(not _dangling, f"{_dn}: every referenced MethodOID is defined",
+              f"{_dn}: dangling MethodOID reference(s): {_dangling[:4]}")
+except ImportError:
+    warn("lxml not available - skipped the method wiring check")
+
 # ============================================================ 9. CROSS-DOMAIN STORY
 hdr("9. CROSS-DOMAIN STORY CONSISTENCY")
 ds = read(SDTM["ds"])

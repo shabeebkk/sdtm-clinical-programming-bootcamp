@@ -267,7 +267,11 @@ def build():
                                  f"{it['param']} — analysis value", mid, ""))
             methods.append((mid, f"Algorithm for AVAL where PARAMCD={pc}", it["deriv"]))
             wheres.append((wc_oid, f"IT.{ds}.PARAMCD", pc))
-            vl_items.append((item_oid, wc_oid))
+            #  Carry the MethodOID through to the ItemRef. Creating the
+            #  MethodDef is not enough - a method nothing REFERENCES is dead
+            #  metadata, and a reviewer opening the define sees the parameter
+            #  with no derivation attached to it.
+            vl_items.append((item_oid, wc_oid, mid))
         valuelists.append((f"VL.{ds}.AVAL", vl_items))
 
     for oid, name, dtype, length, label, mid, cl in vlm_itemdefs:
@@ -280,10 +284,11 @@ def build():
     # --- ValueListDefs ---------------------------------------------------
     for vl_oid, vl_items in valuelists:
         vld = ET.SubElement(mdv, q(DEF_NS, "ValueListDef"), {"OID": vl_oid})
-        for i, (item_oid, wc_oid) in enumerate(vl_items, start=1):
+        for i, (item_oid, wc_oid, mid) in enumerate(vl_items, start=1):
             ref = ET.SubElement(vld, q(ODM_NS, "ItemRef"),
                                 {"ItemOID": item_oid, "OrderNumber": str(i),
-                                 "Mandatory": "No"})
+                                 "Mandatory": "No",
+                                 q(DEF_NS, "MethodOID"): mid})
             ET.SubElement(ref, q(DEF_NS, "WhereClauseRef"), {"WhereClauseOID": wc_oid})
 
     # --- WhereClauseDefs -------------------------------------------------

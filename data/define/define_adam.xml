@@ -1375,50 +1375,50 @@
         <def:Origin Type="Derived"/>
       </ItemDef>
       <def:ValueListDef OID="VL.ADVS.AVAL">
-        <ItemRef ItemOID="IT.ADVS.AVAL.SYSBP" OrderNumber="1" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.SYSBP" OrderNumber="1" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.SYSBP">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.SYSBP"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.DIABP" OrderNumber="2" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.DIABP" OrderNumber="2" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.DIABP">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.DIABP"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.PULSE" OrderNumber="3" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.PULSE" OrderNumber="3" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.PULSE">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.PULSE"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.TEMP" OrderNumber="4" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.TEMP" OrderNumber="4" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.TEMP">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.TEMP"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.WEIGHT" OrderNumber="5" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.WEIGHT" OrderNumber="5" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.WEIGHT">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.WEIGHT"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.HEIGHT" OrderNumber="6" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.HEIGHT" OrderNumber="6" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.HEIGHT">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.HEIGHT"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADVS.AVAL.BMI" OrderNumber="7" Mandatory="No">
+        <ItemRef ItemOID="IT.ADVS.AVAL.BMI" OrderNumber="7" Mandatory="No" def:MethodOID="MT.ADVS.AVAL.BMI">
           <def:WhereClauseRef WhereClauseOID="WC.ADVS.BMI"/>
         </ItemRef>
       </def:ValueListDef>
       <def:ValueListDef OID="VL.ADLB.AVAL">
-        <ItemRef ItemOID="IT.ADLB.AVAL.HGB" OrderNumber="1" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.HGB" OrderNumber="1" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.HGB">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.HGB"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADLB.AVAL.HCT" OrderNumber="2" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.HCT" OrderNumber="2" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.HCT">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.HCT"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADLB.AVAL.WBC" OrderNumber="3" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.WBC" OrderNumber="3" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.WBC">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.WBC"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADLB.AVAL.PLAT" OrderNumber="4" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.PLAT" OrderNumber="4" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.PLAT">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.PLAT"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADLB.AVAL.ALT" OrderNumber="5" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.ALT" OrderNumber="5" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.ALT">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.ALT"/>
         </ItemRef>
-        <ItemRef ItemOID="IT.ADLB.AVAL.CREAT" OrderNumber="6" Mandatory="No">
+        <ItemRef ItemOID="IT.ADLB.AVAL.CREAT" OrderNumber="6" Mandatory="No" def:MethodOID="MT.ADLB.AVAL.CREAT">
           <def:WhereClauseRef WhereClauseOID="WC.ADLB.CREAT"/>
         </ItemRef>
       </def:ValueListDef>
       <def:ValueListDef OID="VL.ADTTE.AVAL">
-        <ItemRef ItemOID="IT.ADTTE.AVAL.TTFAE" OrderNumber="1" Mandatory="No">
+        <ItemRef ItemOID="IT.ADTTE.AVAL.TTFAE" OrderNumber="1" Mandatory="No" def:MethodOID="MT.ADTTE.AVAL.TTFAE">
           <def:WhereClauseRef WhereClauseOID="WC.ADTTE.TTFAE"/>
         </ItemRef>
       </def:ValueListDef>
@@ -2114,12 +2114,12 @@
       </MethodDef>
       <MethodDef OID="MT.ADTTE.EVNTDESC" Name="Algorithm for EVNTDESC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">What ADT represents: the event, or the reason for censoring.</TranslatedText>
+          <TranslatedText xml:lang="en">What ADT represents. LITERAL VALUES for this study - event records: 'First treatment-emergent adverse event'; censored records: 'Censored at last dose'. The text is not standardised by ADaM, so a spec that only describes the meaning is not reproducible - pin the exact strings here.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.ADTTE.CNSDTDSC" Name="Algorithm for CNSDTDSC" Type="Computation">
         <Description>
-          <TranslatedText xml:lang="en">Why censored; populated on censored records only.</TranslatedText>
+          <TranslatedText xml:lang="en">Why censored; populated on censored records only. LITERAL VALUE for this study: 'LAST DOSE'. As with EVNTDESC the wording is a study choice, not an ADaM requirement, so it is fixed here.</TranslatedText>
         </Description>
       </MethodDef>
       <MethodDef OID="MT.ADTTE.SRCDOM" Name="Algorithm for SRCDOM" Type="Computation">

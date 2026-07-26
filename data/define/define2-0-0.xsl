@@ -156,6 +156,60 @@
     </table>
   </xsl:for-each>
 
+  <!-- ================ value-level metadata ================
+       AVAL means a different thing for every parameter: a systolic pressure,
+       a haemoglobin, a BMI. Value-level metadata is where a define says HOW
+       each one was derived, keyed by a where-clause on PARAMCD. Without this
+       section a reviewer sees the parameter list and no derivation behind it.
+       Only rendered when the define actually carries value lists (the SDTM
+       define does not; the ADaM one does). =========================== -->
+  <xsl:if test="//def:ValueListDef">
+    <h2>Value-Level Metadata</h2>
+    <p class="note">
+      Where one variable carries a different derivation per parameter, the rule
+      is attached to the value, not the column. The where-clause is the
+      condition that selects it.
+    </p>
+    <xsl:for-each select="//def:ValueListDef">
+      <h3 id="{@OID}"><span class="mono"><xsl:value-of select="@OID"/></span></h3>
+      <table>
+        <tr><th>#</th><th>Where</th><th>Variable</th><th>Description</th><th>Derivation</th></tr>
+        <xsl:for-each select="odm:ItemRef">
+          <xsl:sort select="@OrderNumber" data-type="number"/>
+          <xsl:variable name="ioid" select="@ItemOID"/>
+          <xsl:variable name="it" select="//odm:ItemDef[@OID=$ioid]"/>
+          <xsl:variable name="wcoid" select="odm:WhereClauseRef/@WhereClauseOID"/>
+          <xsl:variable name="wc" select="//def:WhereClauseDef[@OID=$wcoid]"/>
+          <xsl:variable name="mid" select="@def:MethodOID"/>
+          <tr>
+            <td><xsl:value-of select="@OrderNumber"/></td>
+            <td class="mono">
+              <xsl:variable name="wcitem" select="$wc/odm:RangeCheck/@ItemOID"/>
+              <xsl:value-of select="//odm:ItemDef[@OID=$wcitem]/@Name"/>
+              <xsl:text> </xsl:text>
+              <xsl:choose>
+                <xsl:when test="$wc/odm:RangeCheck/@Comparator='EQ'">=</xsl:when>
+                <xsl:otherwise><xsl:value-of select="$wc/odm:RangeCheck/@Comparator"/></xsl:otherwise>
+              </xsl:choose>
+              <xsl:text> </xsl:text>
+              <b><xsl:value-of select="$wc/odm:RangeCheck/odm:CheckValue"/></b>
+            </td>
+            <td class="mono"><xsl:value-of select="$it/@Name"/></td>
+            <td><xsl:value-of select="$it/odm:Description/odm:TranslatedText"/></td>
+            <td>
+              <xsl:choose>
+                <xsl:when test="$mid">
+                  <xsl:value-of select="//odm:MethodDef[@OID=$mid]/odm:Description/odm:TranslatedText"/>
+                </xsl:when>
+                <xsl:otherwise><span class="note">not documented</span></xsl:otherwise>
+              </xsl:choose>
+            </td>
+          </tr>
+        </xsl:for-each>
+      </table>
+    </xsl:for-each>
+  </xsl:if>
+
   <!-- ================ codelists ================ -->
   <h2>Controlled Terminology</h2>
   <xsl:for-each select="//odm:CodeList">
