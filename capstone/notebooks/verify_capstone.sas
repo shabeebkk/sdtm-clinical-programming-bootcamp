@@ -14,6 +14,11 @@
  |  PREVIOUS attempt's dataset survives and is what gets graded. A MATCH      |
  |  whose build time predates your last run is not a pass - it is last time's |
  |  pass. The comparison cannot tell; the timestamp can.                      |
+ |                                                                            |
+ |  ONE MORE LIMIT: the comparison is TEXT, so a FORMAT you applied changes    |
+ |  it. format 8.1 on a numeric 93 exports as 93.0 against a reference 93 and  |
+ |  reports a difference, although your value is right. Do not apply display   |
+ |  formats to the submitted variables; SDTM carries values, not formatting.   |
  *===========================================================================*/
 %let verify_version = def01-2026-07-26a;
 %put NOTE- verify_capstone.sas version &verify_version;
@@ -141,6 +146,73 @@ quit;
 
 title  "CAPSTONE DEF-01 - verification against the reference";
 title2 "MATCH = you reproduced the reference dataset exactly";
+/*---------------------------------------------------------------------------*
+ |  VARIABLE TYPES  -  what the text comparison cannot see                    |
+ |                                                                            |
+ |  The comparison above exports to CSV and compares text, which is what makes |
+ |  it immune to PROC IMPORT's type guessing. The cost is that it is BLIND TO  |
+ |  TYPE: a character VSSTRESN holding "93" exports exactly like a numeric 93  |
+ |  and passes, even though a character --STRESN is wrong SDTM.                |
+ |                                                                            |
+ |  So check types separately. Both directions matter, and the second is the   |
+ |  one people get wrong:                                                      |
+ |                                                                            |
+ |    MUST BE NUMERIC   --SEQ, --DY, AGE, --DOSE, --STRESN, --STNRLO/HI,       |
+ |                      VISITNUM                                               |
+ |    MUST BE CHARACTER SUBJID, SITEID, IDVARVAL, --ORRES, --STRESC,           |
+ |                      --ORNRLO/HI                                            |
+ |                                                                            |
+ |  SUBJID and SITEID are the classic: read them as numeric and 001 becomes 1, |
+ |  which silently destroys USUBJID for every subject at site 01.              |
+ *---------------------------------------------------------------------------*/
+%macro type_check;
+    data _want;
+        length name $32 want $4;
+        /* numeric by the SDTM IG */
+        do name = "AESEQ","AESTDY","AEENDY","AGE","EXSEQ","EXDOSE","EXSTDY","EXENDY",
+                  "LBSEQ","LBSTRESN","LBSTNRLO","LBSTNRHI","VISITNUM","LBDY",
+                  "VSSEQ","VSSTRESN","VSDY";
+            want = "num"; output;
+        end;
+        /* character by the SDTM IG - including the leading-zero identifiers */
+        do name = "SUBJID","SITEID","IDVARVAL","LBORRES","LBSTRESC","LBORNRLO",
+                  "LBORNRHI","VSORRES","VSSTRESC","USUBJID","STUDYID","DOMAIN";
+            want = "char"; output;
+        end;
+    run;
+
+    proc sql;
+        create table _typechk as
+        select w.name, w.want, c.memname, c.type as actual
+        from _want w
+        inner join dictionary.columns c
+          on upcase(c.name) = upcase(w.name)
+        where c.libname = "SDTM" and c.type ne w.want;
+    quit;
+
+    %local ntype;
+    proc sql noprint; select count(*) into :ntype trimmed from _typechk; quit;
+
+    %if &ntype = 0 %then %do;
+        %put NOTE: ---------------------------------------------------------;
+        %put NOTE:   VARIABLE TYPES OK - nothing numeric left as character,;
+        %put NOTE:   and no identifier accidentally read as a number.;
+        %put NOTE: ---------------------------------------------------------;
+    %end;
+    %else %do;
+        title "WRONG VARIABLE TYPES - the text comparison cannot see these";
+        proc print data = _typechk noobs label;
+            var memname name want actual;
+            label memname = "Dataset" name = "Variable"
+                  want = "Should be" actual = "Yours is";
+        run;
+        title;
+        %put ERROR: &ntype variable(s) have the wrong TYPE. A domain can match;
+        %put ERROR- line for line and still be wrong SDTM. See the listing.;
+    %end;
+%mend;
+%type_check;
+
 proc print data = _verify noobs label;
     var domain status detail built;
     label domain = "Domain" status = "Result" detail = "Detail"
