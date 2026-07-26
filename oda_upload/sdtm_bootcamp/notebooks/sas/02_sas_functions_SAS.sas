@@ -351,6 +351,99 @@ title;
     are bigger, but the tools are these.                                    */
 
 
+/*---------------------------------------------------------------------------*
+ | 7. PROC SQL - SAS'S OTHER LANGUAGE                                         |
+ |    You meet this in the very next notebook, so meet it here first.        |
+ *---------------------------------------------------------------------------*/
+
+/*  SAS has TWO ways to work with data, and they are genuinely different
+    languages living in the same product:
+
+      the DATA step   - row by row. "For each record, do this."
+      PROC SQL        - set at a time. "Give me the answer to this question."
+
+    Neither is better. The DATA step wins when you are BUILDING records one
+    at a time, which is most of SDTM mapping. PROC SQL wins when you are
+    ASKING something about a whole table at once - how many, how many
+    distinct, does this exist in that - which is most of QC.
+
+    This is not the SQL you may have met in a database course; it is close
+    enough to read, and this section covers every piece the bootcamp uses.  */
+
+/*  7a. SELECT ... FROM - the shape of every query.
+    Read it backwards: FROM says which table, SELECT says which columns.  */
+proc sql;
+    title "7a. SELECT and FROM";
+    select subjid, sev, dose_c
+    from demo;
+quit;
+
+/*  7b. count(*) counts ROWS. "as n" NAMES the result column - without a
+    name SAS invents one. length= sets a character column's width, exactly
+    as LENGTH does in a DATA step.                                          */
+proc sql;
+    title "7b. Counting rows";
+    select "demo" as dataset length = 10,
+           count(*) as n_rows
+    from demo;
+quit;
+
+/*  7c. count(distinct x) counts DIFFERENT values, not rows. This is the
+    single most useful QC question in clinical data: are these identifiers
+    as unique as I think they are? Notebook 03 uses exactly this to prove
+    SUBJID is unique only within a site.                                    */
+proc sql;
+    title "7c. Rows vs distinct values";
+    select count(*)               as rows,
+           count(distinct subjid) as distinct_subjid
+    from demo;
+quit;
+
+/*  7d. UNION ALL stacks the result of one query under another. The columns
+    must line up by POSITION, and only the FIRST query's column names are
+    used - which is why you will see "as dataset" on the first line only.
+    ALL means "keep duplicates"; plain UNION would silently remove them.   */
+proc sql;
+    title "7d. Stacking results with UNION ALL";
+    select "first three" as which length = 12, count(*) as n from demo where subjid <= "003"
+    union all
+    select "everyone",                         count(*)       from demo;
+quit;
+
+/*  7e. WHERE ... NOT IN (a subquery). The inner SELECT runs first and
+    produces a list; the outer one keeps rows whose value is NOT in it.
+    This is how you find ORPHANS - records referring to a subject who does
+    not exist in DM. A correct study returns ZERO rows here, which is why
+    notebook 03 tells you an empty result is the passing result.           */
+proc sql;
+    title "7e. Orphan check - an EMPTY result is the good result";
+    select subjid from demo
+    where subjid not in (select subjid from demo);
+quit;
+
+/*  7f. GROUP BY collapses rows into one per group, so the summary
+    functions report per group instead of overall.                          */
+proc sql;
+    title "7f. One row per group";
+    select sev, count(*) as n
+    from demo
+    group by sev;
+quit;
+title;
+
+/*  THREE THINGS THAT CATCH PEOPLE OUT
+
+    1. PROC SQL ends with QUIT, not RUN. It stays open and runs every
+       statement you type until you quit it.
+    2. A missing value is smaller than every number here too - the same trap
+       as section 5. "where dose < 100" is TRUE for a row with no dose.
+    3. SQL will happily answer a question you did not mean to ask. It rarely
+       errors; it returns something. Check the row count is what you expect.
+
+    That is the whole of the SQL this bootcamp uses. When notebook 03 opens
+    with a PROC SQL block, none of it should be new.                        */
+
+
 /*===========================================================================*
  |  YOUR TURN  -  exercises                                                   |
  |  Write your code below each task, then run it.                             |

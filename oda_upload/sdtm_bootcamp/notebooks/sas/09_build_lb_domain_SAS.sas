@@ -197,7 +197,7 @@ proc sql;
     create table pre_dose as
     select usubjid, lbtestcd, max(visitnum) as maxpre
     from lb_work
-    where lbdy <= 1
+    where . < lbdy <= 1
       and catx("|", usubjid, lbtestcd) in
           (select catx("|", usubjid, lbtestcd) from lb_work where lbdy > 1)
     group by usubjid, lbtestcd;
@@ -210,7 +210,7 @@ data lb;
     merge lb_work (in = a) pre_dose;
     by usubjid lbtestcd;
     if a;
-    if lbdy <= 1 and visitnum = maxpre then lbblfl = "Y";
+    if . < lbdy <= 1 and visitnum = maxpre then lbblfl = "Y";
     else                                    lbblfl = "";
     drop maxpre;
 run;

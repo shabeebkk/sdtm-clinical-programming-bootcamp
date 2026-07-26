@@ -220,7 +220,13 @@ proc sql;
     create table pre_dose as
     select usubjid, vstestcd, max(visitnum) as maxpre
     from vs_tall
-    where vsdy <= 1              /* <= 1, not < 1: Day 1 vitals are pre-dose */
+    /*  TWO things are deliberate in this condition:
+          "<= 1" not "< 1"  - Day 1 vitals are taken before the first dose.
+          ". <" in front    - a missing VSDY is SMALLER than every number in
+                              SAS, so a bare "vsdy <= 1" would treat a record
+                              with no date as pre-dose and could flag it as
+                              baseline. Guard the missing case explicitly. */
+    where . < vsdy <= 1
       and catx("|", usubjid, vstestcd) in
           (select catx("|", usubjid, vstestcd) from vs_tall where vsdy > 1)
     group by usubjid, vstestcd;
@@ -235,7 +241,7 @@ data vs;
     by usubjid vstestcd;
     if a;
 
-    if vsdy <= 1 and visitnum = maxpre then vsblfl = "Y";
+    if . < vsdy <= 1 and visitnum = maxpre then vsblfl = "Y";
     else                                    vsblfl = "";
     /*  Note the blank, not "N". VSBLFL is a Y-or-null flag; an "N" is a
         conformance finding. The same is true of every SDTM --BLFL.       */

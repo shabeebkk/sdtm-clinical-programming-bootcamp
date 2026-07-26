@@ -125,6 +125,29 @@ for deck in decks:
         if n_hidden == 0 and n_off == 0:
             print(f"  PASS  {name}: {len(slide_names)} slides, no hidden text, nothing off-slide")
 
+#  ---- PDF EXPORTS MUST NOT LAG THEIR DECK -------------------------------
+#  The .pdf is what most people actually read, and it is a SEPARATE artifact:
+#  rebuilding a .pptx does not touch it. A slide fix landed in the deck while
+#  the PDF still showed the old wording ("Two dangers" after it became three),
+#  which is invisible unless something compares the two.
+#  Refresh with:  soffice --headless --convert-to pdf --outdir . *.pptx
+print("\n" + "=" * 78)
+print("PDF EXPORTS ARE CURRENT")
+print("=" * 78)
+_stale, _missing = [], []
+for _p in decks:
+    _pdf = _p[:-5] + ".pdf"
+    if not os.path.exists(_pdf):
+        _missing.append(os.path.basename(_pdf))
+    elif os.path.getmtime(_p) > os.path.getmtime(_pdf) + 1:
+        _stale.append(os.path.basename(_pdf))
+if _missing:
+    fail(f"no PDF export for: {_missing}")
+if _stale:
+    fail(f"PDF older than its .pptx (re-export): {_stale}")
+if not _missing and not _stale:
+    print(f"  PASS  all {len(decks)} PDF exports are newer than their deck")
+
 print("\n" + "=" * 78)
 if FAILS:
     print(f"{len(FAILS)} LAYOUT FAILURE(S)")

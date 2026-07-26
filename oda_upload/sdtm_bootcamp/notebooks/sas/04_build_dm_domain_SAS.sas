@@ -155,10 +155,24 @@ data dm;
     ageu = "YEARS";
 
     /* --- 2c. Controlled Terminology ------------------------------------- */
+    /*  THIS IS YOUR FIRST CONTROLLED TERMINOLOGY DECISION, and you are making
+        it before the rules have been taught. That is deliberate: you will
+        apply CT in five domains over the next four days, and DAY 8 (deck 08
+        and notebook 10) is where codelists, extensible versus non-extensible,
+        which version is authoritative, and how to map SAFELY are covered.
+
+        For now: follow the mapping specification, and do not invent values.
+
+        One thing to notice as you go - the ELSE below sets SEX to blank when
+        the code is neither 1 nor 2. Any value nobody anticipated disappears
+        SILENTLY: no error, no warning, no row count change. It is the right
+        shape of code for today and the wrong shape for a real study, and
+        undoing exactly that habit is what Day 8 is for. Watch for the same
+        pattern in the domains you build between now and then.             */
     /* SEX is an EDC code: 1 = Male, 2 = Female                             */
     if      sex = "1" then sex = "M";
     else if sex = "2" then sex = "F";
-    else                   sex = "";
+    else                   sex = "";     /* <- the silent blank. See Day 8. */
 
     /* RACE / ETHNIC arrive as free text in mixed case.
        strip() removes leading/trailing blanks, upcase() normalises case.   */
