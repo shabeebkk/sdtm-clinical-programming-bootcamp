@@ -77,6 +77,17 @@ age = intck("year", input(brthdtc, yymmdd10.), input(rficdtc, yymmdd10.), "C");
 if you use first dose instead — one subject's age shifts by a year.
 
 ### 2c. Controlled Terminology
+
+> **You are applying CT before it has been taught — deliberately.** Codelists, extensible vs
+> non-extensible, which version is authoritative and how to map *safely* are all Day 8
+> (deck 08 and notebook 10). Until then: follow the mapping specification, and never invent
+> a value.
+>
+> Watch the `else sex = "";` line as you go. Anything that is neither `1` nor `2` becomes
+> blank **silently** — no error, no warning, no change in the row count. It is the right
+> shape of code for today and the wrong shape for a real study. Breaking that habit is what
+> Day 8 is for, and deck 08 opens by pointing straight back at this line.
+
 ```sas
 if      sex = "1" then sex = "M";
 else if sex = "2" then sex = "F";
