@@ -8,8 +8,14 @@
  |  reference in ../data/sdtm/. MATCH = you reproduced it exactly.            |
  |  (Text compare, not PROC COMPARE: it sidesteps PROC IMPORT's type guessing |
  |  and also catches wrong column order. Header case is ignored on purpose.)  |
+ |                                                                            |
+ |  READ THE 'Graded dataset / build time' COLUMN. The SDTM library is        |
+ |  PERMANENT and nothing clears it, so if a rebuild fails partway the        |
+ |  PREVIOUS attempt's dataset survives and is what gets graded. A MATCH      |
+ |  whose build time predates your last run is not a pass - it is last time's |
+ |  pass. The comparison cannot tell; the timestamp can.                      |
  *===========================================================================*/
-%let verify_version = def01-2026-07-19a;
+%let verify_version = def01-2026-07-26a;
 %put NOTE- verify_capstone.sas version &verify_version;
 
 %macro _setpath;
@@ -26,7 +32,7 @@ options nosyntaxcheck;
 %let workdir = %sysfunc(pathname(work));
 
 data _verify;
-    length domain $10 status $10 detail $200;  stop;
+    length domain $10 status $10 detail $200 built $34;  stop;
 run;
 data _alldiff;
     length domain $10 n 8 kind $12 ref_line built_line $4000;  stop;
@@ -38,14 +44,31 @@ run;
     %else %if %sysfunc(exist(work.&dom)) %then %let src = work.&dom;
     %else %let src = ;
 
+    /*  WHICH dataset is being graded, and WHEN was it built?
+        SDTM is a PERMANENT library and nothing clears it, so a dataset from an
+        earlier attempt survives a run that failed before rebuilding it - and
+        would then be graded, and could report MATCH, on code that just failed.
+        The comparison cannot tell; only the timestamp can. Print it beside
+        every result so a stale MATCH is visible rather than silent.          */
+    %local bstamp;
+    %let bstamp = ;
+    %if %superq(src) ne %then %do;
+        proc sql noprint;
+            select put(modate, datetime16.) into :bstamp trimmed
+            from dictionary.tables
+            where libname = upcase("%scan(&src, 1, .)")
+              and memname = upcase("%scan(&src, 2, .)");
+        quit;
+    %end;
+
     %if %superq(src) = %then %do;
-        data _v1; length domain $10 status $10 detail $200;
+        data _v1; length domain $10 status $10 detail $200 built $34;
             domain = "&dom"; status = "SKIPPED";
             detail = "neither SDTM.&dom nor WORK.&dom exists - build it first"; run;
         proc append base = _verify data = _v1 force; run;  %return;
     %end;
     %if %sysfunc(fileexist(&datapath/sdtm/&dom..csv)) = 0 %then %do;
-        data _v1; length domain $10 status $10 detail $200;
+        data _v1; length domain $10 status $10 detail $200 built $34;
             domain = "&dom"; status = "SKIPPED";
             detail = "reference sdtm/&dom..csv not found"; run;
         proc append base = _verify data = _v1 force; run;  %return;
@@ -83,7 +106,8 @@ run;
     quit;
     %if &ndata = . %then %let ndata = 0;
 
-    data _v1; length domain $10 status $10 detail $200; domain = "&dom";
+    data _v1; length domain $10 status $10 detail $200 built $34;
+        domain = "&dom"; built = "&src, built &bstamp";
         %if &nb ne &nr %then %do;
             status = "FAIL"; detail = "row count differs: built %eval(&nb-1), reference %eval(&nr-1)"; %end;
         %else %if &ndiff = 0 %then %do;
@@ -118,8 +142,9 @@ quit;
 title  "CAPSTONE DEF-01 - verification against the reference";
 title2 "MATCH = you reproduced the reference dataset exactly";
 proc print data = _verify noobs label;
-    var domain status detail;
-    label domain = "Domain" status = "Result" detail = "Detail";
+    var domain status detail built;
+    label domain = "Domain" status = "Result" detail = "Detail"
+          built = "Graded dataset / build time";
 run;
 title;
 
