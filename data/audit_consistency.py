@@ -550,6 +550,37 @@ if os.path.exists(csdrg):
 else:
     warn("cSDRG PDF not found — skipped the overlay check")
 
+# ================================================ 8d. DEFINE.XML DOCUMENT LINKS
+#  A def:leaf href resolves RELATIVE TO THE DEFINE. The annotated-CRF leaf once
+#  said "acrf.pdf" while define.xml sits in data/define/ and the PDF sits in
+#  data/ - a dead link in the artifact whose whole job is to point at the rest
+#  of the submission. Dataset (.xpt) leaves are NOT checked: those files are
+#  produced by notebook 12b on SAS and are correctly absent from this repo.
+hdr("8d. DEFINE.XML DOCUMENT LEAVES RESOLVE")
+try:
+    from lxml import etree as _ET
+    _XL = "{http://www.w3.org/1999/xlink}href"
+    for _dn in ("define.xml", "define_adam.xml"):
+        _dp = os.path.join(HERE, "define", _dn)
+        if not os.path.exists(_dp):
+            warn(f"{_dn} not found - skipped")
+            continue
+        _doc = _ET.parse(_dp)
+        _base = os.path.dirname(_dp)
+        _bad = []
+        _n = 0
+        for _leaf in _doc.findall(".//{http://www.cdisc.org/ns/def/v2.0}leaf"):
+            _href = _leaf.get(_XL, "")
+            if not _href or _href.lower().endswith(".xpt"):
+                continue
+            _n += 1
+            if not os.path.exists(os.path.normpath(os.path.join(_base, _href))):
+                _bad.append(f"{_leaf.get('ID')} -> {_href}")
+        check(not _bad, f"{_dn}: all {_n} document leaf link(s) resolve",
+              f"{_dn}: dead document link(s): {_bad}")
+except ImportError:
+    warn("lxml not available - skipped the define leaf check")
+
 # ============================================================ 9. CROSS-DOMAIN STORY
 hdr("9. CROSS-DOMAIN STORY CONSISTENCY")
 ds = read(SDTM["ds"])

@@ -276,7 +276,13 @@ def build():
     acrf = ET.SubElement(mdv, q(DEF_NS, "AnnotatedCRF"))
     dref = ET.SubElement(acrf, q(DEF_NS, "DocumentRef"), {"leafID": "LF.acrf"})
     leaf = ET.SubElement(mdv, q(DEF_NS, "leaf"),
-                         {"ID": "LF.acrf", q(XLINK_NS, "href"): "acrf.pdf"})
+                         {"ID": "LF.acrf", q(XLINK_NS, "href"): "../acrf.pdf"})
+    #  "../acrf.pdf", not "acrf.pdf". A def:leaf href resolves RELATIVE TO THE
+    #  DEFINE, and define.xml lives in data/define/ while the annotated CRF is
+    #  at data/acrf.pdf. Written bare it pointed at data/define/acrf.pdf, which
+    #  does not exist - a dead link in the one artifact whose job is to point
+    #  at everything else. In a real submission all of these sit in the same
+    #  folder and the bare name is right; here the tree is split, so it isn't.
     ET.SubElement(leaf, q(DEF_NS, "title")).text = "Annotated Case Report Form"
 
     methods = []

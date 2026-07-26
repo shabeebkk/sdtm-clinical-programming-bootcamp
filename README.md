@@ -95,22 +95,32 @@ Trainees work through the notebooks one at a time; `run_all.sas` is an instructo
 
 ## Regenerating the data
 
+Each block starts from the project root, so they can be pasted one after another
+in the same shell.
+
 ```bash
 # SDTM — raw data, then the reference domains, then the audit
-cd data && python3 generate_mock_data.py && python3 build_sdtm_reference.py && python3 audit_consistency.py
+cd data && python3 generate_mock_data.py && python3 build_sdtm_reference.py && python3 audit_consistency.py && cd ..
+```
 
+```bash
 # ADaM — derived from the SDTM datasets above, so run it after them
-cd data && python3 build_adam_reference.py && python3 audit_adam.py
+cd data && python3 build_adam_reference.py && python3 audit_adam.py && cd ..
+```
 
+```bash
 # Capstone study DEF-01
-cd capstone/data && python3 def01_generate_mock_data.py && python3 def01_build_sdtm_reference.py && python3 def01_audit.py
+cd capstone/data && python3 def01_generate_mock_data.py && python3 def01_build_sdtm_reference.py && python3 def01_audit.py && cd ../..
 ```
 
 Rebuilding a deck needs `pptxgenjs`, which is installed globally rather than vendored:
 
 ```bash
-cd presentations && NODE_PATH=$(npm root -g) node build_14_why_adam_adsl.js
-python3 check_deck_layout.py
+npm install -g pptxgenjs        # once, if you do not already have it
+```
+
+```bash
+cd presentations && NODE_PATH=$(npm root -g) node build_14_why_adam_adsl.js && python3 check_deck_layout.py && cd ..
 ```
 
 ---

@@ -192,3 +192,99 @@ only that the rule lives in the dictionary rather than a formal mapping spec.
 
 Tally so far: **8 confirmed defects**, 10 overstated claims, 2 design issues, **3 false
 positives caught and dismissed** (1 of them caused by this review's own method constraint).
+
+---
+
+# Passes 4–7
+
+## Pass 4 — capstone integrity
+
+**Clean on the things that matter most:** solvability from notebooks 01–12b, the solution
+reproducing all six reference datasets, trap detection, and every stated number.
+
+### C9 · `verify_capstone.sas` can grade stale output (false pass)
+`capstone/notebooks/verify_capstone.sas:37`. It prefers `SDTM.&dom` over `WORK.&dom` — which is
+**correct**, since the skeleton tells trainees to write to `sdtm.<dom>`. The defect is narrower
+than reported: **nothing ever clears the SDTM library** (the solution kills `WORK` only, at
+line 48). So if attempt 1 builds `SDTM.VS` successfully and attempt 2 fails partway, the
+verifier silently grades attempt 1's surviving dataset and reports MATCH.
+
+Exactly the "clean-looking run is not a correct run" failure the course exists to teach.
+**Fix:** stamp the build, or have verify warn when a graded dataset predates the session.
+
+### C10 · Text compare is blind to type and format
+Consequence of a deliberate design choice (the header explains text compare sidesteps
+`PROC IMPORT` type guessing). Two real edges: a **character** `VSSTRESN="93"` exports
+identically to numeric and passes; and a trainee who applies `format 8.1` exports `93.0`
+against a reference `93` and fails for a formatting reason unrelated to mapping. Worth
+documenting as a known limit rather than re-engineering.
+
+### C11 · Stale audit-check count
+`capstone/answer-keys/13_capstone_answers.md:7` claims 63 checks; the shipped script now prints
+**69**. Same stale-number class as C1.
+
+## Pass 5 — submission artifacts
+
+Clean: define-vs-data in both directions, blankcrf carrying no annotations, and the cSDRG.
+
+### C12 · The aCRF link in define.xml is broken
+`data/define/define.xml`, `def:leaf[@ID='LF.acrf']` declares `xlink:href="acrf.pdf"`. define.xml
+lives in `data/define/`, so that resolves to `data/define/acrf.pdf` — **which does not exist**.
+The file is at `data/acrf.pdf`. A reviewer clicking the annotated-CRF link gets nothing, in the
+one artifact whose job is to point at everything else.
+**Fix:** `xlink:href="../acrf.pdf"`, or move the leaf target.
+
+### C13 · 14 value-level derivation methods are orphaned in define_adam.xml
+113 MethodDefs, 99 referenced, **14 never referenced** (7 ADVS AVAL, 6 ADLB AVAL, 1 ADTTE).
+Verified they are genuinely unreachable: the 3 `ValueListDef`s contain 14 `ItemRef`s and **not
+one carries `def:MethodOID`**. The value-level metadata is half-wired — parameters and
+derivations both exist, nothing connects them. A reviewer sees the parameters with no
+derivation for each AVAL.
+
+### C14 · The XPT gate reports violations but does not stop the export
+`notebooks/sas/12b_submission_package_SAS.sas`, `%xpt_gate`: when `&n_issues > 0` it prints an
+error and execution continues into every `%to_xpt`. A dataset violating the transport-v5
+constraints the course teaches is exported anyway.
+
+## Pass 6 — cross-media consistency
+
+### C15 · README and CURRICULUM contradict each other on execution status
+`README.md:45` — "**Both tracks have been executed** on SAS OnDemand for Academics".
+`CURRICULUM.md:30` — notebooks 10–12 and the capstone "pass static checks and are **queued for
+the next ODA run**". The README is current; CURRICULUM is stale. It also repeats the obsolete
+"63-check audit".
+
+### C16 · The regeneration commands do not work if followed literally
+`README.md:98-106`. Three consecutive `bash` blocks: the first ends inside `data/`, the second
+opens with `cd data` (→ `data/data`, fails), the third with `cd capstone/data` (resolved from
+the wrong directory). Anyone pasting these in one shell fails at step two.
+
+### C17 · The deck-rebuild instructions assume a global install with no install step
+`README.md:109-113` runs `NODE_PATH=$(npm root -g) node build_*.js` but never says to
+`npm install -g pptxgenjs`. On a clean machine this fails with "Cannot find module" — which is
+exactly what happened when this review tried to rebuild the decks.
+
+## Pass 7 — sequencing
+
+### C18 · `PROC SQL` is used before it is taught
+`notebooks/sas/03_import_raw_data_SAS.sas` uses `SELECT`, `UNION ALL`, `COUNT(DISTINCT)` and a
+subquery, and answer key 03 solves exercises 2 and 4 with SQL — but notebooks 01 and 02 teach
+DATA steps, procedures and functions, never SQL. A fresher meets an unexplained language.
+
+### C19 · Controlled terminology is applied four days before it is taught
+Days 4–7 require CT decisions for DM, AE and LB; Day 8 first teaches codelists, extensibility
+and fail-loud mapping. Deck 08 openly says trainees "have already applied CT in five domains"
+and that earlier mappings silently blanked unknown values. Defensible as spiral teaching, but
+it should be a stated choice, not an accident.
+
+### Observation · the capstone difficulty step
+Guided one/two-domain days, then six domains end-to-end in one day, on four cases ABC-01 never
+exercised. Naming the traps and supplying the constants is not the same as prior guided
+practice. Worth a deliberate decision, not necessarily a fix.
+
+## Dismissed
+
+### D4 · "README falsely claims answer keys are not in the repository"
+`README.md:118` is accurate: `answer-keys/` is gitignored and **0 files are tracked**. Codex
+read the author's local working tree, which is neither the repository nor the shared Drive copy
+(also verified clean). Dismissed.

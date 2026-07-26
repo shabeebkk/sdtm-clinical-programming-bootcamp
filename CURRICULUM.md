@@ -27,7 +27,7 @@
 
 **Verification.** Days 1–7's SAS was executed on SAS OnDemand for Academics
 (SAS 9.04.01M8P022223) with **all 7 domains reproducing the reference datasets exactly** —
-zero errors, zero warnings. Days 8–9's notebooks (10–12) and the capstone pass static checks and are queued for the next ODA run. The capstone study DEF-01 has its own 63-check audit (`capstone/data/def01_audit.py`). Three automated checkers run over the corpus:
+zero errors, zero warnings. Notebooks 10–12 and the capstone have since been run there too, so the whole course — both tracks and the capstone — is execution-verified, not merely static-checked. The capstone study DEF-01 has its own audit (`capstone/data/def01_audit.py`). Three automated checkers run over the corpus:
 
 | Checker | What it guards |
 |---|---|
