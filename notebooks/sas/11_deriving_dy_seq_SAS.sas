@@ -149,14 +149,20 @@ run;
         union all select "LB", count(*) from sdtm.lb where lbdy   = 0
         union all select "DS", count(*) from sdtm.ds where dsstdy = 0;
 
+        /*  ". < x < 0", not "x < 0". A missing --DY is SMALLER than every
+            number in SAS, so a bare "x < 0" counts nulls as negative days.
+            ABC-01 has no missing --DY so both forms agree here - but the
+            CAPSTONE deliberately has one (the partial AE date leaves AESTDY
+            null), and there the bare form reports 1 negative day when the
+            true answer is 0. A QC check that miscounts is worse than none. */
         title "Property 2 - the spread of --DY, and where negatives live";
         select "AE" as domain length = 4, min(aestdy) as min_dy, max(aestdy) as max_dy,
-               sum(aestdy < 0) as negative from sdtm.ae
-        union all select "CM", min(cmstdy), max(cmstdy), sum(cmstdy < 0) from sdtm.cm
-        union all select "EX", min(exstdy), max(exstdy), sum(exstdy < 0) from sdtm.ex
-        union all select "VS", min(vsdy),   max(vsdy),   sum(vsdy   < 0) from sdtm.vs
-        union all select "LB", min(lbdy),   max(lbdy),   sum(lbdy   < 0) from sdtm.lb
-        union all select "DS", min(dsstdy), max(dsstdy), sum(dsstdy < 0) from sdtm.ds;
+               sum(. < aestdy < 0) as negative from sdtm.ae
+        union all select "CM", min(cmstdy), max(cmstdy), sum(. < cmstdy < 0) from sdtm.cm
+        union all select "EX", min(exstdy), max(exstdy), sum(. < exstdy < 0) from sdtm.ex
+        union all select "VS", min(vsdy),   max(vsdy),   sum(. < vsdy   < 0) from sdtm.vs
+        union all select "LB", min(lbdy),   max(lbdy),   sum(. < lbdy   < 0) from sdtm.lb
+        union all select "DS", min(dsstdy), max(dsstdy), sum(. < dsstdy < 0) from sdtm.ds;
     quit;
 %mend;
 %dy_properties;

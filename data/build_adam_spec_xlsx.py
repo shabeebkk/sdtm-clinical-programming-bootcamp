@@ -191,9 +191,15 @@ LIB = {
     "CNSR":     ("Censor", "integer", "Derived",
                  "0 = event occurred, 1 = censored. Note: reversed from other ADaM flags."),
     "EVNTDESC": ("Event or Censoring Description", "text", "Derived",
-                 "What ADT represents: the event, or the reason for censoring."),
+                 "What ADT represents. LITERAL VALUES for this study - event records: "
+                 "'First treatment-emergent adverse event'; censored records: "
+                 "'Censored at last dose'. The text is not standardised by ADaM, so a "
+                 "spec that only describes the meaning is not reproducible - pin the "
+                 "exact strings here."),
     "CNSDTDSC": ("Censoring Description", "text", "Derived",
-                 "Why censored; populated on censored records only."),
+                 "Why censored; populated on censored records only. LITERAL VALUE for "
+                 "this study: 'LAST DOSE'. As with EVNTDESC the wording is a study "
+                 "choice, not an ADaM requirement, so it is fixed here."),
 }
 
 # Per-dataset variable order. Names resolve against LIB.

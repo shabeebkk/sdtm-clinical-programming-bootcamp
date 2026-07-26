@@ -8,7 +8,7 @@ p.title = "Time-to-Event, ADaM Validation, and the Payoff";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -54,7 +54,7 @@ s.addText("Censoring · ADaM validation · one real table", { x: 0.7, y: 4.15, w
 s.addText("The last day. Two subjects nothing happened to, and why they matter most.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.8, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 18 (ADTTE) and Notebook 19 (from ADaM to a table)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 18 closes the ADaM track. Two halves: ADTTE in the morning, then the payoff notebook which is deliberately the shortest in the course. Save time for the last slide — the traceability chain is the thing you want them to leave with.");
 
 // ============ 2. WHAT ADTTE ANSWERS ============
@@ -151,7 +151,7 @@ rs.forEach((r) => {
 card(s, 0.7, 5.2, 12.0, 1.6, INK);
 s.addText("With only CNSR, both look identical — two subjects leaving the risk set.",
   { x: 1.05, y: 5.4, w: 11.4, h: 0.4, fontFace: HFONT, bold: true, fontSize: 18, color: WHITE, margin: 0 });
-s.addText("With CNSDTDSC a reviewer can count them separately and judge whether the independent-censoring assumption is credible. That is a question about the VALIDITY OF THE ANALYSIS, not a detail of bookkeeping — which is why the standard requires the variable.",
+s.addText("With CNSDTDSC a reviewer can count them separately and judge whether the independent-censoring assumption is credible. That is a question about the VALIDITY OF THE ANALYSIS, not a detail of bookkeeping — which is why studies that censor for more than one reason should carry it. ADaM permits the variable rather than requiring it; recording the reason is a design choice you make, and defend, in the define.",
   { x: 1.05, y: 5.88, w: 11.4, h: 0.8, fontFace: BFONT, fontSize: 13.5, color: "C7DCE0", lineSpacing: 19, margin: 0 });
 s.addNotes("In ABC-01 both censorings are LAST DOSE on completers — the benign case. Exercise 4 asks for two more reasons. Worth mentioning competing risks briefly: death from an unrelated cause when the endpoint is not death needs more than simple censoring, and that is beyond this course.");
 

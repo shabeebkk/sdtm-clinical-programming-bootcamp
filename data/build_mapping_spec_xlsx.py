@@ -126,12 +126,27 @@ domains = [
     ("DM", "Demographics", "Special Purpose", "One row per subject", "dm_raw + ex_raw + ds_raw", "sdtm/dm.csv", 8),
     ("DS", "Disposition", "Events", "One row per disposition record (3 per subject)", "dm_raw + ds_raw", "sdtm/ds.csv", 24),
     ("EX", "Exposure", "Interventions", "One row per subject per dosing period", "ex_raw.csv", "sdtm/ex.csv", 8),
-    ("AE", "Adverse Events", "Events", "One row per event per subject", "ae_raw.csv", "sdtm/ae.csv", 9),
+    ("AE", "Adverse Events", "Events", "One row per event per subject", "ae_raw.csv", "sdtm/ae.csv", 10),
     ("SUPPAE", "Supplemental Qualifiers for AE", "Relationship", "One row per qualifier value per AE record", "derived from sdtm/ae.csv", "sdtm/suppae.csv", 10),
     ("CM", "Concomitant Medications", "Interventions", "One row per medication per subject", "cm_raw.csv", "sdtm/cm.csv", 8),
     ("VS", "Vital Signs", "Findings", "One row per test result (wide -> tall)", "vs_raw.csv", "sdtm/vs.csv", 128),
     ("LB", "Laboratory", "Findings", "One row per test per visit", "lb_raw.csv", "sdtm/lb.csv", 48),
 ]
+#  The row counts above are hardcoded, so they can go stale the moment the data
+#  changes - which is exactly what happened to AE (declared 9, actually 10) and
+#  survived into a slide. Fail the build rather than ship a wrong number.
+import csv as _csv
+_drift = []
+for _d in domains:
+    _path = os.path.join(HERE, _d[5])
+    if os.path.exists(_path):
+        with open(_path) as _fh:
+            _actual = sum(1 for _ in _csv.DictReader(_fh))
+        if _actual != _d[6]:
+            _drift.append(f"{_d[0]}: spec says {_d[6]}, {_d[5]} has {_actual}")
+if _drift:
+    raise SystemExit("STALE ROW COUNTS in the domain index:\n  " + "\n  ".join(_drift))
+
 rows = [[d[0], d[1], d[2], d[3], d[4], d[5], d[6], None] for d in domains]
 write_table(ws, 4,
             ["Domain", "Name", "Observation Class", "Structure", "Source file(s)",
@@ -157,7 +172,11 @@ rules = [
     ("--SEQ", "Sequence Number",
      "Sequential 1,2,3... within USUBJID within domain, after sorting into a deterministic order.",
      "USUBJID + --SEQ must be unique. Sort orders used: AE/CM by start date then term; "
-     "VS/LB by visit then test order. DM has NO --SEQ."),
+     "VS/LB by VISITNUM then test, where TEST ORDER IS THE ORDER THE TESTS APPEAR IN THE "
+     "RAW FILE - VS: SYSBP, DIABP, PULSE, TEMP, HEIGHT, WEIGHT; LB: HGB, HCT, WBC, PLAT, "
+     "ALT, CREAT. Stating this matters: 'by test' alone is ambiguous (alphabetical and "
+     "controlled-terminology order both differ), and two programmers would produce "
+     "different --SEQ from the same data. DM has NO --SEQ."),
     ("--DY", "Study Day",
      "If --DTC >= RFSTDTC:  --DY = (--DTC - RFSTDTC) + 1\n"
      "If --DTC <  RFSTDTC:  --DY = (--DTC - RFSTDTC)      [negative]",
@@ -270,7 +289,7 @@ VS = [
     ("STUDYID","Study Identifier","Char","Req","Assigned","vs_raw","STUDYID",'Constant "ABC-01"',"",""),
     ("DOMAIN","Domain Abbreviation","Char","Req","Assigned","","",'Literal "VS"',"",""),
     ("USUBJID","Unique Subject Identifier","Char","Req","Derived","vs_raw","SITEID, SUBJID","See Global Rules","",""),
-    ("VSSEQ","Sequence Number","Num","Req","Derived","","","Sequential per subject, ordered by visit then test","","See Global Rules"),
+    ("VSSEQ","Sequence Number","Num","Req","Derived","","","Sequential per subject, ordered by VISITNUM then test in raw-file order (SYSBP, DIABP, PULSE, TEMP, HEIGHT, WEIGHT)","","See Global Rules"),
     ("VSTESTCD","Vital Signs Test Short Name","Char","Req","Derived","vs_raw","column name","Column name -> CT code (SYSBP, DIABP, PULSE, TEMP, HEIGHT, WEIGHT)","VSTESTCD","Topic variable — comes from the COLUMN NAME"),
     ("VSTEST","Vital Signs Test Name","Char","Req","Derived","vs_raw","column name","Long name from CT","VSTEST",""),
     ("VSORRES","Result or Finding in Original Units","Char","Exp","Collected","vs_raw","cell value","Result AS COLLECTED (character)","",""),
@@ -300,7 +319,7 @@ LB = [
     ("STUDYID","Study Identifier","Char","Req","Assigned","lb_raw","STUDYID",'Constant "ABC-01"',"",""),
     ("DOMAIN","Domain Abbreviation","Char","Req","Assigned","","",'Literal "LB"',"",""),
     ("USUBJID","Unique Subject Identifier","Char","Req","Derived","lb_raw","SITEID, SUBJID","See Global Rules","",""),
-    ("LBSEQ","Sequence Number","Num","Req","Derived","","","Sequential per subject, ordered by visit then test","","See Global Rules"),
+    ("LBSEQ","Sequence Number","Num","Req","Derived","","","Sequential per subject, ordered by VISITNUM then test in raw-file order (HGB, HCT, WBC, PLAT, ALT, CREAT)","","See Global Rules"),
     ("LBTESTCD","Lab Test or Examination Short Name","Char","Req","Derived","lb_raw","LBTEST","Map test name -> CT code","LBTESTCD","Topic variable"),
     ("LBTEST","Lab Test or Examination Name","Char","Req","Derived","lb_raw","LBTEST","CT long name","LBTEST",'"White Blood Cells" -> "Leukocytes"'),
     ("LBCAT","Category for Lab Test","Char","Perm","Derived","lb_raw","LBTEST","HEMATOLOGY or CHEMISTRY","",""),

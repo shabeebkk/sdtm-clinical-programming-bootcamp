@@ -9,7 +9,7 @@ p.title = "Clinical Trials 101: How a Trial Produces Data";
 // ---- Palette (shared with Deck 01) ----
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1";
 const HFONT = "Cambria", BFONT = "Calibri";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -51,7 +51,7 @@ s.addText("How a trial produces data", { x: 0.7, y: 3.6, w: 9.6, h: 0.7,
 s.addText("Before you can map clinical data, you need to know where it comes from — who runs a trial, what happens to a patient, and how every measurement gets recorded.",
   { x: 0.7, y: 4.6, w: 9.2, h: 1.0, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("No clinical background assumed. Every term defined on first use.",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 02. This deck is the clinical context for people who can code but have never seen a trial — and a refresher for those from a life-sciences background. Goal: by the end, everyone shares the same vocabulary (protocol, site, subject, visit, arm, CRF) so the SDTM mapping modules make sense. Emphasize: you do not need to become a clinician, but you must understand what the data represents.");
 
 // ============ 2. WHAT YOU'LL BE ABLE TO DO ============

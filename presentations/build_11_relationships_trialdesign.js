@@ -8,7 +8,7 @@ p.title = "Relationships & Trial Design";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("How datasets point at each other, and where the protocol lives", { x:
 s.addText("Two loose ends from earlier: the SUPPQUAL you already built, and the trial-design datasets that describe the study itself rather than its subjects.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Concept module — lighter treatment; no new notebook.",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 11 is the lightest of Day 9 and the natural one to compress in a one-week track. It ties off two threads: SUPPQUAL (met in Day 5 as SUPPAE) generalised, and the Trial Design model, which trainees have not seen because it describes the study, not the subjects.");
 
 // ============ 2. TWO KINDS OF RELATIONSHIP ============
@@ -228,7 +228,7 @@ pkg.forEach((r, i) => {
 s.addText("Five of the six you have built end to end. Trial Design and RELREC are the pieces this module named — you now know the whole SDTM package, not just the domains with subjects in them.",
   { x: 0.7, y: 6.72, w: 12, h: 0.4, fontFace: BFONT, italic: true, fontSize: 12, color: MINT, margin: 0 });
 s.addText("Next:  Deck 12 · Define-XML & the Submission Package",
-  { x: 0.7, y: 7.12, w: 12, h: 0.3, fontFace: BFONT, bold: true, fontSize: 12, color: MUTED, margin: 0 });
+  { x: 0.7, y: 7.12, w: 12, h: 0.3, fontFace: BFONT, bold: true, fontSize: 12, color: MUTEDDK, margin: 0 });
 s.addNotes("This is the map slide — everything they have built, placed in the full SDTM structure by observation class plus the two non-subject categories. It is the payoff of the whole course: they can now name where any dataset sits and why. Leads naturally into define.xml, which documents this entire package.");
 
 p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/11_relationships_trialdesign.pptx" })

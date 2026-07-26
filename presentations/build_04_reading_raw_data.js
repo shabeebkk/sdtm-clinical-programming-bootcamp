@@ -8,7 +8,7 @@ p.title = "Reading & Understanding Raw Clinical Data";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -58,7 +58,7 @@ s.addText("Reading Raw\nClinical Data", { x: 0.66, y: 2.5, w: 9.6, h: 1.7,
 s.addText("Before you can map anything, you have to get the data in — with the right types, the right dates, and your eyes open for what's wrong with it.",
   { x: 0.7, y: 4.5, w: 9.2, h: 1.0, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 03 · Importing Raw Data (SAS & R)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 04. This is the first module where trainees touch the real study data. The theme: importing is not a formality — the choices you make when reading a file determine whether your mapping can succeed. Pair this deck with Notebook 03.");
 
 // ============ 2. GOALS ============
@@ -191,7 +191,7 @@ dates.forEach(d => {
 });
 card(s, 0.7, 5.7, 12.0, 1.15, INK);
 s.addText([
-  { text: "Two dangers.  ", options: { bold: true, color: MINT, fontSize: 15 } },
+  { text: "Three dangers.  ", options: { bold: true, color: MINT, fontSize: 15 } },
   { text: "(1) ", options: { color: WHITE, fontSize: 13.5, bold: true } },
   { text: "01/03/2024 is ambiguous — 1 March or 3 January? Check the data dictionary, never guess.  ", options: { color: "C7DCE0", fontSize: 13.5 } },
   { text: "(2) ", options: { color: WHITE, fontSize: 13.5, bold: true } },

@@ -8,7 +8,7 @@ p.title = "Controlled Terminology in Practice";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("Making every study say the same thing the same way", { x: 0.7, y: 4.2
 s.addText("You have already applied CT in five domains. This module explains what you were actually doing — and how it works when there are 200 values instead of 6.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 10 · Applying Controlled Terminology (SAS)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 08. Trainees have met CT piecemeal since Day 4 — SEX in DM, four flavours in AE, LBTEST in LB. This module names the thing and gives them the general method. The framing that lands: CT is what makes a reviewer able to pool YOUR study with fifty others.");
 
 // ============ 2. GOALS ============

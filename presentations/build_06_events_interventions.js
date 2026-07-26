@@ -8,7 +8,7 @@ p.title = "Interventions & Events Domains";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -60,7 +60,7 @@ s.addText("AE, CM and EX — the general observation classes", { x: 0.7, y: 4.2,
 s.addText("DM was one row per subject. From here on, subjects have MANY records — which means sequence numbers, study days, and a lot more timing.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 05 · Build the AE Domain (SAS)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 06. This deck covers the shape shared by Interventions and Events, then goes deep on AE because it is the domain trainees will build next. CM and EX follow the same pattern on Day 6. The headline change from DM: multiple records per subject, so --SEQ and --DY appear for the first time.");
 
 // ============ 2. GOALS ============
@@ -287,7 +287,7 @@ s.addNotes("RFSTDTC comes from DM, which got it from EX — so DM must be built 
 // ============ 10. ONGOING EVENTS ============
 s = p.addSlide(); bg(s, WHITE);
 header(s, "A blank is information", "Ongoing events");
-s.addText("Two of the nine ABC-01 adverse events had not resolved when the data was collected. Their end date is blank — and it must stay blank.",
+s.addText("Two of the ten ABC-01 adverse events had not resolved when the data was collected. Their end date is blank — and it must stay blank.",
   { x: 0.6, y: 1.5, w: 12.2, h: 0.45, fontFace: BFONT, fontSize: 14, color: MUTED, margin: 0 });
 const ong = [
   ["AEENDTC", "Leave NULL", "Do not substitute today's date, the last visit, or the study end.", TEAL],

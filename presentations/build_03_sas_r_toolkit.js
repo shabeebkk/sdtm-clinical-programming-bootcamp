@@ -8,7 +8,7 @@ p.title = "Your Toolkit: SAS & R for Clinical Programming";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -74,7 +74,7 @@ s.addText("SAS & R for clinical programming", { x: 0.7, y: 3.5, w: 9.6, h: 0.7,
 s.addText("Two languages, one job. Everything you build in this bootcamp, you'll build twice — and see how each language gets there.",
   { x: 0.7, y: 4.5, w: 9.2, h: 1.0, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("No programming experience assumed.",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 03. This is the orientation before the hands-on notebooks. Key message: SAS and R are treated as equal partners here. Some trainees will already know one; nobody is expected to know both. By the end they should be able to read a simple program in either language and recognise the same seven operations.");
 
 // ============ 2. WHY TWO LANGUAGES ============

@@ -8,7 +8,7 @@ p.title = "Data Quality & Validation";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("Would this submission survive Pinnacle 21?", { x: 0.7, y: 4.25, w: 9.
 s.addText("You have built seven domains. Now look at them the way a regulator's validation tool does — as one package that must hold together.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 12 · QC & Validation Checks (SAS)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 10 opens the last content day. The framing: everything so far built data; this module judges it. The single idea to land is that a conformance check is just a query expecting zero rows — demystify Pinnacle 21 from the start.");
 
 // ============ 2. WHAT PINNACLE 21 IS ============

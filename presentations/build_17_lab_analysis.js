@@ -8,7 +8,7 @@ p.title = "Analysis of Lab Data: Ranges, Shifts and Criterion Flags";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -54,7 +54,7 @@ s.addText("Ranges, shifts and criterion flags", { x: 0.7, y: 4.15, w: 9.6, h: 0.
 s.addText("The same BDS skeleton as ADVS — and the number that decides every percentage in it.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.8, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 17 (SAS) — Build ADLB",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 17. Open by saying the structure is yesterday's — that is deliberate and reassuring. The new material is what a normal range makes possible, plus the denominator lesson, which is the single most valuable thing in the ADaM track for real-world work.");
 
 // ============ 2. THE DENOMINATOR ============

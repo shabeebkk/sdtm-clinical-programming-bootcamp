@@ -8,7 +8,7 @@ p.title = "Capstone & Bootcamp Wrap-up";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("A study you have never seen — DEF-01 — from raw to SDTM, on your 
 s.addText("Everything you have built so far had a worked notebook beside it. This one does not. That is the point: mapping data you have never seen is the actual job.",
   { x: 0.7, y: 4.55, w: 9.4, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Deliverable: 13_capstone_DEF01_SKELETON.sas  →  six SDTM domains  →  verify_capstone.sas",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 13, the final day. Frame this as graduation, not a test: they have every skill needed. The one new thing is the absence of a scaffold. Reassure them their ABC-01 notebooks are the right starting point — the work is in adapting, not starting over.");
 
 // ============ 2. THE STUDY ============

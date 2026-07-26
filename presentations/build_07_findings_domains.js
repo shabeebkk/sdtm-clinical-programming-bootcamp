@@ -8,7 +8,7 @@ p.title = "Findings Domains";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("VS and LB — the third observation class", { x: 0.7, y: 3.7, w: 9.6,
 s.addText("The class that holds MEASUREMENTS. It brings the biggest structural change in the whole course: the raw data must be turned on its side.",
   { x: 0.7, y: 4.5, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 08 · Build VS   ·   Notebook 09 · Build LB   (SAS)",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 07. Findings is the third and largest general observation class. Two things make it feel harder than AE/CM/EX: the test/result paradigm, and the wide-to-tall transpose. Reassure the group that the SKELETON is the same one they already know — identifiers, topic, qualifiers, timing. What changes is that the topic is now a TEST, and the raw data arrives in the wrong shape.");
 
 // ============ 2. GOALS ============

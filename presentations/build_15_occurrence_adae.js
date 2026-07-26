@@ -8,7 +8,7 @@ p.title = "Occurrence Data: ADAE and the Safety Tables It Feeds";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F", WARN = "C4442E";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
 function shadow() { return { type: "outer", color: "8AA0A8", blur: 8, offset: 3, angle: 90, opacity: 0.35 }; }
@@ -54,7 +54,7 @@ s.addText("ADAE and the safety tables it feeds", { x: 0.7, y: 3.6, w: 9.6, h: 0.
 s.addText("One row per event. One flag decides what every safety table in the study reports.",
   { x: 0.7, y: 4.6, w: 9.2, h: 0.8, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Hands-on: Notebook 15 (SAS) — Build ADAE",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 15. The shape changes: ADSL was one row per subject, ADAE is one row per event, and a subject can contribute zero rows or five. That variable row count is what makes counting subjects a real problem, and it is the reason occurrence flags exist.");
 
 // ============ 2. GOALS ============

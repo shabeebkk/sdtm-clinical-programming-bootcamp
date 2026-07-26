@@ -8,7 +8,7 @@ p.title = "Define-XML & the Submission Package";
 
 const INK = "0F2E3D", TEAL = "0E7C86", SEA = "1FA8A0", MINT = "6FC8B4",
       ACCENT = "E8833A", WHITE = "FFFFFF", PAPER = "F3F7F8",
-      MUTED = "5A7682", LINE = "CFDEE1", CODEBG = "13323F",
+      MUTED = "5A7682", MUTEDDK = "8FAEB8", LINE = "CFDEE1", CODEBG = "13323F",
       RUST = "B5651A", ROSE = "C0455B";
 const HFONT = "Cambria", BFONT = "Calibri", MONO = "Courier New";
 
@@ -97,7 +97,7 @@ s.addText("What actually goes to the FDA — and in what format", { x: 0.7, y: 4
 s.addText("Your datasets are only part of the package. This module covers the metadata that describes them, and the file format the regulator actually accepts.",
   { x: 0.7, y: 5.0, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("Concept module — closes the submission story.",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Module 12 is where several loose threads from the whole course finally get their explanation — the 8-character variable names, the character dates, the codelist references. All of them exist because of the two things this module covers: XPT v5 and define.xml.");
 
 // ============ 2. THE PACKAGE ============
@@ -188,7 +188,7 @@ chain.forEach((c, i) => {
   s.addShape(p.ShapeType.roundRect, { x: 1.4, y: hy, w: 10.6, h: 0.72, rectRadius: 0.08, fill: { color: "163B4B" }, line: { color: c[2], width: 1.3 } });
   s.addText(c[0], { x: 1.7, y: hy + 0.15, w: 3.5, h: 0.42, fontFace: HFONT, bold: true, fontSize: 13, color: c[2], valign: "middle", margin: 0 });
   s.addText(c[1], { x: 5.3, y: hy + 0.15, w: 6.4, h: 0.42, fontFace: BFONT, fontSize: 11.5, color: "DCEBEF", valign: "middle", margin: 0 });
-  if (i < 4) s.addText("▼", { x: 6.4, y: hy + 0.7, w: 0.5, h: 0.28, align: "center", fontSize: 13, color: MUTED, margin: 0 });
+  if (i < 4) s.addText("▼", { x: 6.4, y: hy + 0.7, w: 0.5, h: 0.28, align: "center", fontSize: 13, color: MUTEDDK, margin: 0 });
   hy += 0.94;
 });
 s.addText("A reviewer can start at any submitted value and trace it all the way back to the question the site answered. That chain — value → metadata → aCRF → spec → CRF — is what makes clinical data TRUSTWORTHY, not just tidy.",

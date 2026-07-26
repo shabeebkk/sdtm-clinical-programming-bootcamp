@@ -16,6 +16,7 @@ const WHITE = "FFFFFF";
 const PAPER = "F3F7F8"; // card tint on white
 const CARD2 = "E7F0F1"; // deeper tint
 const MUTED = "5A7682"; // muted text
+const MUTEDDK = "8FAEB8"; // muted text ON DARK grounds - 5A7682 is only 2.94:1 on 0F2E3D (fails WCAG AA)
 const LINE  = "CFDEE1"; // hairline
 
 const HFONT = "Cambria";      // serif headers
@@ -64,7 +65,7 @@ s.addText("Introduction to CDISC\n& SDTM Foundations", { x: 0.66, y: 2.5, w: 9.6
 s.addText("How clinical trial data becomes a standardized, submission-ready dataset — from raw case report forms to a regulatory package.",
   { x: 0.7, y: 4.75, w: 9.2, h: 0.9, fontFace: BFONT, fontSize: 16, color: "C7DCE0", margin: 0 });
 s.addText("CDISC · CDASH · SDTM · ADaM · Controlled Terminology · Define-XML",
-  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTED, margin: 0 });
+  { x: 0.7, y: 6.5, w: 12, h: 0.4, fontFace: BFONT, fontSize: 12, italic: true, color: MUTEDDK, margin: 0 });
 s.addNotes("Welcome. This module is the foundation for the whole bootcamp. Goal: by the end you can explain what CDISC and SDTM are, why regulators require them, and how raw collected data becomes a standardized submission dataset. No prior clinical or programming knowledge assumed — we define every acronym as we go. CDISC = Clinical Data Interchange Standards Consortium. SDTM = Study Data Tabulation Model.");
 
 // ============================================================
