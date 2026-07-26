@@ -288,3 +288,52 @@ practice. Worth a deliberate decision, not necessarily a fix.
 `README.md:118` is accurate: `answer-keys/` is gitignored and **0 files are tracked**. Codex
 read the author's local working tree, which is neither the repository nor the shared Drive copy
 (also verified clean). Dismissed.
+
+---
+
+# Resolutions — all 7 action items
+
+| # | Item | Decision | Commit |
+|---|---|---|---|
+| 1 | 14 orphaned value-level MethodDefs | Wired + rendered + guarded (audit 8e) | `9ee2f32` |
+| 2 | verify_capstone can grade stale output | Warn: build provenance on every row | `8f196aa` |
+| 3 | XPT gate reported but did not block | Now aborts; non-ASCII scan added | `75ae22e` |
+| 4 | PROC SQL used before taught | Primer in notebook 02 (+ 3 stale counts, guard 8f) | `d9d014e` |
+| 5 | CT applied before taught | Forward-reference at first use | `0aa9317` |
+| 6 | Verifier blind to type / format | Separate type check + documented | `8faab14` |
+| 7 | Capstone difficulty step | **Deferred to a pilot** — see below | — |
+
+## Item 7 — open, deliberately
+
+The guided days build one or two domains with a worked notebook open. Day 10 asks for six
+domains end-to-end, no notebook, on four cases ABC-01 never exercised: real unit conversion,
+interrupted dosing, a partial date, and the abnormal-lab boundary. A trainee has converted
+zero units and handled zero partial dates before the graded attempt.
+
+**Why nothing was changed.** Unlike items 1–6 this is not a verifiable defect. It is a claim
+about a difficulty curve, and **no one has attempted the course yet**. Every available fix — a
+warm-up exercise, graduated hints — is speculation. Acting now risks flattening a step that may
+be exactly right; a capstone that only rehearses what you have already done is not an
+assessment.
+
+**Decide it with evidence from the first pilot. Watch for:**
+
+1. **Where the first long stall happens.** Which domain, and is it the trap or the plumbing
+   (paths, libnames, reading the dictionary)? A plumbing stall is a setup problem, not a
+   difficulty problem, and has a completely different fix.
+2. **Whether trainees find the traps or only find that a count is wrong.** `verify_capstone`
+   says *which domain* differs, not *why*. If people know EX is wrong but cannot work out that
+   it is the interruption, the gap is diagnosis, not difficulty.
+3. **Unit conversion specifically** — the only trap requiring arithmetic the course never
+   demonstrates. If this is where everyone stops, one worked conversion on Day 7 fixes it, and
+   nothing else needs to change.
+4. **Partial dates** — do they leave `AESTDY` null, or invent a day? Inventing one means the
+   rule was read and not believed, which is a teaching problem in notebook 04, not a capstone
+   problem.
+5. **Time to first PASS on any domain.** If DM takes more than about an hour the whole day is
+   mispaced regardless of the traps.
+6. **Whether anyone gives up**, and at what point. That is the only measurement that settles
+   whether the step is too big.
+
+If the pilot shows the step is fine, delete this section. That is a legitimate outcome and the
+most likely one.
