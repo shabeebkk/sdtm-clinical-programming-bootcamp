@@ -379,6 +379,12 @@ for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
 # was only partly delivered.
 hdr("7b. EVERY NOTEBOOK HAS A WALKTHROUGH AND AN ANSWER KEY")
 keydir = os.path.join(ROOT, "answer-keys")
+#  answer-keys/ is instructor-only and gitignored, so a trainee-facing clone does
+#  not have it. That is by design, not a defect: warn once and skip the key
+#  checks rather than failing every notebook.
+have_keys = os.path.isdir(keydir)
+if not have_keys:
+    warn("answer-keys/ not present (instructor-only, gitignored) — skipped the answer-key checks")
 # Instructor tooling, not teaching material — no walkthrough or answer key expected.
 TOOLING = {"00_setup", "run_all", "run_all_adam", "verify_against_reference"}
 for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
@@ -395,6 +401,8 @@ for sf in sorted(glob.glob(os.path.join(sasdir, "*.sas"))):
     check(os.path.exists(md), f"{stem}: walkthrough .md present",
           f"{stem}: missing walkthrough {os.path.basename(md)}")
 
+    if not have_keys:
+        continue
     keys = glob.glob(os.path.join(keydir, nb + "_*answers.md"))
     check(len(keys) == 1, f"{stem}: exactly one answer key ({nb}_*answers.md)",
           f"{stem}: expected 1 answer key matching {nb}_*answers.md, found {len(keys)}")
@@ -487,10 +495,17 @@ try:
     # every build script must write into THIS project, not an old location
     for js in sorted(glob.glob(os.path.join(ROOT, "presentations", "build_*.js"))):
         src = open(js).read()
-        m = re.search(r'fileName:\s*"([^"]+)"', src)
-        good = m and m.group(1).startswith(os.path.join(ROOT, "presentations"))
-        check(good, f"{os.path.basename(js)}: writes into this project",
-              f"{os.path.basename(js)}: writes to a stale path -> {m.group(1) if m else 'no fileName found'}")
+        #  The output path must be built from __dirname so the script works in
+        #  any checkout. A hardcoded absolute path only ever worked on the one
+        #  machine it was written on, and silently wrote outside the project
+        #  everywhere else.
+        m = re.search(r'fileName:\s*(.+?)\s*\}\s*\)', src)
+        expr = m.group(1) if m else ""
+        want = os.path.basename(js).replace("build_", "").replace(".js", ".pptx")
+        good = ("__dirname" in expr and f'"{want}"' in expr
+                and not re.search(r'"(/|[A-Za-z]:[\\/])', expr))
+        check(good, f"{os.path.basename(js)}: writes {want} beside itself",
+              f"{os.path.basename(js)}: output path is not __dirname-relative -> {expr or 'no fileName found'}")
     # pptx must be at least as new as its build script (i.e. actually rebuilt)
     for js in sorted(glob.glob(os.path.join(ROOT, "presentations", "build_*.js"))):
         target = os.path.join(ROOT, "presentations",

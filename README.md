@@ -23,9 +23,11 @@ A full item-by-item inventory lives in **[`CONTENTS.md`](CONTENTS.md)**.
 
 | Folder | Contents |
 |---|---|
-| `presentations/` | 18 decks (`.pptx` + build scripts + rendered PDFs) — 13 SDTM, 5 ADaM |
+| `presentations/` | 19 decks (`.pptx` + build scripts + rendered PDFs) — 13 SDTM, 5 ADaM, and a Day 1 opener |
 | `notebooks/sas/` | 23 SAS programs (19 with a `.md` walkthrough), plus the run harnesses |
-| `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF |
+| `notebooks/r/` | 3 legacy R notebooks (basics, import, DM) — the course is SAS-only; these are not on the teaching path |
+| `data/` | Study ABC-01 — 7 raw CSVs, 8 SDTM and 5 ADaM reference datasets, specs, CRF/aCRF, both defines |
+| `docs/` | The cSDRG (PDF + generator) and the record of the independent review |
 | `capstone/` | Study DEF-01 — a second study trainees map end to end |
 | `interactive/` | Three self-contained HTML explorers over the ABC-01 data (see below) |
 | `oda_upload/` | Ready-to-upload bundle for SAS OnDemand for Academics |
@@ -55,7 +57,8 @@ ADaM run found two more — a `PROC SQL` subquery SAS rejects in a FROM-less `SE
 semantics: the static checker and the independent Python audit passed them, and only a real run
 surfaced them. A clean static pass is not a correct run — which is the thing this course teaches.
 
-Four checkers guard the corpus and run on every change. Counts grow as material is added — run a
+Four checkers guard the corpus and run on every change (`.github/workflows/checks.yml` runs all
+five on each push and pull request). Counts grow as material is added — run a
 checker to see its current total:
 
 | Checker | Guards |
@@ -66,6 +69,11 @@ checker to see its current total:
 | `capstone/data/def01_audit.py` | the capstone study and its four deliberate traps |
 
 A fifth, `presentations/check_deck_layout.py`, checks deck geometry on the built `.pptx` files.
+
+All five run from a fresh clone with no setup beyond `pip install openpyxl pypdf reportlab lxml`.
+`audit_consistency.py` also verifies that every notebook has an answer key covering each of its
+exercises; because `answer-keys/` is instructor-only and not in this repository (see below), it
+reports that as a single warning and skips those checks when the folder is absent.
 
 **That execution mattered.** Running the code on real SAS surfaced **11 defects** that neither
 static analysis nor an independent Python reimplementation could see, because all of them were
@@ -122,6 +130,10 @@ npm install -g pptxgenjs        # once, if you do not already have it
 ```bash
 cd presentations && NODE_PATH=$(npm root -g) node build_14_why_adam_adsl.js && python3 check_deck_layout.py && cd ..
 ```
+
+Every build script writes its `.pptx` beside itself, so this works from any checkout. After a
+rebuild, re-export the PDF as well (`soffice --headless --convert-to pdf --outdir . <deck>.pptx`) —
+`check_deck_layout.py` fails if a PDF is older than its deck.
 
 ---
 

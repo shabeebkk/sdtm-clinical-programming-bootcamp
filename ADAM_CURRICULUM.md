@@ -25,7 +25,7 @@ datasets, with 5 decks, 6 notebooks and 6 answer keys.
 |---|---|---|
 | Reference data | **5 datasets** — ADSL, ADAE, ADVS, ADLB, ADTTE | — |
 | Specification | `data/adam_specification.md` | — |
-| Audit | `data/audit_adam.py` — **85 checks, all passing** | — |
+| Audit | `data/audit_adam.py` — all checks passing | — |
 | Decks | **14** (12) · **15** (9) · **16** (8) · **17** (7) · **18** (8 slides) | — |
 | SAS notebooks | **14**–**19** (+ walkthroughs) | — |
 | Answer keys | **14**–**19** | — |
@@ -173,7 +173,7 @@ Method — the thing that lets a reviewer trace one parameter without reading th
 correct and self-checked (every dataset, variable and value-list reference resolves), but not
 schema-validated against `define2-0-0.xsd` — that needs Pinnacle 21.
 
-**Audit** — `data/audit_adam.py`. 85 checks covering row counts and structure, every derivation
+**Audit** — `data/audit_adam.py`. Checks covering row counts and structure, every derivation
 re-derived independently from SDTM, cross-dataset agreement with ADSL, and assertions that each
 deliberate teaching case is still intact (the pre-dose AE, the AE discontinuation, the ALT
 abnormal, the screening-only height, the partial lab coverage). It is mutation-tested: breaking

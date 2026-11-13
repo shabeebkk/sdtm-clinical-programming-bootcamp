@@ -216,5 +216,5 @@ s.addText("Next:  Day 10 · Capstone — map a fresh study end to end",
   { x: 0.7, y: 7.05, w: 12, h: 0.4, fontFace: BFONT, bold: true, fontSize: 13, color: TEAL, margin: 0 });
 s.addNotes("Close Day 9 by pulling the four ideas together: a submission is a documented, traceable package in a permanent format. The capstone then asks them to produce a slice of one themselves. This is the last concept slide of the course proper.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/12_define_xml_submission.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "12_define_xml_submission.pptx") })
   .then(f => console.log("WROTE", f));

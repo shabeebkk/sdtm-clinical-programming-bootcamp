@@ -82,7 +82,9 @@ function moment(idx, headline, thesis) {
 }
 
 function picture(file, opts) {
-  s.addImage({ path: img(file), ...opts });
+  // altText is set explicitly: without it pptxgenjs writes the absolute path of
+  // the image on the build machine into the deck as the picture description.
+  s.addImage({ path: img(file), altText: file.replace(/\.png$/, ""), ...opts });
 }
 
 // ============================================================ 1. TITLE

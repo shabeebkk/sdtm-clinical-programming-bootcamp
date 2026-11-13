@@ -269,5 +269,5 @@ s.addText("Next:  Notebook 11 · Deriving --DY and --SEQ   →   Day 9 · Valida
   { x: 0.7, y: 6.85, w: 12, h: 0.4, fontFace: BFONT, bold: true, fontSize: 13, color: MINT, margin: 0 });
 s.addNotes("Mistake 5 is the one they have not met yet, because our sorts already include tiebreakers. Notebook 11 has them remove one and watch the sequence numbers move.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/09_derivations.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "09_derivations.pptx") })
   .then(f => console.log("WROTE", f));

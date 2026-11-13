@@ -68,14 +68,16 @@ value from step 1:
 created for you if it does not exist. It is deliberately **not** `data/sdtm` — that one holds
 the reference answers, and writing over it would destroy what you check your work against.
 
-Submit it. It checks both folders exist and all 15 CSVs are present, and tells you exactly
+Submit it. It checks both folders exist and all 20 CSVs are present, and tells you exactly
 what is missing if not. You should see:
 
 ```
   PASS  all 7 raw CSVs found
   PASS  all 8 reference SDTM CSVs found
+  PASS  all 5 reference ADaM CSVs found
   PASS  output folder exists
   PASS  libref SDTM assigned to /home/u63012345/sdtm_bootcamp/output
+  PASS  libref ADAM assigned to /home/u63012345/sdtm_bootcamp/output/adam
 
   SETUP OK - you can now run any notebook, or run_all.sas
 ```

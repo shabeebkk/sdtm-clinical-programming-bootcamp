@@ -241,6 +241,6 @@ s.addText([
 ], { x: 1.0, y: 5.98, w: 11.4, h: 0.95, fontFace: BFONT, fontSize: 13, color: INK, lineSpacing: 18, margin: 0 });
 s.addNotes("End of the ADaM track. If they remember one thing, make it this slide: ADaM is not a standard for its own sake, it is a single documented place for every decision, so that a reviewer who disagrees with one of them knows exactly which number to recompute and where. Congratulate them — they have now taken raw CRF data all the way to a submission table.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/18_tte_validation.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "18_tte_validation.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

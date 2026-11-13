@@ -366,6 +366,6 @@ s.addText("You now have the finished answer in data/sdtm/ — but build it yours
   { x: 0.7, y: 6.6, w: 11.5, h: 0.5, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by pointing at the notebooks. Mention that the reference SDTM datasets exist in data/sdtm/ so trainees can self-check — but insist they attempt the mapping before opening the answer. End of Module 04.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/04_reading_raw_data.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "04_reading_raw_data.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

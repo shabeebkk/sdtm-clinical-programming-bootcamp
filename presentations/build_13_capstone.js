@@ -240,5 +240,5 @@ s.addText("You started ten days ago not knowing what a domain was. You can now m
   { x: 0.7, y: 6.85, w: 12, h: 0.5, align: "center", fontFace: HFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("The closing slide. The four instincts in the last box are the real curriculum — standards and tools change, but attempt-then-verify, fail-loudly, never-invent-data, and trace-everything-back are permanent. End on the send-off: they are clinical programmers now. Then set them loose on DEF-01.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/13_capstone.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "13_capstone.pptx") })
   .then(f => console.log("WROTE", f));

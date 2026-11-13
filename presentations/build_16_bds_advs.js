@@ -260,6 +260,6 @@ s.addText("Tomorrow: the same skeleton, three more columns — and only half the
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("HEIGHT having no CHG anywhere is correct, not missing data — it has one record, that record is its baseline, and a baseline has nothing to change from. Trainees will flag it as a bug; let them, then walk it back. End of Module 16.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/16_bds_advs.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "16_bds_advs.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

@@ -263,6 +263,6 @@ s.addText("Two subjects have no events at all — and they still count in every 
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by planting the denominator idea: ADAE has no rows for two subjects, and they are still in the safety population. In ADLB only half the study has data at all, and the same principle decides every percentage. End of Module 15.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/15_occurrence_adae.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "15_occurrence_adae.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

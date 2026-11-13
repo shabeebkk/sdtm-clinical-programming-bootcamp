@@ -735,6 +735,6 @@ s.addText("Every hands-on exercise is provided in both SAS and R — you'll buil
   { x: 0.7, y: 6.75, w: 11.5, h: 0.5, fontFace: BFONT, italic: true, fontSize: 13.5, color: MINT, margin: 0 });
 s.addNotes("Close by mapping the road ahead so students see how today's concepts become skills. Reiterate the dual-language promise: SAS and R are equal-weight; every domain is built in both. Then open the floor for questions using the glossary slide. End of Module 01.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/01_intro_sdtm.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "01_intro_sdtm.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

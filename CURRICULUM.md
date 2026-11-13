@@ -20,19 +20,19 @@
 
 | | Built | Remaining |
 |---|---|---|
-| Decks | **13** (01–13) | — |
-| SAS notebooks | **12** (01, 03–12) + capstone | — |
-| Answer keys | **12** | — |
+| Decks | **13** (01–13) + the Day 1 opener | — |
+| SAS notebooks | **13** (01–12, 12b) + capstone | — |
+| Answer keys | **13** (instructor-only) | — |
 | Domains built | DM, **DS**, AE, SUPPAE, CM, EX, VS, LB | — |
 
 **Verification.** Days 1–7's SAS was executed on SAS OnDemand for Academics
 (SAS 9.04.01M8P022223) with **all 7 domains reproducing the reference datasets exactly** —
-zero errors, zero warnings. Notebooks 10–12 and the capstone have since been run there too, so the whole course — both tracks and the capstone — is execution-verified, not merely static-checked. The capstone study DEF-01 has its own audit (`capstone/data/def01_audit.py`). Three automated checkers run over the corpus:
+zero errors, zero warnings. Notebooks 10–12 and the capstone have since been run there too, so the whole course — both tracks and the capstone — is execution-verified, not merely static-checked. The capstone study DEF-01 has its own audit (`capstone/data/def01_audit.py`). Three of the course's five automated checkers cover this track (counts grow — run one to see its total):
 
 | Checker | What it guards |
 |---|---|
-| `data/audit_consistency.py` | 269 checks — raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs all agree |
-| `notebooks/sas/check_sas_static.py` | 186 checks — SAS syntax, informat widths, rename collisions, join-key leaks |
+| `data/audit_consistency.py` | raw ↔ SDTM ↔ specs ↔ CRF ↔ notebooks ↔ docs all agree |
+| `notebooks/sas/check_sas_static.py` | SAS syntax, informat widths, rename collisions, join-key leaks |
 | `presentations/check_deck_layout.py` | deck geometry — hidden text, content running off-slide |
 
 ---
@@ -55,6 +55,7 @@ only *practise* in SAS.
 ### WEEK 1 — Foundations, tooling, and the first domains
 
 **Day 1 — CDISC & SDTM foundations** ✅
+- Opener · *A Day in the Life of a Clinical Programmer* (`day1_a_day_in_the_life`, 13 slides) — the job before the standard.
 - Deck 01 · *Introduction to CDISC & SDTM Foundations* (23 slides)
 - Deck 02 · *Clinical Trials 101: How a Trial Produces Data* (18 slides)
 - Trace the data path CRF/EDC → SDTM → ADaM → submission; name the roles; state why regulators require SDTM.
