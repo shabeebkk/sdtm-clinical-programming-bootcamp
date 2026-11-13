@@ -444,5 +444,5 @@ s.addText("Next:  Notebook 08 · Build the VS Domain   →   Notebook 09 · Buil
   { x: 0.7, y: 6.85, w: 12, h: 0.4, fontFace: BFONT, bold: true, fontSize: 13, color: MINT, margin: 0 });
 s.addNotes("Send them into the notebook with mistake 1 ringing in their ears — it is the one that produces a plausible-looking wrong answer, which is always the most expensive kind. The right-hand column is a checklist they can run against their own output before comparing to the reference.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/07_findings_domains.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "07_findings_domains.pptx") })
   .then(f => console.log("WROTE", f));

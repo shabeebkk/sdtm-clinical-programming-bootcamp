@@ -251,5 +251,5 @@ s.addText("Next:  Notebook 12 · QC & Validation Checks   →   Deck 11 · Relat
   { x: 0.7, y: 6.85, w: 12, h: 0.4, fontFace: BFONT, bold: true, fontSize: 13, color: MINT, margin: 0 });
 s.addNotes("Send them into Notebook 12 with mistake 1 as the mechanical thing to get right and mistakes 3-4 as the professional judgement to carry. The notebook makes all five concrete.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/10_data_quality_validation.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "10_data_quality_validation.pptx") })
   .then(f => console.log("WROTE", f));

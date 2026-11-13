@@ -27,7 +27,7 @@ __pycache__/
 .venv/
 venv/
 
-# Remotion render cache (the finished .mp4 in out/ IS kept)
+# Remotion render cache (rendered video in out/ is ignored by video/remotion/.gitignore)
 video/remotion/.remotion/
 
 # ---------------------------------------------------------------------------

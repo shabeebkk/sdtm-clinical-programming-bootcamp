@@ -236,6 +236,6 @@ s.addText("Tomorrow: a dataset that keeps every subject — including the ones n
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by planting ADTTE: censoring is the formal answer to the missing-data problem this module raised twice — subjects with no labs, and events that had not ended. End of Module 17.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/17_lab_analysis.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "17_lab_analysis.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

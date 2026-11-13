@@ -408,6 +408,6 @@ s.addText("Do both. Even if you already know one language, writing the other ver
   { x: 0.7, y: 6.7, w: 11.5, h: 0.5, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close and hand off to the notebooks. Encourage trainees who already know SAS to do the R notebook properly, and vice versa — the parallel structure is designed so the familiar language teaches them the unfamiliar one. End of Module 03.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/03_sas_r_toolkit.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "03_sas_r_toolkit.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

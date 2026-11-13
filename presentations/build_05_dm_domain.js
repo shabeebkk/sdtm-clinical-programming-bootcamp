@@ -364,6 +364,6 @@ s.addText("Doing it by hand first is deliberate: if you cannot map a row in a sp
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by setting up the three-step sequence. The rationale for the manual step is worth saying out loud: spreadsheets force you to confront every value individually, which is exactly what builds the intuition. Then the code becomes an automation of something they already understand, rather than magic. End of Module 05.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/05_dm_domain.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "05_dm_domain.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

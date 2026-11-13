@@ -377,6 +377,6 @@ s.addText("AE is the hardest domain you will build. Everything after it reuses w
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by framing AE as the peak of difficulty — mixed dates, four CT mappings, a code decode, plus --SEQ and --DY. CM and EX reuse nearly all of it. End of Module 06.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/06_events_interventions.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "06_events_interventions.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

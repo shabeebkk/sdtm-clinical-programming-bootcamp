@@ -318,6 +318,6 @@ s.addText("Everything in the next four days copies from what you build today. Ge
   { x: 0.7, y: 6.5, w: 11.5, h: 0.6, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close on the dependency: ADSL is not just the first dataset, it is the one every other dataset trusts. End of Module 14.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/14_why_adam_adsl.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "14_why_adam_adsl.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

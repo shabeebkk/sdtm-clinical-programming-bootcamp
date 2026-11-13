@@ -454,6 +454,6 @@ s.addText("Keep the mock study ABC-01 open — from here on, everything you buil
   { x: 0.7, y: 6.6, w: 11.5, h: 0.5, fontFace: BFONT, italic: true, fontSize: 14, color: MINT, margin: 0 });
 s.addNotes("Close by pointing forward. The next module is tooling, then the hands-on notebooks. Remind trainees that the mock study ABC-01 they now understand clinically is the same data they will program against for the rest of the bootcamp. End of Module 02.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/02_clinical_trials_101.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "02_clinical_trials_101.pptx") })
   .then(f => console.log("WROTE", f))
   .catch(e => { console.error(e); process.exit(1); });

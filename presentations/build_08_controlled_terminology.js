@@ -371,5 +371,5 @@ s.addText("Next:  Notebook 10 · Applying Controlled Terminology   →   Deck 09
   { x: 0.7, y: 6.85, w: 12, h: 0.4, fontFace: BFONT, bold: true, fontSize: 13, color: MINT, margin: 0 });
 s.addNotes("Mistake 5 is the one that surprises experienced people — inheriting a format catalogue feels efficient and quietly imports an old CT version. Send them into Notebook 10 with mistakes 1 and 2 as the things to fix in code.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/08_controlled_terminology.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "08_controlled_terminology.pptx") })
   .then(f => console.log("WROTE", f));

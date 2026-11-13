@@ -231,5 +231,5 @@ s.addText("Next:  Deck 12 · Define-XML & the Submission Package",
   { x: 0.7, y: 7.12, w: 12, h: 0.3, fontFace: BFONT, bold: true, fontSize: 12, color: MUTEDDK, margin: 0 });
 s.addNotes("This is the map slide — everything they have built, placed in the full SDTM structure by observation class plus the two non-subject categories. It is the payoff of the whole course: they can now name where any dataset sits and why. Leads naturally into define.xml, which documents this entire package.");
 
-p.writeFile({ fileName: "/Volumes/D Drive/SDTM Training/Bootcamp/presentations/11_relationships_trialdesign.pptx" })
+p.writeFile({ fileName: require("path").join(__dirname, "11_relationships_trialdesign.pptx") })
   .then(f => console.log("WROTE", f));
