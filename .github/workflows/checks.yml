@@ -1,0 +1,48 @@
+name: Course checks
+
+# Runs the five checkers the README describes on every push and pull request,
+# so a change that breaks consistency is caught before it reaches trainees.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install checker dependencies
+        run: pip install openpyxl pypdf reportlab lxml
+
+      # Git does not preserve modification times, so on a fresh checkout the
+      # "PDF is newer than its deck" comparison carries no information.
+      # Put the files in build order so it neither passes nor fails by accident.
+      - name: Normalise deck timestamps
+        run: |
+          touch presentations/*.pptx
+          sleep 2
+          touch presentations/*.pdf
+
+      - name: Raw / SDTM / spec / CRF / notebook consistency
+        run: cd data && python3 audit_consistency.py
+
+      - name: SAS static checks
+        run: cd notebooks/sas && python3 check_sas_static.py
+
+      - name: ADaM audit
+        run: cd data && python3 audit_adam.py
+
+      - name: Capstone DEF-01 audit
+        run: cd capstone/data && python3 def01_audit.py
+
+      - name: Deck layout
+        run: cd presentations && python3 check_deck_layout.py
